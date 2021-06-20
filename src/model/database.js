@@ -1,10 +1,10 @@
 var Sequelize = require('sequelize');
 const sequelize = new Sequelize(
-'dealb844gkf59l',
-'tvufcuqvpvgpcm',
-'a9ee26e3b5788b58a37bceaf73ed195da1d20500182210762eb8903f6173ab82',
+'dfcroupt8hphsb',
+'llyvjsiwctsxtv',
+'1224b7a85e7611c30578d77f0a2b6c2b75749a21f4e4c892cbcf4be220f2dfdb',
 {
-host: 'ec2-108-128-104-50.eu-west-1.compute.amazonaws.com',
+host: 'ec2-50-17-255-120.compute-1.amazonaws.com',
 port: '5432',
 dialect: 'postgres',
 dialectOptions:{
