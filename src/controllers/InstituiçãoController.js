@@ -1,0 +1,52 @@
+var Instituição = require('../model/instituições');
+var sequelize = require('../model/database');
+const Instituições = require('../model/instituições');
+
+const controller = {}
+sequelize.sync()
+
+
+controller.create = async (req,res) => {
+    // data
+    const { nome, contacto,  email, url, privado, coord_x,coord_y
+    } = req.body;
+    // create
+    const data = await Instituição.create({
+    nome: nome,
+    contacto:contacto,
+    email: email,
+    url_website: url,
+    privado: privado,
+    coord_x : coord_x,
+    coord_y: coord_y
+    })
+    .then(function(data){
+    return data;
+    console.log()
+    })
+    .catch(error =>{
+    console.log("Erro: "+error)
+    return error;
+    })
+    // return res
+    res.status(200).json({
+        success: true,
+message:"Registado",
+data: data
+});
+}
+controller.get = async (req,res) => {
+    const { id } = req.params;
+    const data = await Instituição.findAll({
+    where: { id: id },
+    })
+    .then(function(data){
+    return data;
+    })
+    .catch(error =>{
+    return error;
+    })
+    res.json({ success: true, data: data });
+}
+
+module.exports = controller
