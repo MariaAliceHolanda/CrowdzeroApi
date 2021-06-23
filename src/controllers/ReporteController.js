@@ -8,22 +8,21 @@ sequelize.sync()
 controller.create = async (req,res) => {
     
     try {
-        // data
-    const {nivelReporte,locaiId, utilizadoreId}= req.body;
-    // create
-    const data = await Reporte.create({
-     NivelReporte: nivelReporte,
-     locaiId:locaiId,
-     utilizadoreId: utilizadoreId,
-     HoraReporte: now()
-    })
-  
-    return res.status(200).json(data)
+            // data
+        const {nivelReporte,locaiId, utilizadoreId} = req.body;
+        // create
+        const data = await Reporte.create({
+            NivelReporte: nivelReporte,
+            locaiId:locaiId,
+            utilizadoreId: utilizadoreId,
+            //HoraReporte: now()
+        })
+
+        return res.status(200).json(data)
         
     } catch (error) {
-        const erro = "erro"
         console.log("Erro: "+error)
-        return res.status(500).json(erro)
+        return res.status(500).json(error)
     }
 };
 module.exports = controller
