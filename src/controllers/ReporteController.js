@@ -1,11 +1,11 @@
 var Reporte = require('../model/reportes');
 var Utilizador = require('../model/utilizadores')
 var sequelize = require('../model/database');
-const { now } = require('sequelize/types/lib/utils');
+//const { now } = require('sequelize/types/lib/utils');
 const controller = {}
 sequelize.sync()
 
-controller.create = (req,res) => {
+controller.create = async (req,res) => {
     
     try {
         // data
