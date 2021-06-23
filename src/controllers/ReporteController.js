@@ -17,18 +17,6 @@ controller.create = async (req,res) => {
      utilizadoreId: utilizadoreId,
      HoraReporte: now()
     })
-    
-    //update reportesFeitos attribute
-    Utilizador.updateAttributes(
-        {reportesFeitos: Sequelize.literal('reportesFeitos + 1')},
-        {where: utilizadoreId}
-    )
-
-    //update reportesFeitos attribute
-    Utilizador.updateAttributes(
-        {Pontuação: Sequelize.literal('Pontuação + 1')},
-        {where: utilizadoreId}
-    )
   
     return res.status(200).json(data)
         
