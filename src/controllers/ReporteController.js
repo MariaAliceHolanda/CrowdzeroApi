@@ -15,7 +15,7 @@ controller.create = async (req,res) => {
             NivelReporte: nivelReporte,
             locaiId:localId,
             utilizadoreId: utilizadorId,
-            //HoraReporte: now()
+            HoraReporte: now()
         })
 
         return res.status(200).json(data)
