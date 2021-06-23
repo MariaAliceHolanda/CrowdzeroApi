@@ -8,8 +8,8 @@ controller.create = async (req,res) => {
     const { local, utilizador } = req.body;
     // create
     const data = await favoritos.create({
-      localId: local,
-      utilizadorId: utilizador
+      locaiId: local,
+      utilizadoreId: utilizador
     })
     .then(function(data){
     return data;
