@@ -90,8 +90,9 @@ controller.getDadosOverview =  async (req,res) => {
            }
 
         }
+        return res.status(200).json(dados)
     } catch (error) {
-        
+        return res.status(500).json(error)
     }
 }
 
