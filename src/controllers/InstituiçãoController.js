@@ -49,4 +49,50 @@ controller.get = async (req,res) => {
     res.json({ success: true, data: data });
 }
 
+controller.getDadosOverview =  async (req,res) => {
+    const { id } = req.params;
+    const data = await Instituição.findOne({
+    where: { id: id },
+    })
+    try {
+        
+        const dados = {
+           "Associados":{
+               id: 1,
+               descricao: "Associados",
+               quantidade: data.nAssociados,
+               cor: "green"
+
+           },
+           "AltaOcupação":{
+            id: 2,
+            descricao: "AltaOcupação",
+            quantidade: data.nAssociados,
+            cor: "red"
+           },
+           "MediaOcupação":{
+            id: 3,
+            descricao: "MediaOcupação",
+            quantidade: data.nAssociados,
+            cor: "yellow"
+           },
+           "BaixaOcupação":{
+            id: 4,
+            descricao: "BaixaOcupação",
+            quantidade: data.nAssociados,
+            cor: "blue"
+           },
+           "EspaçosCriados":{
+            id: 5,
+            descricao: "EspaçosCriados",
+            quantidade: data.QntEspaços,
+            cor: "purple"
+           }
+
+        }
+    } catch (error) {
+        
+    }
+}
+
 module.exports = controller
