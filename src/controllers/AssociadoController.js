@@ -41,9 +41,9 @@ controller.list = async (req, res) => {
 }
 
 controller.getAssociados  = async (req, res) => {
-  const {instituicaoId} = req.params;
+  const {instituiçõeId} = req.params;
   const data = await Associados.findAll(
-    { where: { instituiçõeId: instituicaoId }, include: [Utilizador]},
+    { where: { instituiçõeId: instituiçõeId }, include: [Utilizador]},
   )
   .then(function(data){
   return data;
