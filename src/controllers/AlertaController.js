@@ -31,7 +31,7 @@ controller.getAlertas = async (req,res) => {
     const { id } = req.params;
     // create
     const data = await Alerta.findAll(
-        { where: { gestoreId: id }, include: [Local.nomelocal]}
+        { where: { gestoreId: id }, include: [Local]}
     )
     .then(function(data){
     return data;
