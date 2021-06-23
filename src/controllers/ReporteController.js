@@ -18,6 +18,18 @@ controller.create = async (req,res) => {
             utilizadoreId: utilizadorId,
         })
 
+        if(data){
+            //update reportesFeitos e Pontuação attribute
+            console.log("entrou")
+            Utilizador.updateAttributes(
+                {reportesFeitos: Sequelize.literal('reportesFeitos + 1')},
+                {Pontuação: Sequelize.literal('Pontuação + 10')},
+                {where: utilizadoreId}
+            )
+        }
+
+     
+
         return res.status(200).json(data)
         
     } catch (error) {
