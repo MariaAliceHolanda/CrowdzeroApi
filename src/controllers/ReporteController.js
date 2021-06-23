@@ -33,6 +33,7 @@ controller.create = async (req,res) => {
     return res.status(200).json(data)
         
     } catch (error) {
+        console.log("Erro: "+error)
         return res.status(500).json(error)
     }
 };
