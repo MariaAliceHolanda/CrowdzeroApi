@@ -1,6 +1,7 @@
 var Instituição = require('../model/instituições');
 var sequelize = require('../model/database');
 const Instituições = require('../model/instituições');
+Local = require('../model/locais')
 
 const controller = {}
 sequelize.sync()
@@ -54,6 +55,13 @@ controller.getDadosOverview =  async (req,res) => {
     const data = await Instituição.findOne({
     where: { id: id },
     })
+
+    const { count, rows } = await Local.findAndCountAll({
+        where: {
+          InstituiçõeId: id,
+          EstadoLocal: 1
+        },
+      });
     try {
         
         const dados = {
@@ -79,7 +87,7 @@ controller.getDadosOverview =  async (req,res) => {
            "BaixaOcupação":{
             id: 4,
             descricao: "BaixaOcupação",
-            quantidade: data.nAssociados,
+            quantidade: count,
             cor: "blue"
            },
            "EspaçosCriados":{
