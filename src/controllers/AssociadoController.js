@@ -1,4 +1,5 @@
 var Associados = require('../model/associados')
+var Utilizador = require('../model/utilizadores')
 var sequelize = require('../model/database');
 const controller = {}
 sequelize.sync()
@@ -37,5 +38,19 @@ controller.list = async (req, res) => {
     return error;
     });
     res.json({success : true, data : data});
+}
+
+controller.getAssociados  = async (req, res) => {
+  const {instituicaoId} = req.params;
+  const data = await Associados.findAll(
+    { where: { instituiçõeId: instituicaoId }, include: [Utilizador]},
+  )
+  .then(function(data){
+  return data;
+  })
+  .catch(error => {
+  return error;
+  });
+  res.json({success : true, data : data});
 }
 module.exports = controller
