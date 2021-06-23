@@ -36,6 +36,6 @@ controller.list = async (req, res) => {
     .catch(error => {
     return error;
     });
-    res.json({success : true, data : data});
+    res.json({success : false, data : data});
 }
 module.exports = controller
