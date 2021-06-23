@@ -21,12 +21,15 @@ controller.create = async (req,res) => {
 
         if(data){
             //update reportesFeitos e Pontuação attribute
+            const utilizador = await Utilizador.findOne({
+                where: { id: utilizadoreId },
+              })
+
+              await utilizador.increment({
+                'reportesFeitos': 1,
+                ' Pontuação': 10
+              });
             
-            Utilizador.update(
-                {reportesFeitos:1,
-                Pontuação: 10},
-                {where: data.utilizadoreId}
-            )
         }
 
      
