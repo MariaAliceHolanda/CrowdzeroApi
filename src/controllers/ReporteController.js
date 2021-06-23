@@ -15,7 +15,7 @@ controller.create = async (req,res) => {
             NivelReporte: nivelReporte,
             locaiId:localId,
             utilizadoreId: utilizadorId,
-            HoraReporte: now()
+            HoraReporte: Sequelize.literal('CURRENT_TIMESTAMP')
         })
 
         return res.status(200).json(data)
