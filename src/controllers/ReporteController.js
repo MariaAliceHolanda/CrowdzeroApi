@@ -9,6 +9,7 @@ sequelize.sync()
 controller.create = async (req,res) => {
     
     try {
+        console.log("entrou")
             // data
         const {nivelReporte,localId, utilizadorId} = req.body;
         // create
@@ -20,7 +21,7 @@ controller.create = async (req,res) => {
 
         if(data){
             //update reportesFeitos e Pontuação attribute
-            console.log("entrou")
+            
             Utilizador.updateAttributes(
                 {reportesFeitos: Sequelize.literal('reportesFeitos + 1')},
                 {Pontuação: Sequelize.literal('Pontuação + 10')},
