@@ -8,7 +8,7 @@ controller.create = async (req,res) => {
     // data
     const divisão = "teste"
     // create
-    const data = await Divisão.create({
+    const data = await ALerta.create({
      divisão: divisão
     })
     .then(function(data){
@@ -21,7 +21,7 @@ controller.create = async (req,res) => {
     // return res
     res.status(200).json({
         success: true,
-        message:" Divisão Registada",
+        message:"Alerta Registado",
 data: data
 });
 }
