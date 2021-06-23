@@ -3,5 +3,5 @@ const router = express.Router();
 
 //importar os controladores
 const reporteController = require('../controllers/ReporteController')
-router.get('/teste',reporteController.teste);
+router.post('/create',reporteController.create);
 module.exports = router;
