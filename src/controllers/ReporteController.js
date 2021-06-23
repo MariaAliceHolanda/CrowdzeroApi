@@ -23,8 +23,8 @@ controller.create = async (req,res) => {
             //update reportesFeitos e Pontuação attribute
             
             Utilizador.update(
-                {reportesFeitos: 1},
-                {Pontuação: 10},
+                {reportesFeitos:1,
+                Pontuação: 10},
                 {where: data.utilizadoreId}
             )
         }
