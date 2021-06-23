@@ -41,7 +41,7 @@ controller.getAlertas = async (req,res) => {
     const { id } = req.params;
     // create
     const data = await Alerta.findAll(
-        { where: { gestoreId: id }, include: [Local]}
+        { where: { gestoreId: id }, include: [Local.nomelocal]}
     )
     .then(function(data){
     return data;
@@ -53,8 +53,7 @@ controller.getAlertas = async (req,res) => {
     // return res
     res.status(200).json({
         success: true,
-        message:" Divisão Registada",
-data: data
+        data: data
 });
 }
 module.exports = controller
