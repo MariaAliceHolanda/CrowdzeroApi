@@ -89,4 +89,27 @@ controller.setStatusLocal = async (req,res) => {
        
     res.json({ success: true, data: status });
 }
+
+controller.getQuantidadeReportes = async (req,res) => {
+
+  const { id } = req.params;
+  try {
+    const data = await Local.findOne({
+      where: { id: id },
+    })
+
+    const qntReportes = {
+      id: data.id,
+      local: data.nomelocal,
+      alta: data.ReporteAlto,
+      média: data.ReporteMedio,
+      baixa: data.ReporteBaixo
+
+    }
+    
+    return res.status(200).json(qntReportes)
+  } catch (error) {
+    return res.status(500).json(error)
+  }
+}
 module.exports = controller
