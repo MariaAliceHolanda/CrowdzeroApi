@@ -12,7 +12,7 @@ controllers.register = async (req,res) => {
         nome:nome,
         email: email,
         password: password,
-        instituiçãoId: instituiçãoId
+        instituiçõeId: instituiçãoId
     })
     .then(function(data){
     return data;
