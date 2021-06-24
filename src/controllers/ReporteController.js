@@ -19,21 +19,6 @@ controller.create = async (req,res) => {
             utilizadoreId: utilizadorId,
         })
 
-        if(data){
-            //update reportesFeitos e Pontuação attribute
-            const utilizador = await Utilizador.findOne({
-                where: { id: utilizadoreId },
-              })
-
-              await utilizador.increment({
-                'reportesFeitos': 1,
-                ' Pontuação': 10
-              });
-            
-        }
-
-     
-
         return res.status(200).json(data)
         
     } catch (error) {
