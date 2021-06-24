@@ -7,7 +7,6 @@ id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        
 },
 nomelocal: Sequelize.STRING,
 fotoLocal: Sequelize.STRING,
@@ -33,3 +32,5 @@ Locais.belongsTo(Instituições)
 Instituições.hasMany(Locais)
 
 module.exports = Locais
+
+// TESTEEE

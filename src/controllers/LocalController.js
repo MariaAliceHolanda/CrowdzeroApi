@@ -6,13 +6,13 @@ sequelize.sync()
 
 controller.create = async (req,res) => {
     // data
-    const { nomelocal,fotolocal,instituiçõesId
+    const { nomelocal,fotolocal,instituicaoID
     } = req.body;
     // create
     const data = await Local.create({
-    nomelocal: nomelocal,
-    fotolocal: fotolocal,
-    instituiçõeId: instituiçõesId
+      nomelocal: nomelocal,
+      fotolocal: fotolocal,
+      instituiçõeId: instituicaoID
     })
     .then(function(data){
     return data;
@@ -24,9 +24,9 @@ controller.create = async (req,res) => {
     // return res
     res.status(200).json({
         success: true,
-message:"Registado",
-data: data
-});
+        message:"Registado",
+        data: data
+    });
 }
 
 controller.get = async (req,res) => {
