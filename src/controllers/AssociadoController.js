@@ -1,5 +1,6 @@
 var Associados = require('../model/associados')
 var Utilizador = require('../model/utilizadores')
+var Local = require('../model/locais')
 var sequelize = require('../model/database');
 const controller = {}
 sequelize.sync()
@@ -26,10 +27,12 @@ controller.create = async (req,res) => {
         data: data
 });
 }
+// Lista locais que utilizador é associado
 controller.list = async (req, res) => {
     const {utilizador } = req.params;
     const data = await Associados.findAll({
       where: {utilizadoreId: utilizador},
+      include: [Local]
     })
     .then(function(data){
     return data;
@@ -39,7 +42,7 @@ controller.list = async (req, res) => {
     });
     res.json({success : true, data : data});
 }
-
+// Retorna Utilizadores associados a instituição
 controller.getAssociados  = async (req, res) => {
   const {instituiçõeId} = req.params;
   const data = await Associados.findAll(
