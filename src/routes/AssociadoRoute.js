@@ -5,4 +5,5 @@ const router = express.Router();
 const associadoController = require('../controllers/AssociadoController')
 
 router.get('/getAssociados/:id',associadoController.getAssociados)
+router.get('/list/:id',associadoController.getAssociados)
 module.exports = router;
