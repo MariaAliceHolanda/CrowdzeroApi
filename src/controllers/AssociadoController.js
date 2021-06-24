@@ -27,7 +27,7 @@ controller.create = async (req,res) => {
         data: data
 });
 }
-// Lista locais que utilizador é associado
+// Lista instituições que utilizador é associado
 controller.list = async (req, res) => {
     const {utilizador } = req.params;
     const data = await Associados.findAll({
