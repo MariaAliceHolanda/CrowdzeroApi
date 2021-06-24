@@ -6,7 +6,7 @@ sequelize.sync()
 
 controller.create = async (req,res) => {
     // data
-    const { nomelocal,fotolocal , instituiçõesId
+    const { nomelocal,fotolocal,instituiçõesId
     } = req.body;
     // create
     const data = await Local.create({
