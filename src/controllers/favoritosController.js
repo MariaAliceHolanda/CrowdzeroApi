@@ -26,7 +26,7 @@ controller.create = async (req,res) => {
 });
 }
 controller.list = async (req, res) => {
-    const {utilizadoreId } = req.params;
+    const utilizadoreId  = req.params;
     const data = await favoritos.findAll({
       where: {utilizadoreId: utilizadoreId},
     })
