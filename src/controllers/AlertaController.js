@@ -46,4 +46,6 @@ controller.getAlertas = async (req,res) => {
         data: data
 });
 }
+
+controller.checkAlerta = async(req)
 module.exports = controller
