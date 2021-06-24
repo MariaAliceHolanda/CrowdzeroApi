@@ -44,7 +44,7 @@ controller.getAssociados  = async (req, res) => {
   const {instituiçõeId} = req.params;
   const data = await Associados.findAll(
     { where: { instituiçõeId: instituiçõeId } , 
-    include: [{model: Utilizador,  attributes:['nome', 'email']}]},
+    include: [ Utilizador]},
   )
   .then(function(data){
   return data;
