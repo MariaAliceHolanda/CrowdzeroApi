@@ -79,7 +79,7 @@ controllers.login = async (req,res) => {
 }} 
 
 controllers.getGestor = async (req, res) => {
-    if (req.body.id){
+    if (req.body.id && req.body.token){
         var id = req.body.id
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){
@@ -88,7 +88,7 @@ controllers.getGestor = async (req, res) => {
         .catch(error =>{
             return error
         })
-        if (data.id === id)
+        if (data.id === id) 
             {   
                 res.status(200).json({
                 success: true,
