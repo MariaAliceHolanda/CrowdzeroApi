@@ -32,7 +32,7 @@ const authRoute = require('./routes/AutenticaçãoRoute')
 //Rotas
 app.use('/admin',adminRouters)
 app.use('/utilizador',utilizadorRouters)
-app.use('/gestor',middleware.checkToken, gestorRouters)
+app.use('/gestor', gestorRouters)
 //app.use('/divisao',divisãoRouters)
 app.use('/avatar',avatarRouters)
 app.use('/instituicao',instituiçãoRouters)
@@ -42,7 +42,7 @@ app.use('/relatorio',relatorioRouters)
 app.use('/reporte',reporteRouters)
 app.use('/associado',associadoRouters)
 app.use('/favoritos',favoritosRouters)
-app.use('/auth', authRoute);
+app.use('/auth',middleware.checkToken, authRoute);
 
 
 app.listen(app.get('port'),()=>{
