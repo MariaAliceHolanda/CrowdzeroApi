@@ -32,7 +32,7 @@ const authRoute = require('./routes/AutenticaçãoRoute')
 //Rotas
 app.use('/admin',adminRouters)
 app.use('/utilizador',utilizadorRouters)
-app.use('/gestor',gestorRouters)
+app.use('/gestor',middleware.checkToken, gestorRouters)
 //app.use('/divisao',divisãoRouters)
 app.use('/avatar',avatarRouters)
 app.use('/instituicao',instituiçãoRouters)
