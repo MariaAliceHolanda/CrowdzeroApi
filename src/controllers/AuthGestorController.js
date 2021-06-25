@@ -66,10 +66,10 @@ controllers.login = async (req,res) => {
     if (req.body.email && req.body.password && gestor) {
     const isMatch = bcrypt.compareSync(password, gestor.password);
     if (req.body.email === gestor.email && isMatch) {
-    let token = jwt.sign({email: req.body.email}, config.jwtSecret,
-    {expiresIn: '1h' //expira em 1 hora
-    });
-    res.json({success: true, message:' Autenticação realizada com sucesso!', token: token});
+        let token = jwt.sign({email: req.body.email}, config.jwtSecret,
+        {expiresIn: '1h' //expira em 1 hora
+        });
+        res.json({success: true, message:' Autenticação realizada com sucesso!', token: token});
     } else {
     res.status(403).json({success: false, message: 'Dados de autenticação inválidos.'});
     }
@@ -88,11 +88,21 @@ controllers.getGestor = async (req, res) => {
         .catch(error =>{
             return error
         })
-        res.status(200).json({
-            success: true,
-            message:"success",
-            data: data
-        });
+        if (data)
+            {   
+                res.status(200).json({
+                success: true,
+                message:"success",
+                data: data
+            });
+        }else{
+            res.status(403).json({
+                success: false, 
+                message: 'erro', 
+                data: null
+            });
+        }
+
     }
 }
 module.exports = controllers;
