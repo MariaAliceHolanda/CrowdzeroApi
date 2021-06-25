@@ -57,7 +57,7 @@ controllers.login = async (req,res) => {
     return error;
     })
     if (password === null || typeof password === "undefined") {
-    res.status(403).json({
+    res.json({
     success: false,
     message: 'Campos em Branco'
     });
@@ -71,10 +71,10 @@ controllers.login = async (req,res) => {
         });
         res.json({success: true, message:' Autenticação realizada com sucesso!', token: token});
     } else {
-    res.status(403).json({success: false, message: 'Dados de autenticação inválidos.'});
+    res.json({success: false, message: 'Dados de autenticação inválidos.'});
     }
     } else {
-    res.status(400).json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
+    res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
     }
 }} 
 
