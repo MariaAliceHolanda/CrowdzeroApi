@@ -1,3 +1,4 @@
+const { now } = require('sequelize/types/lib/utils');
 var Alerta = require('../model/alertas');
 var sequelize = require('../model/database');
 var Local = require('../model/locais')
@@ -6,10 +7,14 @@ sequelize.sync()
 
 controller.create = async (req,res) => {
     // data
-    const divisão = "teste"
+    const {IDLOCAL, IDGESTOR, TIPOALERTA, HORAALERTA }= req.body;
     // create
-    const data = await ALerta.create({
-     divisão: divisão
+    const data = await Alerta.create({
+        LocaiId: IDLOCAL,
+        gestoreId: IDGESTOR,
+        TipoAlerta: TIPOALERTA,
+        HORAALERTA: now()
+
     })
     .then(function(data){
     return data;
