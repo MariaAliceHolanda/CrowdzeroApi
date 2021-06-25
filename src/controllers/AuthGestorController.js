@@ -80,7 +80,7 @@ controllers.login = async (req,res) => {
 
 controllers.getGestor = async (req, res) => {
     if (req.body.id){
-        var id = req.body.token
+        var id = req.body.id
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){
             return data
@@ -102,7 +102,6 @@ controllers.getGestor = async (req, res) => {
                 data: null
             });
         }
-
     }
 }
 module.exports = controllers;
