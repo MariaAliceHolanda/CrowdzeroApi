@@ -17,7 +17,7 @@ controllers.register = async (req,res) => {
         coord_x: lat,
         coord_y: lon
     }).catch(e =>{
-        console.log("Erro "+e)
+        console.log("Erro "+ e)
         return e
     })
 
@@ -45,8 +45,8 @@ controllers.register = async (req,res) => {
 
 controllers.login = async (req,res) => {
     if (req.body.email && req.body.password) {
-    var email = req.body.email;
-    var password = req.body.password;
+        var email = req.body.email;
+        var password = req.body.password;
     }
     var gestor = await Gestor.findOne({where: { email: email}})
     .then(function(data){
@@ -77,4 +77,23 @@ controllers.login = async (req,res) => {
     res.status(400).json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
     }
 }} 
+
+controllers.getUser = async (req, res) => {
+    if (req.body.id){
+        var id = req.body.token
+        var data = await Gestor.findOne({where: {id: id}})
+        .then(function(data){
+            return data
+        })
+        .catch(error =>{
+            return error
+        })
+        res.status(200).json({
+            success: true,
+            message:"success",
+            data: data
+        });
+    }
+}
+
 module.exports = controllers;

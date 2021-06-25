@@ -11,6 +11,7 @@ router.post('/loginAdmin',authAdminController.login);
 
 router.post('/registoGestor',authGestorController.register);
 router.post('/loginGestor',authGestorController.login);
+router.get('/getUser',authGestorController.getUser);
 
 router.post('/registoUtilizador',authUtilizadorController.register);
 router.post('/loginUtilizador',authUtilizadorController.login);
