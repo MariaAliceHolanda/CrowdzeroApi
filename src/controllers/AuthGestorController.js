@@ -95,5 +95,4 @@ controllers.getGestor = async (req, res) => {
         });
     }
 }
-
 module.exports = controllers;
