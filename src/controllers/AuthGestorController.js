@@ -78,7 +78,7 @@ controllers.login = async (req,res) => {
     }
 }} 
 
-controllers.getUser = async (req, res) => {
+controllers.getGestor = async (req, res) => {
     if (req.body.id){
         var id = req.body.token
         var data = await Gestor.findOne({where: {id: id}})

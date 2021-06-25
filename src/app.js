@@ -45,10 +45,6 @@ app.use('/favoritos',favoritosRouters)
 app.use('/auth', authRoute);
 
 
-
-
-
-
 app.listen(app.get('port'),()=>{
 console.log("Start server on port "+app.get('port'))
 })
