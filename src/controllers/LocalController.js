@@ -15,7 +15,7 @@ controller.create = async (req,res) => {
       instituiçõeId: instituicaoID
     })
     .then(function(data){
-    return data;
+      return data;
     })
     .catch(error =>{
     console.log("Erro: "+error)

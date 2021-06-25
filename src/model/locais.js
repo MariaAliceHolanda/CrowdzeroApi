@@ -32,5 +32,3 @@ Locais.belongsTo(Instituições)
 Instituições.hasMany(Locais)
 
 module.exports = Locais
-
-// TESTEEE

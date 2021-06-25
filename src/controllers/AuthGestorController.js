@@ -1,31 +1,46 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Gestor = require('../model/gestores');
+const Instituicao = require('../model/instituições')
 const sequelize = require('../model/database');
 const config = require('../config');
 const controllers = {}
 sequelize.sync()
 
 controllers.register = async (req,res) => {
-    const {nome, email, password, instituiçãoId } = req.body;
-    const data = await Gestor.create({
-        nome:nome,
-        email: email,
-        password: password,
-        instituiçõeId: instituiçãoId
+    const {nome, email, password, nome_empresa, contacto_empresa, email_empresa, lat, lon} = req.body;
+
+    const instituicao = await Instituicao.create({
+        nome: nome_empresa,
+        contacto: contacto_empresa, 
+        email: email_empresa,
+        coord_x: lat,
+        coord_y: lon
+    }).catch(e =>{
+        console.log("Erro "+e)
+        return e
     })
-    .then(function(data){
-    return data;
-    })
-    .catch(error =>{
-    console.log("Erro: "+error);
-    return error;
-    })
-    res.status(200).json({
-    success: true,
-    message:"Registado",
-    data: data
-    });
+
+    if(instituicao){
+        const data = await Gestor.create({
+            nome:nome,
+            email: email,
+            password: password,
+            instituiçõeId: instituicao.id
+        })
+        .then(function(data){
+            return data;
+        })
+        .catch(error =>{
+            console.log("Erro: "+error);
+            return error;
+        })
+        res.status(200).json({
+            success: true,
+            message:"Registado",
+            data: data
+        });
+    }
 }
 
 controllers.login = async (req,res) => {

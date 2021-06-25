@@ -7,22 +7,22 @@ const controllers = {}
 sequelize.sync()
 
 controllers.register = async (req,res) => {
-    const {email, password } = req.body;
-    const data = await Admin.create({
-    email: email,
-    password: password
+        const {email, password } = req.body;
+        const data = await Admin.create({
+        email: email,
+        password: password
     })
     .then(function(data){
-    return data;
+        return data;
     })
     .catch(error =>{
-    console.log("Erro: "+error);
-    return error;
+        console.log("Erro: "+error);
+        return error;
     })
     res.status(200).json({
-    success: true,
-    message:"Registado",
-    data: data
+        success: true,
+        message:"Registado",
+        data: data
     });
 }
 
