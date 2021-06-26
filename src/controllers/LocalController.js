@@ -59,7 +59,7 @@ controller.get = async (req,res) => {
 }*/
 
 controller.list = async (req, res) => {
-  const {idGestor} =  req.body
+  const {idGestor} =  req.body.id
   const gestor = await Gestor.findOne({
     where: {id: idGestor}
   })
