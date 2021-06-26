@@ -81,7 +81,7 @@ controller.list = async (req, res) => {
         return err
       })
       if (data){ 
-        res.json({success: true, data: data.id})
+        res.json({success: true, data: 'hello'})
       }
       else{
         res.json({success: false, message: "Erro ao encontrar a instituição"})
