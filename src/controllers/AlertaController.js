@@ -1,4 +1,4 @@
-const { now } = require('sequelize/types/lib/utils');
+//const { now } = require('sequelize/types/lib/utils');
 var Alerta = require('../model/alertas');
 var sequelize = require('../model/database');
 var Local = require('../model/locais')
@@ -14,7 +14,6 @@ controller.create = async (req,res) => {
         gestoreId: IDGESTOR,
         TipoAlerta: TIPOALERTA,
         HORAALERTA: now()
-
     })
     .then(function(data){
     return data;

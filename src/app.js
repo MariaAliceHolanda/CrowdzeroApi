@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const middleware = require('./middleware');
 //Configurações
-app.set('port', process.env.PORT|| 3000);
+app.set('port', process.env.PORT|| 3001);
 //Middlewares
 app.use(express.json());
 
@@ -42,7 +42,8 @@ app.use('/relatorio',relatorioRouters)
 app.use('/reporte',reporteRouters)
 app.use('/associado',associadoRouters)
 app.use('/favoritos',favoritosRouters)
-app.use('/auth',middleware.checkToken, authRoute);
+//app.use('/auth',middleware.checkToken, authRoute);
+app.use('/auth', authRoute);
 
 
 app.listen(app.get('port'),()=>{
