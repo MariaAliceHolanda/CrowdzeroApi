@@ -87,7 +87,7 @@ controllers.getGestor = async (req, res) => {
         .catch(error =>{
             return error
         })
-        if (data.id.toString() === id) 
+        if (data.id === id.toString())
             {   
                 res.status(200).json({
                 success: true,
@@ -102,7 +102,10 @@ controllers.getGestor = async (req, res) => {
             });
         }
     }else {
-        res.json({success: false, message: 'Id não fornecido.'});
+        res.json({
+            success: false, 
+            message: 'Id não fornecido.'
+        });
         }
 }
 module.exports = controllers;
