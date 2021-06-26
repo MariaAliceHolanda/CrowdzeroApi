@@ -87,7 +87,7 @@ controllers.getGestor = async (req, res) => {
         .catch(error =>{
             return error
         })
-        if (data.id.toString() === id) 
+        if (data.id === req.body.id) 
             {   
                 res.status(200).json({
                 success: true,
