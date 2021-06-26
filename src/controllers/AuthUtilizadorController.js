@@ -32,7 +32,7 @@ controllers.login = async (req,res) => {
     var email = req.body.email;
     var password = req.body.password;
     }
-    var utilizador = await Utilizadores.findOne({where: { email: email}})
+    var utilizador = await Utilizadores.findOne({where: { email_user: email}})
     .then(function(data){
     return data;
     })
@@ -41,7 +41,7 @@ controllers.login = async (req,res) => {
     return error;
     })
     if (password === null || typeof password === "undefined") {
-    res.status(403).json({
+    res.status.json({
     success: false,
     message: 'Campos em Branco'
     });
@@ -49,16 +49,16 @@ controllers.login = async (req,res) => {
    else {
     if (req.body.email && req.body.password && utilizador) {
     const isMatch = bcrypt.compareSync(password, utilizador.password);
-    if (req.body.email === utilizador.email && isMatch) {
+    if (req.body.email === utilizador.email_user && isMatch) {
     let token = jwt.sign({email: req.body.email}, config.jwtSecret,
     {expiresIn: '1h' //expira em 1 hora
     });
     res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
     } else {
-    res.status(403).json({success: false, message: 'Dados de autenticação inválidos.'});
+    res.status.json({success: false, message: 'Dados de autenticação inválidos.'});
     }
     } else {
-    res.status(400).json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
+    res.status.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
     }
 }} 
 module.exports = controllers;
