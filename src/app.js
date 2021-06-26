@@ -42,8 +42,8 @@ app.use('/relatorio',relatorioRouters)
 app.use('/reporte',reporteRouters)
 app.use('/associado',associadoRouters)
 app.use('/favoritos',favoritosRouters)
-//app.use('/auth',middleware.checkToken, authRoute);
-app.use('/auth', authRoute);
+app.use('/auth',middleware.checkToken, authRoute);
+//app.use('/auth', authRoute);
 
 
 app.listen(app.get('port'),()=>{
