@@ -98,7 +98,7 @@ controllers.getGestor = async (req, res) => {
             res.json({
                 success: false, 
                 message: 'erro', 
-                data: data
+                data: req.body.id
             });
         }
     }else {
