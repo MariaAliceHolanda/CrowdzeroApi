@@ -60,15 +60,12 @@ controller.get = async (req,res) => {
 
 controller.list = async (req, res) => {
   if (req.body.id){
-    const idGestor =  req.body.id
-    const gestor = await Gestor.findOne({
+    var idGestor = req.body.id
+    var gestor = await Gestor.findOne({
       where: {id: idGestor}
     })
-    .catch(e =>{
-      return error
-    })
   
-    if (gestor){
+    if (gestor.id.toString() === idGestor.toString()){
       const idInstituicao = gestor.instituiçõeId
   
       const data = await Instituições.findOne({
@@ -81,7 +78,7 @@ controller.list = async (req, res) => {
         return err
       })
       if (data){ 
-        res.json({success: true, data: data.contacto_instituicao, message: "Lista de instituições"})
+        res.json({success: true, data: data, message: "Lista de instituições"})
       }
       else{
         res.json({success: false, message: "Erro ao encontrar a instituição"})
