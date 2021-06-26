@@ -101,6 +101,8 @@ controllers.getGestor = async (req, res) => {
                 data: null
             });
         }
-    }
+    }else {
+        res.json({success: false, message: 'Id não fornecido.'});
+        }
 }
 module.exports = controllers;
