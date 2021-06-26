@@ -67,7 +67,7 @@ controllers.login = async (req,res) => {
         let token = jwt.sign({email: req.body.email}, config.jwtSecret,
         {expiresIn: '1h' //expira em 1 hora
         });
-        res.json({success: true, message:' Autenticação realizada com sucesso!', token: token});
+        res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
     } else {
     res.json({success: false, message: 'Dados de autenticação inválidos.'});
     }
