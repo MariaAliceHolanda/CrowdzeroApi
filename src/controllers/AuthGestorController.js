@@ -11,11 +11,12 @@ controllers.register = async (req,res) => {
     const {nome, email, password, nome_empresa, contacto_empresa, email_empresa, lat, lon} = req.body;
 
     const instituicao = await Instituicao.create({
-        nome: nome_empresa,
-        contacto: contacto_empresa, 
-        email: email_empresa,
-        coord_x: lat,
-        coord_y: lon
+        nome_instituicao: nome_empresa,
+        contacto_instituicao: contacto_empresa, 
+        email_instituicao: email_empresa,
+        foto_instituicao: foto_empresa,
+        latitude: lat,
+        longitude: lon
     }).catch(e =>{
         return e
     })
@@ -25,7 +26,7 @@ controllers.register = async (req,res) => {
             nome:nome,
             email: email,
             password: password,
-            instituiçõeId: instituicao.id
+            InstituiçõeId: instituicao.id
         })
         .then(function(data){
             return data;
