@@ -78,7 +78,7 @@ controllers.login = async (req,res) => {
 }} 
 
 controllers.getGestor = async (req, res) => {
-    if (req.body.id && req.body.token){
+    if (req.body.id){
         var id = req.body.id
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){
