@@ -71,7 +71,7 @@ controller.list = async (req, res) => {
     if (gestor){
       const idInstituicao = gestor.instituiçõeId
   
-      const data = await Instituições.findOne({
+      const data = await Instituições.findAll({
         where: {id: idInstituicao}
       })
       .then(function(data){
