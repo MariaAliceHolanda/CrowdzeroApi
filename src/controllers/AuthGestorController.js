@@ -7,7 +7,7 @@ const config = require('../config');
 const controllers = {}
 sequelize.sync()
 
-controllers.register = async (req,res) => {
+/*controllers.register = async (req,res) => {
     const {nome, email, password, nome_empresa, contacto_empresa, email_empresa, lat, lon} = req.body;
 
     const instituicao = await Instituicao.create({
@@ -41,7 +41,7 @@ controllers.register = async (req,res) => {
             data: data
         });
     }
-}
+}*/
 
 controllers.login = async (req,res) => {
     if (req.body.email && req.body.password) {
@@ -78,7 +78,7 @@ controllers.login = async (req,res) => {
     }
 }} 
 
-/*controllers.getGestor = async (req, res) => {
+controllers.getGestor = async (req, res) => {
     if (req.body.id && req.body.token){
         var id = req.body.id
         var data = await Gestor.findOne({where: {id: id}})
@@ -103,8 +103,8 @@ controllers.login = async (req,res) => {
             });
         }
     }
-}*/
-controllers.getGestor = async (req, res) => {
+}
+/*controllers.getGestor = async (req, res) => {
     if (req.body.token){
         var data = {mensagem: "deu certo", user: "9813"}
         .then(function(data){
@@ -128,5 +128,5 @@ controllers.getGestor = async (req, res) => {
             });
         }
     }
-}
+}*/
 module.exports = controllers;
