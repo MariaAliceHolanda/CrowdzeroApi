@@ -10,10 +10,10 @@ const authUtilizadorController = require('../controllers/AuthUtilizadorControlle
 router.post('/registoAdmin',authAdminController.register);
 router.post('/loginAdmin',authAdminController.login);
 
-//router.post('/registoGestor',authGestorController.register);
+router.post('/registoGestor',authGestorController.register);
 router.post('/loginGestor',authGestorController.login);
 //router.get('/getGestor', middleware.checkToken, authGestorController.getGestor); //Todos os gets têm que ter checagem do token
-router.get('/getGestor', authGestorController.getGestor); //Todos os gets têm que ter checagem do token
+router.post('/getGestor', authGestorController.getGestor); //Todos os gets têm que ter checagem do token
 
 router.post('/registoUtilizador',authUtilizadorController.register);
 router.post('/loginUtilizador',authUtilizadorController.login);

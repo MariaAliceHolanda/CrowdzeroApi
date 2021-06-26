@@ -7,7 +7,7 @@ const config = require('../config');
 const controllers = {}
 sequelize.sync()
 
-/*controllers.register = async (req,res) => {
+controllers.register = async (req,res) => {
     const {nome, email, password, nome_empresa, contacto_empresa, email_empresa, lat, lon} = req.body;
 
     const instituicao = await Instituicao.create({
@@ -17,7 +17,6 @@ sequelize.sync()
         coord_x: lat,
         coord_y: lon
     }).catch(e =>{
-        console.log("Erro "+ e)
         return e
     })
 
@@ -41,7 +40,7 @@ sequelize.sync()
             data: data
         });
     }
-}*/
+}
 
 controllers.login = async (req,res) => {
     if (req.body.email && req.body.password) {
