@@ -8,7 +8,7 @@ const controllers = {}
 sequelize.sync()
 
 controllers.register = async (req,res) => {
-    const {nome, email, password, nome_empresa, contacto_empresa, email_empresa, lat, lon} = req.body;
+    const {nome, email, password, nome_empresa, contacto_empresa, foto_empresa, email_empresa, lat, lon} = req.body;
 
     const instituicao = await Instituicao.create({
         nome_instituicao: nome_empresa,
