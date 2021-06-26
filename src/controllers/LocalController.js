@@ -71,7 +71,7 @@ controller.list = async (req, res) => {
     if (gestor){
       const idInstituicao = gestor.instituiçõeId
   
-      const data = await Instituições.findAll({
+      const data = await Instituições.findOne({
         where: {id: idInstituicao}
       })
       .then(function(data){
@@ -80,7 +80,14 @@ controller.list = async (req, res) => {
       .catch(err =>{
         return err
       })
-      res.json({success: true, data: data})
+      if (data)
+      {
+        res.json({success: true, data: data})
+      }
+      else{
+        res.json({success: false, data: null, message: "Erro ao encontrar a instituição"})
+      }
+      
      }
      else{
         res.json({
