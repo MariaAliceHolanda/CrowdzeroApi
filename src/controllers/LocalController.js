@@ -59,7 +59,7 @@ controller.get = async (req,res) => {
 }*/
 
 controller.list = async (req, res) => {
-  const {idGestor} =  req.params
+  const {idGestor} =  req.body
   const gestor = await Gestor.findOne({
     where: {id: idGestor}
   })
@@ -84,7 +84,7 @@ controller.list = async (req, res) => {
 }
 
 controller.setStatusLocal = async (req,res) => {
-    const { id } = req.params;
+    const { id } = req.body;
     const data = await Local.findAll({
     where: { id: id },
     })
