@@ -1,6 +1,7 @@
 var Local = require('../model/locais');
 var sequelize = require('../model/database');
 const Instituições = require('../model/instituições');
+const Gestor = require('../model/gestores')
 const controller = {}
 sequelize.sync()
 
@@ -43,10 +44,10 @@ controller.get = async (req,res) => {
 }
 
 // Retorna todos locais de uma instituição
-controller.list = async (req, res) => {
+/*controller.list = async (req, res) => {
     const { idInstituicao } = req.params;
     const data = await Local.findAll({
-      where: {instituiçõeId: idInstituicao},
+      where: {InstituiçõeId: idInstituicao},
     })
     .then(function(data){
     return data;
@@ -55,6 +56,31 @@ controller.list = async (req, res) => {
     return error;
     });
     res.json({success : true, data : data});
+}*/
+
+controller.list = async (req, res) => {
+  const {idGestor} =  req.params
+  const gestor = await Gestor.findOne({
+    where: {id: idGestor}
+  })
+  .catch(e =>{
+    return error
+  })
+
+  if (gestor){
+    const idInstituicao = gestor.instituiçõeId
+
+    const data = await Instituições.findOne({
+      where: {id: idInstituicao}
+    })
+    .then(function(data){
+      return data
+    })
+    .catch(err =>{
+      return error
+    })
+    res.json({success: true, data: data})
+   }
 }
 
 controller.setStatusLocal = async (req,res) => {
