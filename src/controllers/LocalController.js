@@ -80,12 +80,11 @@ controller.list = async (req, res) => {
       .catch(err =>{
         return err
       })
-      if (data)
-      {
-        res.json({success: true, data: data})
+      if (data){ 
+        res.json({success: true, data: data.id})
       }
       else{
-        res.json({success: false, data: null, message: "Erro ao encontrar a instituição"})
+        res.json({success: false, message: "Erro ao encontrar a instituição"})
       }
       
      }
