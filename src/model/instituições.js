@@ -1,29 +1,30 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Gestores = require('./gestores')
-var Instituições = sequelize.define('instituições', {
+var Instituições = sequelize.define('Instituições', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
 },
-nome: Sequelize.STRING,
-contacto:  Sequelize.STRING,
-email:  Sequelize.STRING,
-QntEspaços: {
+nome_instituicao: Sequelize.STRING,
+contacto_instituicao:  Sequelize.STRING,
+email_instituicao:  Sequelize.STRING,
+foto_instituicao: Sequelize.STRING,
+qnt_espacos: {
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-nAssociados: {
+qnt_associados: {
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-estadoInstituiçao: {
+estado_instituicao: {
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-coord_x: Sequelize.FLOAT,
-coord_y:  Sequelize.FLOAT,
+latitude: Sequelize.FLOAT,
+longitude:  Sequelize.FLOAT,
 });
 
 

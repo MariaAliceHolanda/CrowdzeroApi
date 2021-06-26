@@ -1,16 +1,15 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
-var divisões = require('./divisões')
-var Avatar = sequelize.define('avatar', {
+var Avatar = sequelize.define('Avatares', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
 },
-nomeAvatar: Sequelize.STRING,
-descrição: Sequelize.STRING,
-nPontuação: Sequelize.INTEGER,
-foto: Sequelize.INTEGER
+        nome_avatar: Sequelize.STRING,
+        descricao: Sequelize.STRING,
+        n_pontuacao: Sequelize.INTEGER,
+        foto: Sequelize.STRING,
+        divisao: Sequelize.STRING
 });
-Avatar.belongsTo(divisões)
 module.exports = Avatar

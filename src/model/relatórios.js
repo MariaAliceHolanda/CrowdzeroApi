@@ -1,14 +1,14 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Gestores = require('./gestores');
-var Relatorios = sequelize.define('relatórios', {
+var Relatorios = sequelize.define('Relatórios', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         
 },
-descrição: Sequelize.INTEGER,
-horaEmissão: Sequelize.DATE,
+descricao: Sequelize.INTEGER,
+hora_emissao: Sequelize.DATE,
 });
 Gestores.hasMany(Relatorios)
 Relatorios.belongsTo(Gestores)

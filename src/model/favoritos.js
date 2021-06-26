@@ -2,12 +2,11 @@ var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const utilizador = require('./utilizadores');
 const Locais = require('./locais');
-var favoritos = sequelize.define('favoritos', {
+var favoritos = sequelize.define('Favoritos', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        
 },
 });
 

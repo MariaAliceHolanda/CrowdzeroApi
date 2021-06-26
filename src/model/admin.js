@@ -1,20 +1,20 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
-var Admin = sequelize.define('admin', {
+var Admin = sequelize.define('Administrador', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
 },
 email: {
-type: Sequelize.STRING,
-allowNull: false,
-unique: true
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
 },
 password:{
-type: Sequelize.STRING,
-allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false
 }
 });
 

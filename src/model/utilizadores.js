@@ -3,35 +3,33 @@ const Avatar = require('./avatar');
 var sequelize = require('./database');
 //const Reportes = require('./reportes');
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
-var Utilizadores = sequelize.define('utilizadores', {
+var Utilizadores = sequelize.define('Utilizadores', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         
 },
-nome: Sequelize.STRING,
-email: {
+nome_user: Sequelize.STRING,
+email_user: {
 type: Sequelize.STRING,
 allowNull: false,
 unique: true
 },
-password:{
+password_user:{
 type: Sequelize.STRING,
 allowNull: false
 },
-Pontuação: {
+pontuacao_user: {
 type:Sequelize.INTEGER,
 defaultValue: 0
 },
-reportesFeitos:{
+qnt_reportes:{
  type: Sequelize.INTEGER,
  defaultValue: 0
 },
-dataInscrição: Sequelize.DATE
+data_inscricao: Sequelize.DATE
 });
-
-
 
 Utilizadores.beforeCreate((utilizadores, options) => {
         return bcrypt.hash(utilizadores.password, 10)

@@ -2,14 +2,12 @@ var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Gestores = require('./gestores');
 const Locais = require('./locais');
-var Alertas = sequelize.define('alertas', {
+var Alertas = sequelize.define('Alertas', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        
 },
-tipoAlerta: Sequelize.INTEGER,
-horaAlerta: Sequelize.DATE,
+tipo_alerta: Sequelize.INTEGER,
 resolvido: Sequelize.BOOLEAN,
 });
 Alertas.belongsTo(Locais)

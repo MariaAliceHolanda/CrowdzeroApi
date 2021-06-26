@@ -2,15 +2,15 @@ var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Locais = require('./locais');
 const Utilizadores = require('./utilizadores')
-var Reportes = sequelize.define('reportes', {
+var Reportes = sequelize.define('Reportes', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         
 },
-NivelReporte: Sequelize.INTEGER,
-HoraReporte: Sequelize.DATE,
+nivel_reporte: Sequelize.INTEGER,
+horario_reporte: Sequelize.DATE,
 });
 Reportes.belongsTo(Locais)
 Locais.hasMany(Reportes)
