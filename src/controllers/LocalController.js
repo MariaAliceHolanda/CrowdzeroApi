@@ -59,28 +59,41 @@ controller.get = async (req,res) => {
 }*/
 
 controller.list = async (req, res) => {
-  const {idGestor} =  req.body.id
-  const gestor = await Gestor.findOne({
-    where: {id: idGestor}
-  })
-  .catch(e =>{
-    return error
-  })
-
-  if (gestor){
-    const idInstituicao = gestor.instituiçõeId
-
-    const data = await Instituições.findOne({
-      where: {id: idInstituicao}
+  if (req.body.id){
+    const idGestor =  req.body.id
+    const gestor = await Gestor.findOne({
+      where: {id: idGestor}
     })
-    .then(function(data){
-      return data
+    .catch(e =>{
+      return error
     })
-    .catch(err =>{
-      return err
-    })
-    res.json({success: true, data: data})
-   }
+  
+    if (gestor){
+      const idInstituicao = gestor.instituiçõeId
+  
+      const data = await Instituições.findOne({
+        where: {id: idInstituicao}
+      })
+      .then(function(data){
+        return data
+      })
+      .catch(err =>{
+        return err
+      })
+      res.json({success: true, data: data})
+     }
+     else{
+        res.json({
+          success: false, 
+          message: 'gestor não encontrado.'
+        });
+     }
+  }else {
+    res.json({
+        success: false, 
+        message: 'id da instituição não fornecido.'
+    });
+    }
 }
 
 controller.setStatusLocal = async (req,res) => {
