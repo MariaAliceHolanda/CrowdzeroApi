@@ -12,11 +12,9 @@ controllers.register = async (req,res) => {
     nome: nome,
     email: email,
     password: password
-    })
-    .then(function(data){
+    }).then(function(data){
     return data;
-    })
-    .catch(error =>{
+    }).catch(error =>{
     console.log("Erro: "+error);
     return error;
     })
@@ -32,11 +30,9 @@ controllers.login = async (req,res) => {
     var email = req.body.email;
     var password = req.body.password;
     }
-    var utilizador = await Utilizadores.findOne({where: { email_user: email}})
-    .then(function(data){
+    var utilizador = await Utilizadores.findOne({where: { email_user: email}}).then(function(data){
     return data;
-    })
-    .catch(error =>{
+    }).catch(error =>{
     console.log("Erro: "+error);
     return error;
     })

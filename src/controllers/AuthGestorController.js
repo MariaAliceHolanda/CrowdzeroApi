@@ -30,8 +30,7 @@ controllers.register = async (req,res) => {
         })
         .then(function(data){
             return data;
-        })
-        .catch(error =>{
+        }).catch(error =>{
             return error;
         })
         res.status(200).json({
@@ -50,8 +49,7 @@ controllers.login = async (req,res) => {
     var gestor = await Gestor.findOne({where: { email: email}})
     .then(function(data){
     return data;
-    })
-    .catch(error =>{
+    }).catch(error =>{
     console.log("Erro: "+error);
     return error;
     })
@@ -83,8 +81,7 @@ controllers.getGestor = async (req, res) => {
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){
             return data
-        })
-        .catch(error =>{
+        }).catch(error =>{
             return error
         })
         if (data.id.toString() === id.toString())

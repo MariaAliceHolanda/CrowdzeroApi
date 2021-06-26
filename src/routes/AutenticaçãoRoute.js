@@ -7,8 +7,8 @@ const authGestorController = require('../controllers/AuthGestorController')
 const authAdminController = require('../controllers/AuthAdminController')
 const authUtilizadorController = require('../controllers/AuthUtilizadorController')
 
-router.post('/registoAdmin',authAdminController.register);
-router.post('/loginAdmin',authAdminController.login);
+//router.post('/registoAdmin',authAdminController.register);
+//router.post('/loginAdmin',authAdminController.login);
 
 router.post('/registoGestor',authGestorController.register);
 router.post('/loginGestor',authGestorController.login);
