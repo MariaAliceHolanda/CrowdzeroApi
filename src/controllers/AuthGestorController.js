@@ -78,7 +78,7 @@ controllers.login = async (req,res) => {
     }
 }} 
 
-controllers.getGestor = async (req, res) => {
+/*controllers.getGestor = async (req, res) => {
     if (req.body.id && req.body.token){
         var id = req.body.id
         var data = await Gestor.findOne({where: {id: id}})
@@ -103,8 +103,8 @@ controllers.getGestor = async (req, res) => {
             });
         }
     }
-}
-/*controllers.getGestor = async (req, res) => {
+}*/
+controllers.getGestor = async (req, res) => {
     if (req.body.token){
         var data = {mensagem: "deu certo", user: "9813"}
         .then(function(data){
@@ -128,5 +128,5 @@ controllers.getGestor = async (req, res) => {
             });
         }
     }
-}*/
+}
 module.exports = controllers;
