@@ -5,7 +5,7 @@ const Gestor = require('../model/gestores')
 const controller = {}
 sequelize.sync()
 
-controller.create = async (req,res) => {
+/*controller.create = async (req,res) => {
     // data
     const { nomelocal, fotolocal, instituicaoID} = req.body;
     // create
@@ -27,9 +27,9 @@ controller.create = async (req,res) => {
         message:"Registado",
         data: data
     });
-}
+}*/
 
-controller.get = async (req,res) => {
+/*controller.get = async (req,res) => {
     const { id } = req.params;
     const data = await Local.findAll({
     where: { id: id },
@@ -41,7 +41,7 @@ controller.get = async (req,res) => {
     return error;
     })
     res.json({ success: true, data: data });
-}
+}*/
 
 // Retorna todos locais de uma instituição
 /*controller.list = async (req, res) => {
@@ -58,48 +58,23 @@ controller.get = async (req,res) => {
     res.json({success : true, data : data});
 }*/
 
-controller.list = async (req, res) => {
+/*controller.list = async (req, res) => {
   if (req.body.id){
     var idGestor = req.body.id
     var gestor = await Gestor.findOne({
       where: {id: idGestor}
     })
-  
-    if (gestor.id.toString() === idGestor.toString()){
-      const idInstituicao = gestor.instituiçõeId
-  
-      const data = await Instituições.findOne({
-        where: {id: idInstituicao}
-      })
-      .then(function(data){
-        return data
-      })
-      .catch(err =>{
-        return err
-      })
-      if (data){ 
-        res.json({success: true, data: data, message: "Lista de instituições"})
-      }
-      else{
-        res.json({success: false, message: "Erro ao encontrar a instituição"})
-      }
-      
-     }
-     else{
-        res.json({
-          success: false, 
-          message: 'gestor não encontrado.'
-        });
-     }
-  }else {
-    res.json({
-        success: false, 
-        message: 'id da instituição não fornecido.'
-    });
-    }
-}
+    .catch(error =>{
+        return error;
+    })
+    res.json({success: true, message:'gestor encontrado', data:gestor});
+  }else{
+    res.json({success: false, message:'gestor não encontrado'});
+  }
+}*/
 
-controller.setStatusLocal = async (req,res) => {
+
+/*controller.setStatusLocal = async (req,res) => {
     const { id } = req.body;
     const data = await Local.findAll({
     where: { id: id },
@@ -129,9 +104,9 @@ controller.setStatusLocal = async (req,res) => {
       });
        
     res.json({ success: true, data: status });
-}
+}*/
 
-controller.getQuantidadeReportes = async (req,res) => {
+/*controller.getQuantidadeReportes = async (req,res) => {
 
   const { id } = req.params;
   try {
@@ -152,5 +127,5 @@ controller.getQuantidadeReportes = async (req,res) => {
   } catch (error) {
     return res.status(500).json(error)
   }
-}
+}*/
 module.exports = controller
