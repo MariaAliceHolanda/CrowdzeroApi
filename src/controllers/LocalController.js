@@ -77,7 +77,7 @@ controller.list = async (req, res) => {
       return data
     })
     .catch(err =>{
-      return error
+      return err
     })
     res.json({success: true, data: data})
    }
