@@ -7,7 +7,6 @@ id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        
 },
 dataInscrição: Sequelize.DATE,
 nome: Sequelize.STRING,

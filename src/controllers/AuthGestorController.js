@@ -31,7 +31,6 @@ controllers.register = async (req,res) => {
             return data;
         })
         .catch(error =>{
-            console.log("Erro: "+error);
             return error;
         })
         res.status(200).json({
@@ -42,7 +41,7 @@ controllers.register = async (req,res) => {
     }
 }
 
-controllers.login = async (req,res) => {
+controllers.login = async (req,res) => {    
     if (req.body.email && req.body.password) {
         var email = req.body.email;
         var password = req.body.password;
@@ -68,7 +67,7 @@ controllers.login = async (req,res) => {
         let token = jwt.sign({email: req.body.email}, config.jwtSecret,
         {expiresIn: '1h' //expira em 1 hora
         });
-        res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
+        res.json({success: true, message:' Autenticação realizada com sucesso!', user: gestor});
     } else {
     res.json({success: false, message: 'Dados de autenticação inválidos.'});
     }
