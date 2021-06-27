@@ -8,26 +8,27 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
     const {nome, email, password} = req.body
-    if (!nome || !email || !password){
+    if (nome && email && password){
+        const data = await Associados.create({
+            nome_user: nome,
+            email_user: email,
+            password_user: password
+        }).then(function(data){
+        return data;
+        }).catch(error =>{
+        console.log("Erro: "+error);
+        return error;
+        })
+        res.status(200).json({
+            success: true,
+            message:"Sucesso",
+        });
+    }else{
         res.json({
             success: false,
             message: 'Campos em branco'
         })
     }
-    const data = await Associados.create({
-        nome_user: nome,
-        email_user: email,
-        password_user: password
-    }).then(function(data){
-    return data;
-    }).catch(error =>{
-    console.log("Erro: "+error);
-    return error;
-    })
-    res.status(200).json({
-        success: true,
-        message:"Sucesso",
-    });
 }
 
 controllers.login = async (req,res) => {
