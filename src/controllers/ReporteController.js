@@ -2,6 +2,7 @@ var Reporte = require('../model/reportes');
 var Sequelize = require('sequelize');
 var sequelize = require('../model/database');
 const Associados = require('../model/associados');
+const Locais = require('../model/locais');
 //const { Sequelize } = require('sequelize/types');
 //const { now } = require('sequelize/types/lib/utils');
 const controller = {}
@@ -82,12 +83,28 @@ controller.calculaEstado = async (req,res) => {
         else
            estado = 3
 
-        const data = {
+        const data = await Locais.update({
+          qtd_reporte_baixo: reporteBaixo,
+          qtd_reporte_medio: reporteMedio,
+          qtd_reporte_alto: reporteAlto,
+          estado_local: estado
+        },
+        {
+        where: { id: id}
+        })
+        .then( function(data){
+        return data;
+        })
+        .catch(error => {
+        return error;
+        })
+
+        /*const data = {
             baixo: reporteBaixo,
             medio:reporteMedio,
             alto: reporteAlto,
             estadoLocal: estado
-        }
+        }*/
 
         return res.status(200).json(data)
         
