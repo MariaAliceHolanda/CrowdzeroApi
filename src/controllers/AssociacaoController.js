@@ -6,12 +6,21 @@ const controllers = {}
 sequelize.sync()
 
 controllers.create = async (req, res) => {
-    const {idUtilizador, idInstituicao} = req.body
+    const {token_access, id} = req.body
 
-    if (idUtilizador && idInstituicao){
+    if (token_access && id){
+        var instituicao = await Instituicao.findOne({
+            where: {id: id}
+        }).then(function(data){
+            return data
+        }).catch(err => {
+            res.json({success: false, message: 'Token inválido. Tente novamente.'})
+        })
+
+    if (instituicao){
         var data = await Associacao.create({
-            AssociadoId: idUtilizador,
-            InstituiçõeId: idInstituicao 
+            AssociadoId: id,
+            InstituiçõeId: instituicao.id 
         }).then(function(data){
             return data
         }).catch(err =>{
@@ -25,6 +34,7 @@ controllers.create = async (req, res) => {
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
     }
+}
 }
 
 module.exports = controllers;

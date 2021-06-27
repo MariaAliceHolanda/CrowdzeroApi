@@ -2,16 +2,33 @@ var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Gestores = require('./gestores')
 const Locais = require('./locais')
+
 var Instituições = sequelize.define('Instituições', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
 },
-nome_instituicao: Sequelize.STRING,
+latitude: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+},
+longitude: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+},
+nome_instituicao: {
+        type: Sequelize.STRING,
+        allowNull: false
+},
 contacto_instituicao:  Sequelize.STRING,
 email_instituicao:  Sequelize.STRING,
 foto_instituicao: Sequelize.STRING,
+token_acesso: {
+        type: Sequelize.INTEGER,
+        unique: true,
+        allowNull: false
+},
 qnt_espacos: {
         type: Sequelize.INTEGER,
         defaultValue: 0
@@ -23,10 +40,36 @@ qnt_associados: {
 estado_instituicao: {
         type: Sequelize.INTEGER,
         defaultValue: 0
-},
-latitude: Sequelize.FLOAT,
-longitude:  Sequelize.FLOAT,
+}
 });
+
+/*function getRandom(){
+        var number = Math.floor(Math.random() * 5);
+        console.log(number)
+        return number
+}
+
+Instituições.beforeCreate((inst) => {
+        var num = getRandom()
+        while (sequelize.query(`SELECT token_acesso FROM Instituições WHERE token_acesso=${num}`) !== null){
+                num = getRandom()
+        }
+
+        inst.token_acesso = num
+        console.log("ENCRIPTACAO: ", inst.token_acesso)
+})*/
+
+
+/*Instituições.beforeCreate((inst) => {
+        return bcrypt.hash(inst.latitude.toString(), 10)
+        .then(hash => {
+                inst.token_acesso = hash;
+                console.log("ENCRIPTADA: ", inst.token_acesso)
+        })
+        .catch(err => {
+                throw new Error()
+        });
+});*/
 
 Instituições.hasOne(Gestores)
 Instituições.hasMany(Locais)

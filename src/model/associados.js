@@ -29,7 +29,8 @@ qnt_reportes:{
 },
 divisao:  {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
+        values: [0, 1, 2, 3]
 }
 });
 

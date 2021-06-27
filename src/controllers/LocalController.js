@@ -32,7 +32,7 @@ controller.create = async (req,res) => {
       res.json({
         success: false,
         message:"erro no registo, instituição não existente",
-    });
+    }); 
     }
     // return res
     res.status(200).json({

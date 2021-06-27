@@ -7,21 +7,35 @@ const config = require('../config');
 const controllers = {}
 sequelize.sync()
 
+function generateOTP() {
+    var digits = '0123456789';
+    let OTP = '';
+    for (let i = 0; i < 4; i++ ) {
+        OTP += digits[Math.floor(Math.random() * 10)];
+    }
+    return OTP;
+}
+
 controllers.register = async (req,res) => {
     const {nome, email, password, nome_empresa, contacto_empresa, foto_empresa, email_empresa, lat, lon} = req.body;
 
-    const instituicao = await Instituicao.create({
+    var token_acesso = generateOTP()
+
+    var instituicao = await Instituicao.create({
         nome_instituicao: nome_empresa,
         contacto_instituicao: contacto_empresa, 
         email_instituicao: email_empresa,
         foto_instituicao: foto_empresa,
         latitude: lat,
-        longitude: lon
+        longitude: lon,
+        token_acesso: token_acesso
     }).catch(e =>{
+        console.log(e)
+        res.json({success: false, message: "Ocorreu um erro no servidor. Tente novamente."})
         return e
     })
 
-    if(instituicao.id){
+    if(instituicao){    
         const data = await Gestor.create({
             nome:nome,
             email: email,

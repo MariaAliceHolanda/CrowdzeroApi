@@ -1,4 +1,4 @@
-var Sequelize = require('sequelize');
+        var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
 var Gestores = sequelize.define('Gestores', {
@@ -10,13 +10,15 @@ id: {
 nome: Sequelize.STRING,
 foto: Sequelize.STRING,
 email: {
-type: Sequelize.STRING,
-allowNull: false,
-unique: true
-},
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+        notEmpty: true,
+        },
 password:{
-type: Sequelize.STRING,
-allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false,
+        notEmpty: true,
 }
 });
 
@@ -26,7 +28,7 @@ Gestores.beforeCreate((gestores, options) => {
         gestores.password = hash;
         })
         .catch(err => {
-        throw new Error();
+               throw new Error()
         });
 });
 module.exports = Gestores
