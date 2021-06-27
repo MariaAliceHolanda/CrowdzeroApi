@@ -30,7 +30,7 @@ controllers.login = async (req,res) => {
     const {email, password} = req.body
     console.log(req.body)
 
-    if (nome && email && password) {        
+    if (email && password) {        
         var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(data){
         return data;
         }).catch(error =>{
