@@ -90,8 +90,10 @@ controller.calculaEstado = async (req,res) => {
            estado = 1
         else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
            estado = 2
-        else
+        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
            estado = 3
+        else
+           estado = 1
 
         const data = await Locais.update({
           qtd_reporte_baixo: reporteBaixo,
