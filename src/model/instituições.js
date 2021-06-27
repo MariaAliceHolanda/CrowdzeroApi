@@ -29,22 +29,7 @@ longitude:  Sequelize.FLOAT,
 });
 
 Instituições.belongsTo(Gestores)
+Gestores.hasMany(Instituições)
 Instituições.hasMany(Locais)
 
 module.exports = Instituições
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
