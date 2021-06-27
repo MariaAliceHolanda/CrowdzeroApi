@@ -28,36 +28,38 @@ controllers.register = async (req,res) => {
 
 controllers.login = async (req,res) => {
     const {email, password} = req.body
-    console.log(req.body)
 
-    if (email && password) {        
-        var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(utilizador){
+    if (email && password) { 
+        var utilizador = await Associados.findOne({where: { email_user: email}})
+        .then(function(utilizador){
         return utilizador;
         }).catch(error =>{
-        console.log("Erro: "+error);
+        console.log("OCORREU UM ERRO: ");
         return error;
         })
     
      if (utilizador){
-        const isMatch = bcrypt.compareSync(password, utilizador.password);
+        const isMatch = bcrypt.compareSync(password, utilizador.password_user);
             if (email === utilizador.email_user && isMatch) {
                 
-           /* let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
+           let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
             {expiresIn: '1h' //expira em 1 hora
-            });*/
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: 'oieeee', data: utilizador});
+            });
+
+            console.log(token)
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: utilizador});
         }
         else {
-        res.status.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
+        res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
         }
     }
     else {
-     res.status.json({success: false, message: 'Dados de autenticação inválidos.'});
+     res.json({success: false, message: 'Dados de autenticação inválidos.'});
      }
 
     }
     else {
-        res.status.json({success: false, message: 'Campos em branco.'});
+        res.json({success: false, message: 'Campos em branco.'});
     }
 } 
 module.exports = controllers;
