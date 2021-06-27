@@ -47,7 +47,7 @@ controller.UpdatePontuacao = async (req,res) => {
     return error;
     })
       
-    const dados = await Associados.findOne({
+    const dados = await Associados.findAll({
         Attributes:['pontuacao_user','qnt_reportes']
        },
        {
