@@ -47,7 +47,7 @@ controllers.login = async (req,res) => {
     if (req.body.email && req.body.password && utilizador) {
     const isMatch = bcrypt.compareSync(password, utilizador.password);
     if (req.body.email === utilizador.email_user && isMatch) {
-    let token = jwt.sign({email: req.body.email}, config.jwtSecret,
+    let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
     {expiresIn: '1h' //expira em 1 hora
     });
     res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
