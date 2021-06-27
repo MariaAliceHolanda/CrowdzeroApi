@@ -29,7 +29,7 @@ const localRouters = require('./routes/LocalRoute')
 const alertaRouters = require('./routes/AlertaRoute')
 const relatorioRouters = require('./routes/RelatorioRoute')
 const reporteRouters = require('./routes/ReporteRoute')
-//const associadoRouters = require('./routes/AssociadoRoute')
+const associadoRouters = require('./routes/AssociadoRoute')
 const authRoute = require('./routes/AutenticaçãoRoute')
 const associacaoRoute = require ('./routes/AssociacaoRoute')
 //Rotas
@@ -42,7 +42,7 @@ app.use('/alerta',alertaRouters)
 app.use('/relatorio',relatorioRouters)
 app.use('/reporte',reporteRouters)
 app.use('/associacao', associacaoRoute)
-//app.use('/associado',associadoRouters)
+app.use('/associado',associadoRouters)
 app.use('/utilizador',utilizadorRouters)
 
 //app.use('/auth',middleware.checkToken, authRoute);
