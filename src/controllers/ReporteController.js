@@ -33,8 +33,8 @@ controller.UpdatePontuacao = async (req,res) => {
     const { id } = req.params;
     // Update pontuação/ reportes feitos
     const data = await Associados.update({
-     pontuacao_user: + 10,
-     qnt_reportes: + 1
+     pontuacao_user:'pontuacao_user' + 10,
+     qnt_reportes: 'qnt_reportes'+ 1
     },
     {
     where: { id: id}
