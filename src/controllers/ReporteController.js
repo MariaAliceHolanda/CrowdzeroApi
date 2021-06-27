@@ -52,7 +52,15 @@ controller.UpdatePontuacao = async (req,res) => {
         attributes:{include :['pontuacao_user', 'qnt_reportes'],
         exclude: ['id','nome_user','email_user','password_user','divisao','createdAt','updatedAt']
      },
-        where: { id: id}
+        where: { 
+            $and : [
+                Sequelize.where(Sequelize.fn('datediff', sequelize.fn("NOW") , sequelize.col('createdAt')), {
+                    [Op.lt]: 60,               
+                }) ,
+                { id : id }
+            ]
+        } 
+    
     })
     .then( function(dados){
     return dados;
