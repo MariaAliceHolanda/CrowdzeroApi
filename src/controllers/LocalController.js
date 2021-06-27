@@ -27,9 +27,7 @@ controller.create = async (req,res) => {
     })
 
     if (instituicao){
-      console.log("Quantidade espacos:", instituicao.qnt_espacos)
-      instituicao.qnt_espacos = instituicao.qnt_espacos + 1
-      console.log("Quantidade espacos:", instituicao.qnt_espacos)
+      const increment = await instituicao.increment('qnt_espacos',{by: 1})
     }else{
       res.json({
         success: false,

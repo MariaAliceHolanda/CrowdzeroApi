@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Instituições = require('./instituições');
+const Associações = require('./associacao')
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
 var Associados = sequelize.define('Associados', {
 id: {
@@ -42,8 +43,8 @@ Associados.beforeCreate((utilizadores, options) => {
         });
 });
 
-Associados.belongsToMany(Instituições, {through: 'Instituicao_Associados'});
-Instituições.belongsToMany(Associados, {through: 'Instituicao_Associados'})
+Associados.belongsToMany(Instituições, {through: Associações});
+Instituições.belongsToMany(Associados, {through: Associações})
 
 module.exports = Associados
 
