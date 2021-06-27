@@ -41,7 +41,6 @@ Associados.beforeCreate((utilizadores, options) => {
         });
 });
 Instituições.hasMany(Associados);
-Associados.hasMany(Instituições);
 
 module.exports = Associados
 
