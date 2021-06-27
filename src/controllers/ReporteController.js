@@ -33,21 +33,28 @@ controller.UpdatePontuacao = async (req,res) => {
     // parameter get id
     const { id } = req.params;
     // Update pontuação/ reportes feitos
-    const data = await Associados.update({
-     pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
-     qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
-    },
-        {
-        where: { id: id}
 
-        }
-    )
-    .then( function(data){
-    return data;
-    })
-    .catch(error => {
-    return error;
-    })
-    res.json({success:true, data:data, message:"Updated successful"});
+    try {
+        const data = await Associados.update({
+            pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
+            qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
+           },
+           {
+           where: { id: id}
+        })
+
+        const dados = Associados.findOne({
+            attributes: ['pontuacao_user', 'qnt_reportes']
+           },
+           {
+           where: { id: id}
+        })
+        
+    } catch (error) {
+        
+    }
+    
+    
+    res.json({success:true, data:dados, message:"Updated successful"});
 };
 module.exports = controller
