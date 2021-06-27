@@ -1,5 +1,5 @@
 var Reporte = require('../model/reportes');
-var Utilizador = require('../model/utilizadores')
+var Sequelize = require('sequelize');
 var sequelize = require('../model/database');
 const Associados = require('../model/associados');
 //const { Sequelize } = require('sequelize/types');
@@ -28,17 +28,20 @@ controller.create = async (req,res) => {
     }
 };
 
+
 controller.UpdatePontuacao = async (req,res) => {
     // parameter get id
     const { id } = req.params;
     // Update pontuação/ reportes feitos
     const data = await Associados.update({
-     pontuacao_user: + 10,
-     qnt_reportes: + 1
+     pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
+     qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
     },
-    {
-    where: { id: id}
-    })
+        {
+        where: { id: id}
+
+        }
+    )
     .then( function(data){
     return data;
     })
