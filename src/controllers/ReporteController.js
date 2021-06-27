@@ -49,7 +49,9 @@ controller.UpdatePontuacao = async (req,res) => {
     })
       
     const dados = await Associados.findOne({
-        attributes:{include :['pontuacao_user', 'qnt_reportes']},
+        attributes:{include :['pontuacao_user', 'qnt_reportes'],
+        exclude: ['id','nome_user','email_user','password_user','divisao','createdAt','updateAt']
+     },
         where: { id: id}
     })
     .then( function(dados){
