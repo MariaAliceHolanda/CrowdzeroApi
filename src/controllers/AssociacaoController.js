@@ -10,7 +10,7 @@ controllers.create = async (req, res) => {
 
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
-            where: {token_access: token_access}
+            where: {token_accesso: token_access}
         }).then(function(data){
             return data
         }).catch(err => {
@@ -29,7 +29,8 @@ controllers.create = async (req, res) => {
         var increment = await instituicao.increment('qnt_associados',{by: 1})
         res.status(200).json({
             success: true,
-            messagem: 'Associação realizada'
+            messagem: 'Associação realizada',
+            data: instituicao
         })
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
