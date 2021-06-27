@@ -27,7 +27,8 @@ controllers.register = async (req,res) => {
 }
 
 controllers.login = async (req,res) => {
-    const {nome, email, password} = req.body
+    const {email, password} = req.body
+    console.log(req.body)
 
     if (nome && email && password) {        
         var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(data){
