@@ -5,14 +5,14 @@ const Gestor = require('../model/gestores')
 const controller = {}
 sequelize.sync()
 
-/*controller.create = async (req,res) => {
-    // data
-    const { nomelocal, fotolocal, instituicaoID} = req.body;
+controller.create = async (req,res) => {
+    const { nomelocal, fotolocal, instituicaoID, descricaolocal} = req.body;
     // create
     const data = await Local.create({
-      nomelocal: nomelocal,
-      fotolocal: fotolocal,
-      instituiçõeId: instituicaoID
+      nome_local: nomelocal,
+      foto_local: fotolocal,
+      descricao_local: descricaolocal,
+      InstituiçõeId: instituicaoID
     })
     .then(function(data){
       return data;
@@ -21,13 +21,28 @@ sequelize.sync()
     console.log("Erro: "+error)
     return error;
     })
+
+    const instituicao = await Instituições.findOne({
+      where: {id: instituicaoID}
+    })
+
+    if (instituicao){
+      console.log("Quantidade espacos:", instituicao.qnt_espacos)
+      instituicao.qnt_espacos = instituicao.qnt_espacos + 1
+      console.log("Quantidade espacos:", instituicao.qnt_espacos)
+    }else{
+      res.json({
+        success: false,
+        message:"erro no registo, instituição não existente",
+    });
+    }
     // return res
     res.status(200).json({
         success: true,
         message:"Registado",
         data: data
     });
-}*/
+}
 
 /*controller.get = async (req,res) => {
     const { id } = req.params;
@@ -59,7 +74,8 @@ sequelize.sync()
 }*/
 
 /*controller.list = async (req, res) => {
-  if (req.body.id){
+  const {id} = req.params.id
+  if (id){
     var idGestor = req.body.id
     var gestor = await Gestor.findOne({
       where: {id: idGestor}

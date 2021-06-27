@@ -38,11 +38,12 @@ Associados.beforeCreate((utilizadores, options) => {
         utilizadores.password_user = hash;
         })
         .catch(err => {
-        throw new Error();
+                console.log(err)
         });
 });
 
-Associados.hasMany(Instituições);
+Associados.belongsToMany(Instituições, {through: 'Instituicao_Associados'});
+Instituições.belongsToMany(Associados, {through: 'Instituicao_Associados'})
 
 module.exports = Associados
 
