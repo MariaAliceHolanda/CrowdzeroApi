@@ -1,14 +1,12 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
-const Instituições = require('./instituições');
 var Gestores = sequelize.define('Gestores', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
 },
-data_inscricao: Sequelize.DATE,
 nome: Sequelize.STRING,
 foto: Sequelize.STRING,
 email: {
@@ -21,9 +19,6 @@ type: Sequelize.STRING,
 allowNull: false
 }
 });
-
-
-Gestores.belongsTo(Instituições)
 
 Gestores.beforeCreate((gestores, options) => {
         return bcrypt.hash(gestores.password, 10)

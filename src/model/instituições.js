@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Gestores = require('./gestores')
+const Locais = require('./locais')
 var Instituições = sequelize.define('Instituições', {
 id: {
         type: Sequelize.INTEGER,
@@ -27,6 +28,9 @@ latitude: Sequelize.FLOAT,
 longitude:  Sequelize.FLOAT,
 });
 
+Instituições.belongsTo(Gestores)
+Locais.belongsTo(Instituições)
+Instituições.hasMany(Locais)
 
 module.exports = Instituições
 

@@ -1,7 +1,5 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
-const Instituições = require('./instituições');
-//const Reportes = require('./reportes');
 var Locais = sequelize.define('Locais', {
 id: {
         type: Sequelize.INTEGER,
@@ -28,8 +26,5 @@ estado_local: {
         defaultValue: 0
 },
 });
-
-Locais.belongsTo(Instituições)
-Instituições.hasMany(Locais)
 
 module.exports = Locais

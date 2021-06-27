@@ -10,6 +10,7 @@ id: {
 tipo_alerta: Sequelize.INTEGER,
 resolvido: Sequelize.BOOLEAN,
 });
+
 Alertas.belongsTo(Locais)
 Locais.hasMany(Alertas)
 Alertas.belongsTo(Gestores)

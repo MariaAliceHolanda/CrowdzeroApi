@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//UTILIZAR UTILIZADORES ROUTE PARA ASSOCIADOS, NÃO USAR AQUI
 //importar os controladores
 const associadoController = require('../controllers/AssociadoController')
 

@@ -1,5 +1,7 @@
+
+// MODELO ANTIGO
+/*
 var Sequelize = require('sequelize');
-const Avatar = require('./avatar');
 var sequelize = require('./database');
 //const Reportes = require('./reportes');
 const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
@@ -8,7 +10,6 @@ id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        
 },
 nome_user: Sequelize.STRING,
 email_user: {
@@ -40,8 +41,4 @@ Utilizadores.beforeCreate((utilizadores, options) => {
         throw new Error();
         });
 });
-
-Avatar.hasMany(Utilizadores)
-Utilizadores.belongsTo(Avatar)
-
-module.exports = Utilizadores
+*/
