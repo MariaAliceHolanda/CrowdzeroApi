@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('./database');
 const Instituições = require('./instituições');
+const bcrypt = require('bcrypt'); // encripta a pass a guardar na BD
 var Associados = sequelize.define('Associados', {
 id: {
         type: Sequelize.INTEGER,
@@ -32,9 +33,9 @@ divisao:  {
 });
 
 Associados.beforeCreate((utilizadores, options) => {
-        return bcrypt.hash(utilizadores.password, 10)
+        return bcrypt.hash(utilizadores.password_user, 10)
         .then(hash => {
-        utilizadores.password = hash;
+        utilizadores.password_user = hash;
         })
         .catch(err => {
         throw new Error();

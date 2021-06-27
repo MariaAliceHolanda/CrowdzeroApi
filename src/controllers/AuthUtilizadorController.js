@@ -8,6 +8,12 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
     const {nome, email, password} = req.body
+    if (!nome || !email || !password){
+        res.json({
+            success: false,
+            message: 'Campos em branco'
+        })
+    }
     const data = await Associados.create({
         nome_user: nome,
         email_user: email,
@@ -18,9 +24,11 @@ controllers.register = async (req,res) => {
     console.log("Erro: "+error);
     return error;
     })
+    console.log(data)
     res.status(200).json({
         success: true,
-        message:"te amo meu amÔ",
+        message:"Sucesso",
+        data: data
     });
 }
 
@@ -36,7 +44,7 @@ controllers.login = async (req,res) => {
     return error;
     })
     if (password === null || typeof password === "undefined") {
-        res.status.json({
+        res.json({
         success: false,
         message: 'Campos em Branco'
     });
