@@ -42,19 +42,11 @@ controller.UpdatePontuacao = async (req,res) => {
            {
            where: { id: id}
         })
-
-        const dados = Associados.findOne({
-            attributes: ['pontuacao_user', 'qnt_reportes']
-           },
-           {
-           where: { id: id}
-        })
         
     } catch (error) {
-        
+        return res.status(500).json(error)   
     }
     
-    
-    res.json({success:true, data:dados, message:"Updated successful"});
+    res.json({success:true, data:data, message:"Updated successful"});
 };
 module.exports = controller
