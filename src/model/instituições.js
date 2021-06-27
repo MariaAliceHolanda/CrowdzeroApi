@@ -28,7 +28,6 @@ latitude: Sequelize.FLOAT,
 longitude:  Sequelize.FLOAT,
 });
 
-Instituições.belongsTo(Gestores)
 Gestores.hasOne(Instituições)
 Instituições.hasMany(Locais)
 

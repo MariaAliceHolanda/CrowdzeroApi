@@ -21,7 +21,7 @@ controllers.register = async (req,res) => {
         return e
     })
 
-    if(instituicao){
+    if(instituicao.id){
         const data = await Gestor.create({
             nome:nome,
             email: email,
