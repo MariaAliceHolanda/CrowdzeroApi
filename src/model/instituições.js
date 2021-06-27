@@ -28,7 +28,7 @@ latitude: Sequelize.FLOAT,
 longitude:  Sequelize.FLOAT,
 });
 
-Gestores.hasOne(Instituições)
+Instituições.hasOne(Gestores)
 Instituições.hasMany(Locais)
 
 module.exports = Instituições
