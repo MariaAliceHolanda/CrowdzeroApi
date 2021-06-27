@@ -8,21 +8,26 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
     const {nome, email, password} = req.body
-    const data = await Associados.create({
-        nome_user: nome,
-            email_user: email,
-            password_user: password
-        }).then(function(data){
-        return data;
-        }).catch(error =>{
-        console.log("Erro: "+error);
-        return error;
-        })
-        res.status(200).json({
-            success: true,
-            message:"Sucesso",
-            data: data
-        });
+
+    if (nome && email && password){
+        const data = await Associados.create({
+            nome_user: nome,
+                email_user: email,
+                password_user: password
+            }).then(function(data){
+            return data;
+            }).catch(error =>{
+            console.log("Erro: "+error);
+                res.json({success: false, message: 'Já existe um utilizador com este email. Tente novamente.'})
+            })
+            res.status(200).json({
+                success: true,
+                message:"Sucesso",
+                data: data
+            });
+    }else{
+        res.json({success: false, message: 'Existem campos em branco.'})
+    }
 }
 
 controllers.login = async (req,res) => {
