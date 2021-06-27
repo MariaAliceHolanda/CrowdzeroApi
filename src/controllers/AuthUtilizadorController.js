@@ -31,8 +31,8 @@ controllers.login = async (req,res) => {
     console.log(req.body)
 
     if (email && password) {        
-        var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(data){
-        return data;
+        var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(utilizador){
+        return utilizador;
         }).catch(error =>{
         console.log("Erro: "+error);
         return error;
@@ -42,10 +42,10 @@ controllers.login = async (req,res) => {
         const isMatch = bcrypt.compareSync(password, utilizador.password);
             if (email === utilizador.email_user && isMatch) {
                 
-            let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
+           /* let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
             {expiresIn: '1h' //expira em 1 hora
-            });
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
+            });*/
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: 'oieeee', data: utilizador});
         }
         else {
         res.status.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
