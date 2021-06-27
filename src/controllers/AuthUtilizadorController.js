@@ -7,7 +7,7 @@ const controllers = {}
 sequelize.sync()
 
 controllers.register = async (req,res) => {
-    const {nome, email, password} = req.body;
+    const {nome, email, password} = req.body
     const data = await Associados.create({
         nome_user: nome,
         email_user: email,
@@ -19,9 +19,8 @@ controllers.register = async (req,res) => {
     return error;
     })
     res.status(200).json({
-    success: true,
-    message:"Registado",
-    data: data
+        success: true,
+        message:"te amo meu amÔ",
     });
 }
 

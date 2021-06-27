@@ -1,6 +1,11 @@
 const express = require('express');
 const app = express();
 const middleware = require('./middleware');
+var bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 //Configurações
 app.set('port', process.env.PORT|| 3001);
 //Middlewares
