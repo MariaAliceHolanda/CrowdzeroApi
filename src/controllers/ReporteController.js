@@ -53,7 +53,6 @@ controller.UpdatePontuacao = async (req,res) => {
         exclude: ['id','nome_user','email_user','password_user','divisao','createdAt','updatedAt']
      },
         where: { id : id } 
-    
     })
     .then( function(dados){
     return dados;
