@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const Utilizadores = require('../model/utilizadores');
+const Associados = require('../model/associados');
 const sequelize = require('../model/database');
 const config = require('../config');
 const controllers = {}
@@ -8,7 +8,7 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
     const {nome,email, password } = req.body;
-    const data = await Utilizadores.create({
+    const data = await Associados.create({
     nome: nome,
     email: email,
     password: password
@@ -30,16 +30,16 @@ controllers.login = async (req,res) => {
     var email = req.body.email;
     var password = req.body.password;
     }
-    var utilizador = await Utilizadores.findOne({where: { email_user: email}}).then(function(data){
+    var utilizador = await Associados.findOne({where: { email_user: email}}).then(function(data){
     return data;
     }).catch(error =>{
     console.log("Erro: "+error);
     return error;
     })
     if (password === null || typeof password === "undefined") {
-    res.status.json({
-    success: false,
-    message: 'Campos em Branco'
+        res.status.json({
+        success: false,
+        message: 'Campos em Branco'
     });
    }
    else {
