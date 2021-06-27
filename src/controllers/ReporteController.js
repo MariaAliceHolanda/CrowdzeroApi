@@ -14,7 +14,7 @@ controller.create = async (req,res) => {
         const {nivelReporte,localId, associadoId} = req.body;
         // create
         const data = await Reporte.create({
-            NivelReporte: nivelReporte,
+            nivel_reporte: nivelReporte,
             LocaiId:localId,
             AssociadoId: associadoId,
         })
