@@ -46,8 +46,20 @@ controller.UpdatePontuacao = async (req,res) => {
     .catch(error => {
     return error;
     })
-        
-    res.json({success:true, data:data, message:"Updated successful"});
+      
+    const dados = await Associados.findOne({
+        Attributes:['pontuacao_user','qnt_reportes']
+       },
+       {
+       where: { id: id}
+    })
+    .then( function(dados){
+    return dados;
+    })
+    .catch(error => {
+    return error;
+    })
+    res.json({success:true, data:dados, message:"Updated successful"});
 
    
 }
