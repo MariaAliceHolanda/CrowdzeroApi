@@ -58,7 +58,34 @@ controller.UpdatePontuacao = async (req,res) => {
     return error;
     })
     res.json({success:true, data:dados, message:"Updated successful"});
-
-   
 }
+
+controller.calculaEstado = async (req,res) => {
+    const { id } = req.params;
+    try {
+
+        const reporteBaixo = await Reporte.count({
+            where:{nivel_reporte: 1, LocaiId: id}
+        })
+        const reporteMedio = await Reporte.count({
+            where:{nivel_reporte: 2, LocaiId: id}
+        })
+        const reporteAlto = await Reporte.count({
+            where:{nivel_reporte: 3, LocaiId: id}
+        })
+
+        const data = {
+            baixo: reporteBaixo,
+            medio:reporteMedio,
+            alto: reporteAlto
+        }
+
+        return res.status(200).json(data)
+        
+    } catch (error) {
+        console.log("Erro: "+error)
+        return res.status(500).json(error)
+    }
+};
+
 module.exports = controller
