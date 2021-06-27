@@ -11,12 +11,12 @@ controller.create = async (req,res) => {
     try {
 
             // data
-        const {nivelReporte,localId, utilizadorId} = req.body;
+        const {nivelReporte,localId, associadoId} = req.body;
         // create
         const data = await Reporte.create({
             NivelReporte: nivelReporte,
-            locaiId:localId,
-            utilizadoreId: utilizadorId,
+            LocaiId:localId,
+            AssociadoId: associadoId,
         })
 
         return res.status(200).json(data)
