@@ -73,11 +73,20 @@ controller.calculaEstado = async (req,res) => {
         const reporteAlto = await Reporte.count({
             where:{nivel_reporte: 3, LocaiId: id}
         })
+        
+        const estado = 0
+        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
+           estado = 1
+        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
+           estado = 2
+        else
+           estado = 3
 
         const data = {
             baixo: reporteBaixo,
             medio:reporteMedio,
-            alto: reporteAlto
+            alto: reporteAlto,
+            estadoLocal: estado
         }
 
         return res.status(200).json(data)
