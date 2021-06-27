@@ -7,11 +7,11 @@ const controllers = {}
 sequelize.sync()
 
 controllers.register = async (req,res) => {
-    const {nome,email, password } = req.body;
+    const {nome,email, password} = req.body;
     const data = await Associados.create({
-    nome_user: nome,
-    email_user: email,
-    password_user: password
+        nome_user: nome,
+        email_user: email,
+        password_user: password
     }).then(function(data){
     return data;
     }).catch(error =>{

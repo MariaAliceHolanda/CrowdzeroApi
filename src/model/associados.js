@@ -40,7 +40,8 @@ Associados.beforeCreate((utilizadores, options) => {
         throw new Error();
         });
 });
-Instituições.hasMany(Associados);
+
+Associados.hasMany(Instituições);
 
 module.exports = Associados
 
