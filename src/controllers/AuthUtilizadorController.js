@@ -24,11 +24,9 @@ controllers.register = async (req,res) => {
     console.log("Erro: "+error);
     return error;
     })
-    console.log(data)
     res.status(200).json({
         success: true,
         message:"Sucesso",
-        data: data
     });
 }
 
