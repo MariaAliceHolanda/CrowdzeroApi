@@ -99,14 +99,14 @@ controller.calculaEstado = async (req,res) => {
         return error;
         })
 
-        /*const data = {
+        const dados = {
             baixo: reporteBaixo,
             medio:reporteMedio,
             alto: reporteAlto,
             estadoLocal: estado
-        }*/
+        }
 
-        return res.status(200).json(data)
+        return res.status(200).json(dados)
         
     } catch (error) {
         console.log("Erro: "+error)
