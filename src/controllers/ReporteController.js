@@ -74,7 +74,7 @@ controller.calculaEstado = async (req,res) => {
             where:{nivel_reporte: 3, LocaiId: id}
         })
         
-        const estado = 0
+        var estado = 0
         if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
            estado = 1
         else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
