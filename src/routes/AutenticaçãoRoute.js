@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const middleware = require('../middleware')
 
 //importar os controladores
 const authGestorController = require('../controllers/AuthGestorController')
@@ -13,7 +12,6 @@ const authUtilizadorController = require('../controllers/AuthUtilizadorControlle
 router.post('/registoGestor',authGestorController.register);
 router.post('/loginGestor',authGestorController.login);
 //router.get('/getGestor', middleware.checkToken, authGestorController.getGestor); //Todos os gets têm que ter checagem do token
-router.post('/getGestor', authGestorController.getGestor); //Todos os gets têm que ter checagem do token
 
 router.post('/registoUtilizador',authUtilizadorController.register);
 router.post('/loginUtilizador',authUtilizadorController.login);

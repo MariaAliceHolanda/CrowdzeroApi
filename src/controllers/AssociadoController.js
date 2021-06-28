@@ -27,8 +27,9 @@ controller.create = async (req,res) => {
         data: data
 });
 }
-// Lista instituições que utilizador é associado
-controller.list = async (req, res) => {
+
+ // Lista instituições que utilizador é associado
+/*controller.list = async (req, res) => {
     const {utilizador } = req.params;
     const data = await Associados.findAll({
       where: {utilizadoreId: utilizador},
@@ -55,5 +56,5 @@ controller.getAssociados  = async (req, res) => {
   return error;
   });
   res.json({success : true, data : data});
-}
+}*/
 module.exports = controller

@@ -3,6 +3,7 @@ var sequelize = require('../model/database');
 const Instituições = require('../model/instituições');
 const Gestor = require('../model/gestores')
 const controller = {}
+const { QueryTypes } = require('sequelize');
 sequelize.sync()
 
 controller.create = async (req,res) => {
@@ -18,9 +19,8 @@ controller.create = async (req,res) => {
       return data;
     })
     .catch(error =>{
-    console.log("Erro: "+error)
-    return error;
-    })
+      return res.json({sucess: false, message: 'Erro'})
+        })
 
     const instituicao = await Instituições.findOne({
       where: {id: instituicaoID}
@@ -37,12 +37,11 @@ controller.create = async (req,res) => {
     // return res
     res.status(200).json({
         success: true,
-        message:"Registado",
-        data: data
+        message:"Local registado com sucesso"
     });
 }
 
-/*controller.get = async (req,res) => {
+controller.get = async (req,res) => {
     const { id } = req.params;
     const data = await Local.findAll({
     where: { id: id },
@@ -54,22 +53,45 @@ controller.create = async (req,res) => {
     return error;
     })
     res.json({ success: true, data: data });
-}*/
+}
 
 // Retorna todos locais de uma instituição
-/*controller.list = async (req, res) => {
-    const { idInstituicao } = req.params;
-    const data = await Local.findAll({
-      where: {InstituiçõeId: idInstituicao},
+controller.list = async (req, res) => {
+    const {idInstituicao} = req.body;
+
+    if (idInstituicao){
+      var data = await Local.findAll({
+        attributes: ['id', ['nome_local', 'nome'], ['descricao_local', 'descricao'], ['estado_local', 'status']],
+        group: ['Locais.id'],
+        where: {InstituiçõeId: idInstituicao},
+      })
+      .then(function(data){
+      return data;
+      })
+      .catch(error => {
+        return error
+      // res.json({success : false, message: 'Erro no servidor.'});
+      });
+      res.json({success : true, data : data});
+    }
+}
+
+controller.delete = async (req, res) => {
+  const {id} = req.body
+
+  if (id){
+    const del = await Local.destroy({
+      where: {id: id}
     })
-    .then(function(data){
-    return data;
+    .catch(e =>{
+      res.json({success: false, message: 'Erro ao deletar este local.'})
     })
-    .catch(error => {
-    return error;
-    });
-    res.json({success : true, data : data});
-}*/
+    res.json({success: true, message: 'Local deletado com sucesso.'})
+  }else{
+    res.json({success: false, message: 'Erro ao deletar este local.'})
+  }
+
+}
 
 /*controller.list = async (req, res) => {
   const {id} = req.params.id

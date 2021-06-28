@@ -3,13 +3,31 @@ var sequelize = require('../model/database');
 const controller = {}
 sequelize.sync()
 
-controller.teste = (req,res) => {
-    const data = {
-    name: "Nuno Costa",
-    age: 42,
-    city: 'Viseu'
-    }
-    console.log("Envio de dados do Controlador EMPLOYEE.");
-    res.json(data);
-};
+controller.get = async (req, res) => {
+    const id = req.body.id
+    if (id){
+        var data = await Gestor.findOne({where: {id: id}})
+        .then(function(data){
+            return data
+        }).catch(error =>{
+            res.json({success: false, message: 'Falha em obter os dados.'});
+        })
+        if (data.id.toString() === id.toString())
+            {   
+                res.status(200).json({
+                success: true,
+                message:"success",
+                data: data
+            });
+        }else{
+            res.json({
+                success: false, 
+                message: 'erro',
+            });
+        }
+    }else {
+        res.json({success: false, message: 'Id não fornecido.'});
+        }
+}
+
 module.exports = controller

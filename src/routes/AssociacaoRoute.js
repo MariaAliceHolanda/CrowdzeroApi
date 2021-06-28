@@ -7,5 +7,6 @@ const middleware = require('../middleware')
 const associacaoController = require('../controllers/AssociacaoController')
 
 router.post('/create', associacaoController.create);
+router.get('/list', middleware.checkToken, associacaoController.list);
 
 module.exports = router;

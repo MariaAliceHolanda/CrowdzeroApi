@@ -45,7 +45,7 @@ app.use('/associacao', associacaoRoute)
 //app.use('/associado',associadoRouters)
 app.use('/utilizador',utilizadorRouters)
 
-//app.use('/auth',middleware.checkToken, authRoute);
+// Rotas: registar e login
 app.use('/auth', authRoute);
 
 app.listen(app.get('port'),()=>{

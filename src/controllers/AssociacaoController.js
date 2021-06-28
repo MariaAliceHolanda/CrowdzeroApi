@@ -4,6 +4,8 @@ const Associado = require('../model/associados')
 const sequelize = require('../model/database');
 const controllers = {}
 sequelize.sync()
+const { QueryTypes } = require('sequelize');
+
 
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
@@ -37,5 +39,33 @@ controllers.create = async (req, res) => {
     }
 }
 }
+
+controllers.list = async (req, res) => {
+    // ID da instituição
+    const {id} = req.query
+
+    //SELECT * FROM ASSOCIACAO WHERE InstituiçõeId = 4
+
+    if (id){
+        const data = await sequelize.query(
+            `SELECT * FROM Instituicao_Associados INNER JOIN Associados on id=AssociadoId WHERE InstituiçõeId=4`, { model: Associacao, type: QueryTypes.SELECT })
+        .then(function(data){
+            return data
+        }).catch(e => {
+            console.log(e)
+            return e
+        })
+        res.json({success: true, data: data})
+
+    }
+}
+
+/**        var associados = await Instituicao.findOne({
+            include: {
+                model: Associado, 
+                attributes: ['nome_user', 'createdAt', 'qnt_reportes']},
+            where: {id: id},
+            attributes: ['id', 'nome_instituicao']
+        }) */
 
 module.exports = controllers;

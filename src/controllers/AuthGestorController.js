@@ -55,11 +55,37 @@ controllers.register = async (req,res) => {
     }
 }
 
-controllers.login = async (req,res) => {    
-    if (req.body.email && req.body.password) {
+controllers.login = async (req,res) => {
+    const {email, password} = req.body
+    if (email && password) {
+        var gestor = await Gestor.findOne({where: {email: email}})
+        .then(function(data){
+            return data
+        })
+        .catch(e =>{
+            res.json({success: false, message: 'Campos incorretos.'})
+        })
+
+        const isMatch = bcrypt.compareSync(password, gestor.password)
+        if (email === gestor.email && isMatch){
+            let token = jwt.sign({email: email}, config.jwtSecret,
+                {expiresIn: '1h' //expira em 1 hora
+                });
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
+        }else{
+            res.json({success: false, message:' Erro, password inválida.'});
+        }
+    }else{
+        res.json({success: false, message: 'Campos em branco'})
+    }
+}
+
+/*controllers.login = async (req,res) => {
+    const {email, password} = req.body    
+    if (email && password) {
         var email = req.body.email;
         var password = req.body.password;
-    }
+    
     var gestor = await Gestor.findOne({where: { email: email}})
     .then(function(data){
     return data;
@@ -87,35 +113,7 @@ controllers.login = async (req,res) => {
     } else {
     res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
     }
-}} 
-
-controllers.getGestor = async (req, res) => {
-    if (req.body.id){
-        var id = req.body.id
-        var data = await Gestor.findOne({where: {id: id}})
-        .then(function(data){
-            return data
-        }).catch(error =>{
-            return error
-        })
-        if (data.id.toString() === id.toString())
-            {   
-                res.status(200).json({
-                success: true,
-                message:"success",
-                data: data
-            });
-        }else{
-            res.json({
-                success: false, 
-                message: 'erro',
-            });
-        }
-    }else {
-        res.json({
-            success: false, 
-            message: 'Id não fornecido.'
-        });
-        }
 }
+}
+}*/ 
 module.exports = controllers;
