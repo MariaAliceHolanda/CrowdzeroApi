@@ -79,16 +79,11 @@ controllers.list = async (req, res) => {
 
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
-    const data = await Associacao.findAll({
-
-        where: {
-            AssociadoId: id
-        },
-        include: [{
-            model: Instituicao,
-            as: 'Instituição'
-        }]
-    })
+    const data = await sequelize.query(
+        `SELECT "Instituições".id, latitude, longitude, nome_instituicao,estado_instituicao
+	FROM "Instituições" inner join "Instituicao_Associados" on "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
+	inner join "Associados" on "Instituicao_Associados"."AssociadoId" = "Associados"."id" where "AssociadoId" =  ${id};`
+    ,{ type: QueryTypes.SELECT })
     .then(function(data){
     return data;
     })
