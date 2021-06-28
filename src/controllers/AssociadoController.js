@@ -28,6 +28,22 @@ controller.create = async (req,res) => {
 });
 }
 
+controller.delete = async (req, res) => {
+  const {id} = req.body
+
+  if (id){
+     await Associados.destroy({
+      where: {id: id}
+    })
+    .catch(e =>{
+      res.json({success: false, message: 'Erro ao deletar associado.'})
+    })
+    res.json({success: true, message: 'Associado deletado com sucesso.'})
+  }else{
+    res.json({success: false, message: 'Erro ao deletar este associado.'})
+  }
+}
+
  // Lista instituições que utilizador é associado
 /*controller.list = async (req, res) => {
     const {utilizador } = req.params;
