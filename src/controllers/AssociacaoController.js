@@ -92,4 +92,19 @@ controllers.MinhasAssociacoes = async (req, res) => {
     })
     res.json({ success: true, data: data });
 }
+
+controllers.RankingUsers = async (req, res) => {
+    const data = await sequelize.query(
+        `SELECT id, nome_user, pontuacao_user, qnt_reportes, divisao, nivel
+        FROM public."Associados"
+        order by pontuacao_user DESC;`
+    ,{ type: QueryTypes.SELECT })
+    .then(function(data){
+    return data;
+    })
+    .catch(error =>{
+    return error;
+    })
+    res.json({ success: true, data: data });
+}
 module.exports = controllers;
