@@ -69,4 +69,26 @@ controllers.list = async (req, res) => {
     }
 }
 
+/**        var associados = await Instituicao.findOne({
+            include: {
+                model: Associado, 
+                attributes: ['nome_user', 'createdAt', 'qnt_reportes']},
+            where: {id: id},
+            attributes: ['id', 'nome_instituicao']
+        }) */
+
+controllers.MinhasAssociacoes = async (req, res) => {
+    const { id } = req.params;
+    const data = await Associacao.findAll({
+    where: { AssociadoId: id },
+     //include: [Instituicao]
+    })
+    .then(function(data){
+    return data;
+    })
+    .catch(error =>{
+    return error;
+    })
+    res.json({ success: true, data: data });
+}
 module.exports = controllers;
