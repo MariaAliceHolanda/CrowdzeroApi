@@ -52,19 +52,19 @@ controllers.login = async (req,res) => {
 
             console.log(token)
 
-            /*const dadosAtualizados = Associados.findOne({
-                attributes:{//include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
+            const dadosAtualizados = Associados.findOne({
+                attributes:{include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
                 exclude: ['password_user']
                 },
-                where: { id : data.id } 
+                where: { id : utilizador.id } 
             }).then(function(dadosAtualizados){
             return dadosAtualizados;
             }).catch(error =>{
             console.log("Erro: "+error);
                 res.json({success: false, message: 'Erro.'})
-            })*/
+            })
 
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: dadosAtualizados});
         }
         else {
         res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
