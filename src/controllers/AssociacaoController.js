@@ -79,10 +79,26 @@ controllers.list = async (req, res) => {
 
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
-    const data = await Associacao.findAll({
-    where: { AssociadoId: id },
-     //include: [Instituicao]
+    const data = await sequelize.query(
+        `SELECT "Instituições".id, latitude, longitude, nome_instituicao,estado_instituicao
+	FROM "Instituições" inner join "Instituicao_Associados" on "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
+	inner join "Associados" on "Instituicao_Associados"."AssociadoId" = "Associados"."id" where "AssociadoId" =  ${id};`
+    ,{ type: QueryTypes.SELECT })
+    .then(function(data){
+    return data;
     })
+    .catch(error =>{
+    return error;
+    })
+    res.json({ success: true, data: data });
+}
+
+controllers.RankingUsers = async (req, res) => {
+    const data = await sequelize.query(
+        `SELECT id, nome_user, pontuacao_user, qnt_reportes, divisao, nivel
+        FROM public."Associados"
+        order by pontuacao_user DESC;`
+    ,{ type: QueryTypes.SELECT })
     .then(function(data){
     return data;
     })
