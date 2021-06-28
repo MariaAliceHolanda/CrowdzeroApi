@@ -4,6 +4,6 @@ const middleware = require('../middleware')
 
 //importar os controladores
 const gestorController = require('../controllers/GestorController')
-router.post('/get', gestorController.get); //Todos os gets têm que ter checagem do token
+router.get('/get', middleware.checkToken, gestorController.get); //Todos os gets têm que ter checagem do token
 
 module.exports = router;

@@ -6,9 +6,10 @@ id: {
         primaryKey: true,
         autoIncrement: true,
 },
-nome_local: Sequelize.STRING,
-foto_local: Sequelize.STRING,
-descricao_local: Sequelize.STRING,
+nome_local: {
+        type: Sequelize.STRING,
+        allowNull: false,
+},
 qtd_reporte_baixo: {
         type: Sequelize.INTEGER,
         defaultValue: 0
@@ -23,8 +24,10 @@ qtde_reporte_alto: {
 },
 estado_local: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defaultValue: 0,
+        values: [0, 1, 2, 3, 4] 
 },
+descricao_local: Sequelize.STRING,
 });
 
 module.exports = Locais

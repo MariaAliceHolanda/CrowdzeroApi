@@ -9,7 +9,10 @@ id: {
         primaryKey: true,
         autoIncrement: true,
 },
-nome_user: Sequelize.STRING,
+nome_user: {
+        type: Sequelize.STRING,
+        allowNull: false
+},
 email_user: {
         type: Sequelize.STRING,
         allowNull: false,

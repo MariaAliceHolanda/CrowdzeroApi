@@ -11,19 +11,18 @@ id: {
 },
 latitude: {
         type: Sequelize.FLOAT,
-        allowNull: false
+        allowNull: false,
+        unique: true
 },
 longitude: {
         type: Sequelize.FLOAT,
-        allowNull: false
+        allowNull: false,
+        unique: true
 },
 nome_instituicao: {
         type: Sequelize.STRING,
         allowNull: false
 },
-contacto_instituicao:  Sequelize.STRING,
-email_instituicao:  Sequelize.STRING,
-foto_instituicao: Sequelize.STRING,
 token_acesso: {
         type: Sequelize.INTEGER,
         unique: true,
@@ -41,18 +40,8 @@ estado_instituicao: {
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-qtd_reporte_baixo: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-},
-qtd_reporte_medio: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-},
-qtde_reporte_alto: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-},
+contacto_instituicao:  Sequelize.STRING,
+foto_instituicao: Sequelize.STRING,
 });
 
 Instituições.hasOne(Gestores)

@@ -4,7 +4,8 @@ const controller = {}
 sequelize.sync()
 
 controller.get = async (req, res) => {
-    const id = req.body.id
+    const {id} = req.query
+    console.log(id)
     if (id){
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){

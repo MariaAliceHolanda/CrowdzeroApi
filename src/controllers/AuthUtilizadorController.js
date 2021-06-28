@@ -47,10 +47,8 @@ controllers.login = async (req,res) => {
             if (email === utilizador.email_user && isMatch) {
                 
            let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
-            {expiresIn: '1h' //expira em 1 hora
+            {expiresIn: '2h' //expira em 1 hora
             });
-
-            console.log(token)
             res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: utilizador});
         }
         else {
