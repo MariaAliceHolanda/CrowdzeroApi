@@ -80,9 +80,14 @@ controllers.list = async (req, res) => {
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
     const data = await Associacao.findAll({
-        include: [Instituicao],
-       where: { AssociadoId: id }
-     
+
+        where: {
+            AssociadoId: id
+        },
+        include: [{
+            model: Instituicao,
+            as: 'Instituição'
+        }]
     })
     .then(function(data){
     return data;
