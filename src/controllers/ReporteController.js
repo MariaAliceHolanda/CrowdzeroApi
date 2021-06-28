@@ -132,4 +132,11 @@ controller.calculaEstado = async (req,res) => {
     }
 };
 
+
+// OBTER DADOS DE REPORTE PARA GRÁFICO
+controller.getReportes = async (req, res) => {
+    // Dados
+    const {filtro, id} = req.query
+    res.json({success: true, message: 'Sucesso!', data: {filtro, id}})
+}
 module.exports = controller

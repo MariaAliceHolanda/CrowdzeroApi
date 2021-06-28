@@ -73,7 +73,9 @@ controller.list = async (req, res) => {
       // res.json({success : false, message: 'Erro no servidor.'});
       });
       res.json({success : true, data : data});
-    }
+    }else{
+      res.json({success: false, message: 'Id não fornecido'}) 
+        }
 }
 
 controller.delete = async (req, res) => {

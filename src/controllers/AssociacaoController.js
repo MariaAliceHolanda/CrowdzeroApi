@@ -12,6 +12,7 @@ controllers.create = async (req, res) => {
 
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
+            attributes: ['id', 'nome_instituicao', 'qnt_espacos'],
             where: {token_acesso: token_access}
         }).then(function(data){
             return data
@@ -44,28 +45,28 @@ controllers.list = async (req, res) => {
     // ID da instituição
     const {id} = req.query
 
-    //SELECT * FROM ASSOCIACAO WHERE InstituiçõeId = 4
+    console.log(id)
 
     if (id){
-        const data = await sequelize.query(
-            `SELECT * FROM Instituicao_Associados INNER JOIN Associados on id=AssociadoId WHERE InstituiçõeId=4`, { model: Associacao, type: QueryTypes.SELECT })
+        const query = `
+        SELECT "Associados"."id", "Associados"."nome_user"
+        AS "nome", "Associados"."createdAt"
+        AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT MAX("createdAt")
+        FROM "Reportes" WHERE "Associados"."id" = "Reportes"."AssociadoId") AS ultimo
+        FROM "Instituicao_Associados" AS "Instituicao_Associados" 
+        INNER JOIN "Associados" ON "id"="AssociadoId"
+        WHERE "Instituicao_Associados"."InstituiçõeId" = ${id};`
+
+        const data = await sequelize.query(query, {type: QueryTypes.SELECT })
         .then(function(data){
             return data
         }).catch(e => {
-            console.log(e)
             return e
         })
         res.json({success: true, data: data})
-
+    }else{
+        res.json({success: false, message: 'Erro'})
     }
 }
-
-/**        var associados = await Instituicao.findOne({
-            include: {
-                model: Associado, 
-                attributes: ['nome_user', 'createdAt', 'qnt_reportes']},
-            where: {id: id},
-            attributes: ['id', 'nome_instituicao']
-        }) */
 
 module.exports = controllers;

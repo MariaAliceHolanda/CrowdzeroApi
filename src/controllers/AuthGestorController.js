@@ -30,7 +30,6 @@ controllers.register = async (req,res) => {
         longitude: lon,
         token_acesso: token_acesso
     }).catch(e =>{
-        console.log(e)
         res.json({success: false, message: "Ocorreu um erro no servidor. Tente novamente."})
         return e
     })
@@ -45,7 +44,7 @@ controllers.register = async (req,res) => {
         .then(function(data){
             return data;
         }).catch(error =>{
-            return error;
+            return res.json({success: false, message: 'Falha'});
         })
         res.status(200).json({
             success: true,
