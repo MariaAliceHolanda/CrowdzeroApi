@@ -69,33 +69,25 @@ controller.calculaEstado = async (req,res) => {
 
         const reporteBaixo = await Reporte.count({
             where: { 
-                $and : [
-                    Sequelize.where(Sequelize.fn('datediff', sequelize.fn("NOW") , sequelize.col('createdAt')), {
-                        [Op.lt]: 60,               
-                    }) ,
-                    {nivel_reporte: 1, LocaiId: id}
-                ]
+                
+                    nivel_reporte: 1, LocaiId: id
+                
             } 
             
         })
         const reporteMedio = await Reporte.count({
-            where: { 
-                $and : [
-                    Sequelize.where(Sequelize.fn('datediff', sequelize.fn("NOW") , sequelize.col('createdAt')), {
-                        [Op.lt]: 60,               
-                    }) ,
-                    {nivel_reporte: 2, LocaiId: id}
-                ]
-            } 
+            
+                Where: {nivel_reporte: 2, LocaiId: id}
         })
         const reporteAlto = await Reporte.count({
             where: { 
-                $and : [
+                nivel_reporte: 3, LocaiId: id
+                /*$and : [
                     Sequelize.where(Sequelize.fn('datediff', sequelize.fn("NOW") , sequelize.col('createdAt')), {
                         [Op.lt]: 60,               
                     }) ,
                     {nivel_reporte: 3, LocaiId: id}
-                ]
+                ]*/
             } 
         })
         
