@@ -9,5 +9,6 @@ const associacaoController = require('../controllers/AssociacaoController')
 router.post('/create', associacaoController.create);
 router.get('/list', middleware.checkToken, associacaoController.list);
 router.get('/associacoes/:id',associacaoController.MinhasAssociacoes);
+router.get('/rakingUsers',associacaoController.RankingUsers);
 
 module.exports = router;
