@@ -31,6 +31,10 @@ divisao:  {
         type: Sequelize.INTEGER,
         defaultValue: 0,
         values: [0, 1, 2, 3]
+},
+nivel: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
 }
 });
 
