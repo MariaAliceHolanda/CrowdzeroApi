@@ -3,6 +3,7 @@ var Sequelize = require('sequelize');
 var sequelize = require('../model/database');
 const Associados = require('../model/associados');
 const Locais = require('../model/locais');
+const { QueryTypes } = require('sequelize');
 //const { Sequelize } = require('sequelize/types');
 //const { now } = require('sequelize/types/lib/utils');
 const controller = {}
@@ -66,31 +67,13 @@ controller.UpdatePontuacao = async (req,res) => {
 controller.calculaEstado = async (req,res) => {
     const { id } = req.params;
     try {
+        const query = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 1;`
+        const query2 = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 2;`
+        const query3  = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 3;`
+        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
+        const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
+        const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
 
-        const reporteBaixo = await Reporte.count({
-            where: { 
-                
-                    nivel_reporte: 1, LocaiId: id
-                
-            } 
-            
-        })
-        const reporteMedio = await Reporte.count({
-            
-                Where: {nivel_reporte: 2, LocaiId: id}
-        })
-        const reporteAlto = await Reporte.count({
-            where: { 
-                nivel_reporte: 3, LocaiId: id
-                /*$and : [
-                    Sequelize.where(Sequelize.fn('datediff', sequelize.fn("NOW") , sequelize.col('createdAt')), {
-                        [Op.lt]: 60,               
-                    }) ,
-                    {nivel_reporte: 3, LocaiId: id}
-                ]*/
-            } 
-        })
-        
         var estado = 0
         if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
            estado = 1
