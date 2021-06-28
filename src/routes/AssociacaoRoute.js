@@ -8,5 +8,6 @@ const associacaoController = require('../controllers/AssociacaoController')
 
 router.post('/create', associacaoController.create);
 router.get('/list', middleware.checkToken, associacaoController.list);
+router.get('/associacoes/:id',associacaoController.MinhasAssociacoes);
 
 module.exports = router;
