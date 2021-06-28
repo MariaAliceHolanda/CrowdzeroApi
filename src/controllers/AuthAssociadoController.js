@@ -64,7 +64,7 @@ controllers.login = async (req,res) => {
                 res.json({success: false, message: 'Erro.'})
             })*/
 
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data.id});
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
         }
         else {
         res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
