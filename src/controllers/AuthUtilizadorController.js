@@ -58,7 +58,7 @@ controllers.login = async (req,res) => {
         }
     }
     else {
-     res.json({success: false, message: 'Dados de autenticação inválidos.'});
+     res.json({success: false, message: 'Dados de autenticação inválidos.', data: data});
      }
 
     }
