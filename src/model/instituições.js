@@ -40,7 +40,19 @@ qnt_associados: {
 estado_instituicao: {
         type: Sequelize.INTEGER,
         defaultValue: 0
-}
+},
+qtd_reporte_baixo: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+},
+qtd_reporte_medio: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+},
+qtde_reporte_alto: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+},
 });
 
 Instituições.hasOne(Gestores)
