@@ -52,7 +52,7 @@ controllers.login = async (req,res) => {
 
             console.log(token)
 
-            const dadosAtualizados = Associados.findOne({
+            const dadosAtualizados = await Associados.findOne({
                 attributes:{include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
                 exclude: ['password_user']
                 },
