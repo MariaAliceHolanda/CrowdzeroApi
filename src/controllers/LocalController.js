@@ -7,11 +7,10 @@ const { QueryTypes } = require('sequelize');
 sequelize.sync()
 
 controller.create = async (req,res) => {
-    const { nomelocal, fotolocal, instituicaoID, descricaolocal} = req.body;
+    const { nomelocal, instituicaoID, descricaolocal} = req.body;
     // create
     const data = await Local.create({
       nome_local: nomelocal,
-      foto_local: fotolocal,
       descricao_local: descricaolocal,
       InstituiçõeId: instituicaoID
     })
@@ -70,12 +69,11 @@ controller.list = async (req, res) => {
       })
       .catch(error => {
         return error
-      // res.json({success : false, message: 'Erro no servidor.'});
       });
       res.json({success : true, data : data});
     }else{
       res.json({success: false, message: 'Id não fornecido'}) 
-        }
+    }
 }
 
 controller.delete = async (req, res) => {

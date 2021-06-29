@@ -17,15 +17,13 @@ function generateOTP() {
 }
 
 controllers.register = async (req,res) => {
-    const {nome, email, password, nome_empresa, contacto_empresa, foto_empresa, email_empresa, lat, lon} = req.body;
+    const {nome, email, password, nome_empresa, contacto_empresa, lat, lon} = req.body;
 
     var token_acesso = generateOTP()
 
     var instituicao = await Instituicao.create({
         nome_instituicao: nome_empresa,
-        contacto_instituicao: contacto_empresa, 
-        email_instituicao: email_empresa,
-        foto_instituicao: foto_empresa,
+        contacto_instituicao: contacto_empresa,
         latitude: lat,
         longitude: lon,
         token_acesso: token_acesso
@@ -56,6 +54,7 @@ controllers.register = async (req,res) => {
 
 controllers.login = async (req,res) => {
     const {email, password} = req.body
+
     if (email && password) {
         var gestor = await Gestor.findOne({where: {email: email}})
         .then(function(data){
@@ -65,14 +64,18 @@ controllers.login = async (req,res) => {
             res.json({success: false, message: 'Campos incorretos.'})
         })
 
-        const isMatch = bcrypt.compareSync(password, gestor.password)
-        if (email === gestor.email && isMatch){
-            let token = jwt.sign({email: email}, config.jwtSecret,
-                {expiresIn: '1h' //expira em 1 hora
-                });
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
+        if (gestor){
+            const isMatch = bcrypt.compareSync(password, gestor.password)
+            if (email === gestor.email && isMatch){
+                let token = jwt.sign({email: email}, config.jwtSecret,
+                    {expiresIn: '1h' //expira em 1 hora
+                    });
+                res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
+            }else{
+                res.json({success: false, message:' Erro, password inválida.'});
+            }
         }else{
-            res.json({success: false, message:' Erro, password inválida.'});
+            res.json({success: false, message: 'Campos incorretos.'})
         }
     }else{
         res.json({success: false, message: 'Campos em branco'})

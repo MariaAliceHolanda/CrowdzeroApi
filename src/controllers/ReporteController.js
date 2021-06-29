@@ -22,6 +22,21 @@ controller.create = async (req,res) => {
             AssociadoId: associadoId,
         })
 
+        let qtde_incrementar
+        if (nivelReporte == 0){
+            qtde_incrementar = 'qtd_reporte_baixo'
+        }else if (nivelReporte == 1){
+            qtde_incrementar = 'qtd_reporte_medio'
+        }else if (nivelReporte == 2){
+            qtde_incrementar = 'qtde_reporte_alto'
+        }
+
+        var local = await Locais.findOne({
+                where: {id: localId}
+        })
+
+        await local.increment(qtde_incrementar, {by: 1})
+
         return res.status(200).json(data)
         
     } catch (error) {
@@ -122,18 +137,25 @@ controller.getReportes = async (req, res) => {
     const {filtro, id} = req.query
 
     if (id){
+        const query = `SELECT TOP qtd_reporte_baixo + qtd_reporte_medio + qtde_reporte_alto AS QuantidadeReportes FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}`
         var data = await Locais.findAll({
             where: {InstituiçõeId: id},
             attributes: ['id', ['nome_local', 'local'], ['qtde_reporte_alto', 'alta'], ['qtd_reporte_medio', 'média'], ['qtd_reporte_baixo', 'baixa']]
-        }).then(function(data){
+        }) 
+        .then(function(data){
             return data
         }).catch(e =>{
             return e
         })
-        console.log(data)
         res.json({success: true, message: 'Dados obtidos com sucesso.', data: data})
     }else{
         res.json({success: false, message: 'ID não fornecido.'})
     }
 }
 module.exports = controller
+
+/**
+        
+        
+        sequelize.query(query, {type: QueryTypes.SELECT})
+        */

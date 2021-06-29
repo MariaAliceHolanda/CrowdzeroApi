@@ -12,7 +12,7 @@ controllers.create = async (req, res) => {
 
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
-            attributes: ['id', 'nome_instituicao', 'qnt_espacos'],
+            attributes: ['id', ['nome_instituicao', 'instituição'], ['qnt_espacos', 'espacos']],
             where: {token_acesso: token_access}
         }).then(function(data){
             return data
