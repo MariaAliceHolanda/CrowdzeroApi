@@ -112,7 +112,6 @@ controller.maisReportado = async (req, res) => {
 }
 
 
-
 /*controller.list = async (req, res) => {
   const {id} = req.params.id
   if (id){
