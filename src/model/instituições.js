@@ -24,7 +24,7 @@ nome_instituicao: {
         allowNull: false
 },
 token_acesso: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
         unique: true,
         allowNull: false
 },
