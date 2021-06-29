@@ -25,15 +25,15 @@ password_user:{
 pontuacao_user: {
         type:Sequelize.INTEGER,
         defaultValue: 0
-        },
+},
+qnt_conquistas: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+},        
 qnt_reportes:{
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-conquistas: {
-        type: Sequelize.INTEGER,
-}
-
 });
 
 Associados.beforeCreate((utilizadores, options) => {

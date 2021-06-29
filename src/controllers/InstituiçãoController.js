@@ -37,7 +37,7 @@ data: data
 });
 }
 controller.get = async (req,res) => {
-    const { id } = req.params;
+    const { id } = req.query;
     const data = await Instituição.findAll({
     where: { id: id },
     })

@@ -9,35 +9,41 @@ sequelize.sync()
 controller.create = async (req,res) => {
     const { nomelocal, instituicaoID, descricaolocal} = req.body;
     // create
-    const data = await Local.create({
-      nome_local: nomelocal,
-      descricao_local: descricaolocal,
-      InstituiçõeId: instituicaoID
-    })
-    .then(function(data){
-      return data;
-    })
-    .catch(error =>{
-      return res.json({sucess: false, message: 'Erro'})
-        })
 
-    const instituicao = await Instituições.findOne({
-      where: {id: instituicaoID}
-    })
-
-    if (instituicao){
-      const increment = await instituicao.increment('qnt_espacos',{by: 1})
+    if (nomelocal && instituicaoID && descricaolocal){
+      const data = await Local.create({
+        nome_local: nomelocal,
+        descricao_local: descricaolocal,
+        InstituiçõeId: instituicaoID
+      })
+      .then(function(data){
+        return data;
+      })
+      .catch(error =>{
+        return res.json({sucess: false, message: 'Erro'})
+          })
+  
+      const instituicao = await Instituições.findOne({
+        where: {id: instituicaoID}
+      })
+  
+      if (instituicao){
+        const increment = await instituicao.increment('qnt_espacos',{by: 1})
+      }else{
+        res.json({
+          success: false,
+          message:"erro no registo, instituição não existente",
+      }); 
+      }
+      // return res
+      res.status(200).json({
+          success: true,
+          message:"Local registado com sucesso"
+      });
     }else{
-      res.json({
-        success: false,
-        message:"erro no registo, instituição não existente",
-    }); 
+      res.json({success: false, message: 'Erro ao registar local'})
     }
-    // return res
-    res.status(200).json({
-        success: true,
-        message:"Local registado com sucesso"
-    });
+   
 }
 
 controller.get = async (req,res) => {
@@ -72,7 +78,8 @@ controller.list = async (req, res) => {
       });
       res.json({success : true, data : data});
     }else{
-      res.json({success: false, message: 'Id não fornecido'}) 
+      console.log("SEM ID")
+      res.json({success: false, message: 'ID não fornecido'}) 
     }
 }
 
