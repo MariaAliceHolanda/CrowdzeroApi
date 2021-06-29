@@ -89,9 +89,9 @@ controller.calculaEstado = async (req,res) => {
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
         const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
-        const {reporteBaixo} = await sequelize.query(query,{ type: QueryTypes.SELECT });
-        const {reporteMedio} = await sequelize.query(query2,{ type: QueryTypes.SELECT });
-        const {reporteAlto} = await sequelize.query(query3,{ type: QueryTypes.SELECT });
+        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
+        const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
+        const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
 
         var estado = 0
         if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
@@ -103,9 +103,9 @@ controller.calculaEstado = async (req,res) => {
         
 
         const data = await Locais.update({
-          qtd_reporte_baixo: reporteBaixo,
-          qtd_reporte_medio: reporteMedio,
-          qtd_reporte_alto: reporteAlto,
+          //qtd_reporte_baixo: reporteBaixo,
+          //qtd_reporte_medio: reporteMedio,
+          //qtd_reporte_alto: reporteAlto,
           estado_local: estado
         },
         {
@@ -118,14 +118,14 @@ controller.calculaEstado = async (req,res) => {
         return error;
         })
 
-        const dados = {
+        /*const dados = {
             baixo: reporteBaixo,
             medio:reporteMedio,
             alto: reporteAlto,
             estadoLocal: estado
-        }
+        }*/
 
-        return res.status(200).json(dados)
+        return res.status(200).json(estado)
         
     } catch (error) {
         console.log("Erro: "+error)
