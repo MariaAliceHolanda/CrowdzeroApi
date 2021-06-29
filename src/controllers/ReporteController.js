@@ -41,7 +41,7 @@ controller.create = async (req,res) => {
         else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
            estado = 3
         
-
+        console.log(estado)
         const dado = await Locais.update({
           //qtd_reporte_baixo: reporteBaixo,
           //qtd_reporte_medio: reporteMedio,
