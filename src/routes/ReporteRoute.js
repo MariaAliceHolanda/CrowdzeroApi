@@ -6,7 +6,7 @@ const middleware = require('../middleware')
 const reporteController = require('../controllers/ReporteController')
 router.post('/create',reporteController.create);
 router.get('/UpdatePontuacao/:id',reporteController.UpdatePontuacao);
-router.get('/getEstado/:id',reporteController.calculaEstado);
+//router.get('/getEstado/:id',reporteController.calculaEstado);
 
 // ALTERAÇÕES --- MARIA EDUARDA
 router.get('/getGrafico', reporteController.getReportes)
