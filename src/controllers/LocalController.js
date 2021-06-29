@@ -54,6 +54,7 @@ controller.get = async (req,res) => {
     res.json({ success: true, data: data });
 }
 
+
 // Retorna todos locais de uma instituição
 controller.list = async (req, res) => {
     const {idInstituicao} = req.params;
