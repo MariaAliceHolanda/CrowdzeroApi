@@ -101,6 +101,18 @@ controller.delete = async (req, res) => {
 
 }
 
+controller.maisReportado = async (req, res) => {
+  const {id} = req.query
+
+  if (id){
+    var local = await Local.findOne({
+      where: {InstituiçõeId: id}
+    })
+  }
+}
+
+
+
 /*controller.list = async (req, res) => {
   const {id} = req.params.id
   if (id){

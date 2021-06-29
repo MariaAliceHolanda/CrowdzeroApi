@@ -78,7 +78,9 @@ controllers.login = async (req,res) => {
                     email: utilizador.email_user,
                     pontuacao: utilizador.pontuacao_user,
                     divisao: divisao,
-                    nivel: nivel
+                    nivel: nivel,
+                    reportes: utilizador.qnt_reportes,
+                    conquistas: utilizador.conquistas
                 }
     
                 res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
