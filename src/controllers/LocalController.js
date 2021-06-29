@@ -58,7 +58,7 @@ controller.get = async (req,res) => {
 controller.list = async (req, res) => {
     const {idInstituicao} = req.params;
 
-    if (idInstituicao){
+    if (idInstituicao != null){
       var data = await Local.findAll({
         attributes: ['id', ['nome_local', 'nome'], ['descricao_local', 'descricao'], ['estado_local', 'status']],
         group: ['Locais.id'],
