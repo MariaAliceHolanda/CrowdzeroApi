@@ -7,17 +7,17 @@ sequelize.sync()
 const { QueryTypes } = require('sequelize');
 
 controllers.validate = async (req, res) => {
-    const {token_access, id} = req.body
+    const {token_access} = req.body
 
-    if (token_access && id){
-        await Instituicao.findOne({
+    if (token_access){
+        instituicao  = await Instituicao.findOne({
             where: {token_acesso: token_access}
         }).then(function(data){
             return data
         }).catch(err => {
             res.json({success: false, message: 'Token inválido. Tente novamente.'})
         })
-        res.json({success: true, message:'Token válido. Associação a ser completa'});
+        res.json({success: true, message:'Token válido. Associação a ser completa', data: instituicao});
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
     }
@@ -48,8 +48,7 @@ controllers.create = async (req, res) => {
         var increment = await instituicao.increment('qnt_associados',{by: 1})
         res.status(200).json({
             success: true,
-            messagem: 'Associação realizada',
-            data: instituicao
+            messagem: 'Associação realizada'
         })
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
