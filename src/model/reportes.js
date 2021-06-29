@@ -10,7 +10,8 @@ id: {
 },
 nivel_reporte: {
         type: Sequelize.INTEGER,
-        values: [0, 1, 2]
+        values: [0, 1, 2],
+        allowNull: false
 }
 });
 
