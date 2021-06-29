@@ -9,7 +9,8 @@ id: {
 },
 tipo_alerta: {
         type: Sequelize.INTEGER,
-        values: [0, 1, 2]
+        values: [0, 1, 2],
+        allowNull: false
 },
 resolvido: Sequelize.BOOLEAN,
 });
