@@ -67,9 +67,9 @@ controller.UpdatePontuacao = async (req,res) => {
 controller.calculaEstado = async (req,res) => {
     const { id } = req.params;
     try {
-        const query = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 1;`
-        const query2 = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 2;`
-        const query3  = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60; AND nivel_reporte = 3;`
+        const query = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 1;`
+        const query2 = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 2;`
+        const query3  = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 3;`
         const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
         const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
