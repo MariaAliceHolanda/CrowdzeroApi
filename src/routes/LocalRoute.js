@@ -6,7 +6,7 @@ const middleware = require('../middleware')
 const localController = require('../controllers/LocalController')
 router.post('/create',localController.create);
 //router.get('/get/:id', middleware.checkToken, localController.get);
-router.get('/list/:id', localController.list);
+router.get('/list/:id',localController.list);
 router.post('/delete', localController.delete);
 //router.get('/list/:id',localController.list);
 /*router.get('/statusLocal/:id',localController.setStatusLocal);
