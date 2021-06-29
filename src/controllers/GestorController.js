@@ -52,4 +52,13 @@ controller.update = async (req, res) => {
     }
 }
 
+controller.list = async (req, res) => {
+    const data = await Gestor.findAll().then(function(data){
+        return data
+    }).catch(e => {
+        return e
+    })
+    res.json({success: true, data: data})
+}
+
 module.exports = controller
