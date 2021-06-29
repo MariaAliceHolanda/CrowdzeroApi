@@ -120,6 +120,20 @@ controller.calculaEstado = async (req,res) => {
 controller.getReportes = async (req, res) => {
     // Dados
     const {filtro, id} = req.query
-    res.json({success: true, message: 'Sucesso!', data: {filtro, id}})
+
+    if (id){
+        var data = await Locais.findAll({
+            where: {InstituiçõeId: id},
+            attributes: ['id', ['nome_local', 'local'], ['qtde_reporte_alto', 'alta'], ['qtd_reporte_medio', 'média'], ['qtd_reporte_baixo', 'baixa']]
+        }).then(function(data){
+            return data
+        }).catch(e =>{
+            return e
+        })
+        console.log(data)
+        res.json({success: true, message: 'Dados obtidos com sucesso.', data: data})
+    }else{
+        res.json({success: false, message: 'ID não fornecido.'})
+    }
 }
 module.exports = controller

@@ -7,7 +7,10 @@ id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
 },
-tipo_alerta: Sequelize.INTEGER,
+tipo_alerta: {
+        type: Sequelize.INTEGER,
+        values: [0, 1, 2]
+},
 resolvido: Sequelize.BOOLEAN,
 });
 

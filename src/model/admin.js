@@ -15,7 +15,7 @@ email: {
 password:{
         type: Sequelize.STRING,
         allowNull: false
-}
+},
 });
 
 Admin.beforeCreate((admin, options) => {

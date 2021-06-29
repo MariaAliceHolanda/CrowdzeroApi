@@ -7,7 +7,10 @@ id: {
         primaryKey: true,
         autoIncrement: true,
 },
-nome: Sequelize.STRING,
+nome: {
+        type: Sequelize.STRING,
+        allowNull: false
+},
 foto: Sequelize.STRING,
 email: {
         type: Sequelize.STRING,

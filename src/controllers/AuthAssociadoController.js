@@ -34,9 +34,12 @@ controllers.login = async (req,res) => {
     const {email, password} = req.body
 
     if (email && password) { 
-        var utilizador = await Associados.findOne({where: { email_user: email}})
+        var utilizador = await Associados.findOne({
+            where: {email: email},
+            attributes: ['id', 'email_user', 'pontuacao_user', 'qnt_reportes', 'divisao', 'nivel']
+        })
         .then(function(utilizador){
-        return utilizador;
+            return utilizador;
         }).catch(error =>{
         console.log("OCORREU UM ERRO: ");
         return error;
@@ -47,31 +50,15 @@ controllers.login = async (req,res) => {
             if (email === utilizador.email_user && isMatch) {
                 
            let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
-            {expiresIn: '1h' //expira em 1 hora
+            {expiresIn: '2h' //expira em 1 hora
             });
-
-            console.log(token)
-
-            const dadosAtualizados = await Associados.findOne({
-                attributes:{include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
-                exclude: ['password_user']
-                },
-                where: { id : utilizador.id } 
-            }).then(function(dadosAtualizados){
-            return dadosAtualizados;
-            }).catch(error =>{
-            console.log("Erro: "+error);
-                res.json({success: false, message: 'Erro.'})
-            })
-
-            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: dadosAtualizados});
+            res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: utilizador});
         }
         else {
         res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
         }
     }
     else {
-
      res.json({success: false, message: 'Dados de autenticação inválidos.', data: data});
      }
 

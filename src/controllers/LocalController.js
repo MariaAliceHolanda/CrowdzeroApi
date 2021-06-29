@@ -57,7 +57,7 @@ controller.get = async (req,res) => {
 
 // Retorna todos locais de uma instituição
 controller.list = async (req, res) => {
-    const {idInstituicao} = req.body;
+    const {idInstituicao} = req.query;
 
     if (idInstituicao){
       var data = await Local.findAll({
