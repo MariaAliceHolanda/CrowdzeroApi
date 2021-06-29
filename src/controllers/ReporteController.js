@@ -22,6 +22,42 @@ controller.create = async (req,res) => {
             AssociadoId: associadoId,
         })
 
+        // Atualiza Estado do Local
+        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
+        const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
+        const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
+        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
+        const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
+        const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
+
+        var estado = 0
+        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
+           estado = 1
+        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
+           estado = 2
+        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
+           estado = 3
+        
+
+        const dado = await Locais.update({
+          //qtd_reporte_baixo: reporteBaixo,
+          //qtd_reporte_medio: reporteMedio,
+          //qtd_reporte_alto: reporteAlto,
+          estado_local: estado
+        },
+        {
+        where: { id: localId}
+        })
+        .then( function(dado){
+        return dado;
+        })
+        .catch(error => {
+        return error;
+        })
+
         let qtde_incrementar
         if (nivelReporte == 0){
             qtde_incrementar = 'qtd_reporte_baixo'
