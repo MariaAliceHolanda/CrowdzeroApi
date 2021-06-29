@@ -51,8 +51,8 @@ controller.create = async (req,res) => {
         {
         where: { id: localId}
         })
-        .then( function(data){
-        return data;
+        .then( function(dado){
+        return dado;
         })
         .catch(error => {
         return error;
