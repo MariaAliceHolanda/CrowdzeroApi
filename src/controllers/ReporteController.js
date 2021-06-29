@@ -58,7 +58,7 @@ controller.create = async (req,res) => {
         return error;
         })
 
-        let qtde_incrementar
+        /*let qtde_incrementar
         if (nivelReporte == 0){
             qtde_incrementar = 'qtd_reporte_baixo'
         }else if (nivelReporte == 1){
@@ -71,7 +71,7 @@ controller.create = async (req,res) => {
                 where: {id: localId}
         })
 
-        await local.increment(qtde_incrementar, {by: 1})
+        await local.increment(qtde_incrementar, {by: 1})*/
 
         return res.status(200).json(data)
         
