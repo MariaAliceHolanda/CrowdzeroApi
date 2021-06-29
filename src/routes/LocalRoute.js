@@ -5,7 +5,7 @@ const middleware = require('../middleware')
 //importar os controladores
 const localController = require('../controllers/LocalController')
 router.post('/create',localController.create);
-//router.get('/get/:id', middleware.checkToken, localController.get);
+router.get('/get/:id', localController.get);
 router.get('/list/:id',localController.list);
 router.post('/delete', localController.delete);
 //router.get('/list/:id',localController.list);
