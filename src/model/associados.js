@@ -26,7 +26,7 @@ pontuacao_user: {
         type:Sequelize.INTEGER,
         defaultValue: 0
 },
-qnt_conquistas: {
+conquistas: {
         type: Sequelize.INTEGER,
         defaultValue: 0
 },        
