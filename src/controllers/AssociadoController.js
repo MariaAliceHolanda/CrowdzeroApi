@@ -1,5 +1,4 @@
 var Associados = require('../model/associados')
-var Utilizador = require('../model/utilizadores')
 var Instituição = require('../model/instituições')
 var sequelize = require('../model/database');
 const controller = {}

@@ -7,6 +7,7 @@ const middleware = require('../middleware')
 const associacaoController = require('../controllers/AssociacaoController')
 
 router.post('/create', associacaoController.create);
+router.post('/validate', associacaoController.validate)
 router.get('/list', middleware.checkToken, associacaoController.list);
 router.get('/associacoes/:id',associacaoController.MinhasAssociacoes);
 router.get('/rakingUsers',associacaoController.RankingUsers);

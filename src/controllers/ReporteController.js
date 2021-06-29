@@ -175,11 +175,41 @@ controller.getReportes = async (req, res) => {
     const {filtro, id} = req.query
 
     if (id){
-        const query = `SELECT TOP qtd_reporte_baixo + qtd_reporte_medio + qtde_reporte_alto AS QuantidadeReportes FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}`
-        var data = await Locais.findAll({
-            where: {InstituiçõeId: id},
-            attributes: ['id', ['nome_local', 'local'], ['qtde_reporte_alto', 'alta'], ['qtd_reporte_medio', 'média'], ['qtd_reporte_baixo', 'baixa']]
-        }) 
+        var query = `SELECT id, nome_local AS local, qtde_reporte_alto as alta,
+        qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
+        FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}
+        ORDER BY QuantidadeReportes DESC
+        LIMIT 7`
+
+        console.log(req.query)
+
+        if (filtro){
+            var filter = ``
+            if(filtro ==1){
+                filter = `<= now() - INTERVAL '7 DAYS`
+            }else if(filtro==2){
+                filter = `<= now() - INTERVAL '30 DAYS`
+            }else if(filtro==3){
+                filter = `<= now() - INTERVAL '30 DAYS`
+                console.log(filtro)
+            }
+
+
+            query = `
+            SELECT DISTINCT "Locais".id, "Locais"."nome_local" AS "local", "Locais"."qtde_reporte_alto" AS alto,
+            "Locais"."qtd_reporte_medio" AS média, "Locais"."qtd_reporte_baixo" AS baixa, 
+            MAX("Reportes"."createdAt") as "data_ultimo_reporte"
+            FROM "Reportes"
+            INNER JOIN
+            "Locais"
+            ON "Locais".id="Reportes"."LocaiId"
+            WHERE "data_ultimo_reporte" = '2021-06-28'
+            GROUP BY "Locais"."nome_local", "Locais".id
+            LIMIT 7
+            `
+        }
+        
+        var data = await sequelize.query(query, {type: QueryTypes.SELECT})
         .then(function(data){
             return data
         }).catch(e =>{
@@ -192,8 +222,12 @@ controller.getReportes = async (req, res) => {
 }
 module.exports = controller
 
-/**
+/**     SELECT id, nome_local AS local, qtde_reporte_alto as alta,
+            qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
+            FROM "Locais" WHERE "Locais"."InstituiçõeId"=1 AND "Locais"."updatedAt" ${filter}'
+            ORDER BY QuantidadeReportes DESC
+            LIMIT 7
         
         
-        sequelize.query(query, {type: QueryTypes.SELECT})
+       
         */
