@@ -37,6 +37,43 @@ controller.create = async (req,res) => {
 
         await local.increment(qtde_incrementar, {by: 1})
 
+        // Atualiza Estado do Local
+        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
+        const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
+        const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
+        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
+        const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
+        const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
+
+        var estado = 0
+        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
+           estado = 1
+        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
+           estado = 2
+        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
+           estado = 3
+        
+
+        const dado = await Locais.update({
+          //qtd_reporte_baixo: reporteBaixo,
+          //qtd_reporte_medio: reporteMedio,
+          //qtd_reporte_alto: reporteAlto,
+          estado_local: estado
+        },
+        {
+        where: { id: localId}
+        })
+        .then( function(data){
+        return data;
+        })
+        .catch(error => {
+        return error;
+        })
+
+
         return res.status(200).json(data)
         
     } catch (error) {
@@ -79,8 +116,8 @@ controller.UpdatePontuacao = async (req,res) => {
     res.json({success:true, data:dados, message:"Updated successful"});
 }
 
-controller.calculaEstado = async (req,res) => {
-    const { id } = req.params;
+function calculaEstadoLocal(id) {
+    
     try {
         
         const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
@@ -125,11 +162,9 @@ controller.calculaEstado = async (req,res) => {
             estadoLocal: estado
         }*/
 
-        return res.status(200).json(estado)
-        
+        return estado;
     } catch (error) {
-        console.log("Erro: "+error)
-        return res.status(500).json(error)
+        return 0;
     }
 };
 
