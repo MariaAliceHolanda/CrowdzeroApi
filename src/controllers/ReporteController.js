@@ -82,9 +82,13 @@ controller.UpdatePontuacao = async (req,res) => {
 controller.calculaEstado = async (req,res) => {
     const { id } = req.params;
     try {
-        const query = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 1;`
-        const query2 = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 2;`
-        const query3  = `SELECT count(*) FROM "Reportes" where LocaiId = ${id} AND DATEDIFF(MINUTE,createdAt,GETDATE()) <= 60 AND nivel_reporte = 3;`
+        
+        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
+        const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
+        const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
         const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
         const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
@@ -96,13 +100,12 @@ controller.calculaEstado = async (req,res) => {
            estado = 2
         else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
            estado = 3
-        else
-           estado = 1
+        
 
         const data = await Locais.update({
-          qtd_reporte_baixo: reporteBaixo,
-          qtd_reporte_medio: reporteMedio,
-          qtd_reporte_alto: reporteAlto,
+          //qtd_reporte_baixo: reporteBaixo,
+          //qtd_reporte_medio: reporteMedio,
+          //qtd_reporte_alto: reporteAlto,
           estado_local: estado
         },
         {
@@ -115,14 +118,14 @@ controller.calculaEstado = async (req,res) => {
         return error;
         })
 
-        const dados = {
+        /*const dados = {
             baixo: reporteBaixo,
             medio:reporteMedio,
             alto: reporteAlto,
             estadoLocal: estado
-        }
+        }*/
 
-        return res.status(200).json(dados)
+        return res.status(200).json(estado)
         
     } catch (error) {
         console.log("Erro: "+error)
