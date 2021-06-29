@@ -27,6 +27,9 @@ estado_local: {
         defaultValue: 0,
         values: [0, 1, 2, 3, 4] 
 },
+ultimo_reporte: {
+        type: Sequelize.DATE
+},
 descricao_local: Sequelize.STRING,
 });
 

@@ -30,15 +30,10 @@ qnt_reportes:{
         type: Sequelize.INTEGER,
         defaultValue: 0
 },
-divisao:  {
+conquistas: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
-        values: [0, 1, 2, 3]
-},
-nivel: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
 }
+
 });
 
 Associados.beforeCreate((utilizadores, options) => {
