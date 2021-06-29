@@ -121,19 +121,24 @@ controller.getReportes = async (req, res) => {
     // Dados
     const {filtro, id} = req.query
 
+    console.log("FILTRO: ", filtro)
+
     if (id){
-        var data = await Locais.findAll({
-            where: {InstituiçõeId: id},
-            attributes: ['id', ['nome_local', 'local'], ['qtde_reporte_alto', 'alta'], ['qtd_reporte_medio', 'média'], ['qtd_reporte_baixo', 'baixa']]
-        }).then(function(data){
+        const query = `SELECT TOP qtd_reporte_baixo + qtd_reporte_medio + qtde_reporte_alto AS QuantidadeReportes FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}`
+        var data = await sequelize.query(query, {type: QueryTypes.SELECT})
+        .then(function(data){
             return data
         }).catch(e =>{
             return e
         })
-        console.log(data)
         res.json({success: true, message: 'Dados obtidos com sucesso.', data: data})
     }else{
         res.json({success: false, message: 'ID não fornecido.'})
     }
 }
 module.exports = controller
+
+/**Locais.findAll({
+            where: {InstituiçõeId: id},
+            attributes: ['id', ['nome_local', 'local'], ['qtde_reporte_alto', 'alta'], ['qtd_reporte_medio', 'média'], ['qtd_reporte_baixo', 'baixa']]
+        }) */

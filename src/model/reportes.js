@@ -8,7 +8,10 @@ id: {
         primaryKey: true,
         autoIncrement: true,  
 },
-nivel_reporte: Sequelize.INTEGER,
+nivel_reporte: {
+        type: Sequelize.INTEGER,
+        values: [0, 1, 2]
+}
 });
 
 Reportes.belongsTo(Locais)
