@@ -170,7 +170,7 @@ controller.calculaEstado = async (req,res) => {
 };
 
 
-// OBTER DADOS DE REPORTE PARA GRÁFICO
+//  TERMINAR ESTA FUNÇÃO
 controller.getReportes = async (req, res) => {
     // Dados
     const {filtro, id} = req.query

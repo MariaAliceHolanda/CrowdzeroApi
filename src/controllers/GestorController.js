@@ -5,7 +5,6 @@ sequelize.sync()
 
 controller.get = async (req, res) => {
     const {id} = req.query
-    console.log(id)
     if (id){
         var data = await Gestor.findOne({where: {id: id}})
         .then(function(data){
@@ -29,6 +28,37 @@ controller.get = async (req, res) => {
     }else {
         res.json({success: false, message: 'Id não fornecido.'});
         }
+}
+
+controller.update = async (req, res) => {
+    const {id} = req.query
+
+    const {nome, email} = req.body
+
+    if (id){
+        const data = await Gestor.update({
+            nome: nome,
+            email: email
+        },{ 
+            where: {id: id}
+        }).then(function(data){
+            return data
+        }).catch(e => {
+            return e
+        })
+        res.json({success:true, data:data, message:"Updated successful"});
+    }else{
+        res.json({success:false, message:"Updated unsuccessful"});
+    }
+}
+
+controller.list = async (req, res) => {
+    const data = await Gestor.findAll().then(function(data){
+        return data
+    }).catch(e => {
+        return e
+    })
+    res.json({success: true, data: data})
 }
 
 module.exports = controller

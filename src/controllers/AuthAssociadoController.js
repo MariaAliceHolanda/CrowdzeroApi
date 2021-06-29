@@ -8,7 +8,7 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
 
-    console.log(nome, email, password)
+    const {nome, email ,password} = req.body
 
     if (nome && email && password){
         const data = await Associados.create({
@@ -31,6 +31,23 @@ controllers.register = async (req,res) => {
     }
 }
 
+function getDivisao(utilizador){
+    if (utilizador.pontuacao_user < 100){
+       return 0
+    }else if (utilizador.pontuacao_user  > 100 && utilizador.pontuacao_user < 300){
+       return 1
+    }else if (utilizador.pontuacao_user > 400 && utilizador.pontuacao_user < 600){
+        return 2
+    }else if (utilizador.pontuacao_user > 700){
+        return 3
+    }
+    return 0
+}
+
+function getNivel(utilizador){
+    return Math.ceil(utilizador.pontuacao_user / 20);
+}
+
 controllers.login = async (req,res) => {
     const {email, password} = req.body
 
@@ -51,20 +68,22 @@ controllers.login = async (req,res) => {
                let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
                 {expiresIn: '1h' //expira em 1 hora
                 });
+
+                const divisao = getDivisao(utilizador)
+                const nivel = getNivel(utilizador)
+
+                const data = {
+                    id: utilizador.id,
+                    nome: utilizador.nome_user,
+                    email: utilizador.email_user,
+                    pontuacao: utilizador.pontuacao_user,
+                    divisao: divisao,
+                    nivel: nivel,
+                    reportes: utilizador.qnt_reportes,
+                    conquistas: utilizador.conquistas
+                }
     
-                const dadosAtualizados = await Associados.findOne({
-                    attributes:{include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
-                    exclude: ['password_user']
-                    },
-                    where: { id : utilizador.id } 
-                }).then(function(dadosAtualizados){
-                return dadosAtualizados;
-                }).catch(error =>{
-                console.log("Erro: "+error);
-                    res.json({success: false, message: 'Erro.'})
-                })
-    
-                res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: dadosAtualizados});
+                res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, data: data});
             }
     
         }else {

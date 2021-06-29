@@ -5,5 +5,5 @@ const router = express.Router();
 
 //importar os controladores
 const alertaController = require('../controllers/AlertaController')
-router.get('/list/:id',alertaController.getAlertas);
+router.get('/list',alertaController.list);
 module.exports = router;

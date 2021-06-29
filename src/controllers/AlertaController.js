@@ -30,25 +30,21 @@ data: data
 });
 }
 
-controller.getAlertas = async (req,res) => {
+controller.list = async (req,res) => {
     // data
-    const { id } = req.params;
+    const { id } = req.query;
     // create
     const data = await Alerta.findAll(
-        { where: { gestoreId: id }, include: [Local]}
+        { where: { GestoreId: id }, include: [Local]}
     )
     .then(function(data){
     return data;
     })
     .catch(error =>{
-    console.log("Erro: "+error)
-    return error;
+        res.status(404).json({success: false, message: 'Alertas não encontrados'});
     })
     // return res
-    res.status(200).json({
-        success: true,
-        data: data
-});
+    res.status(200).json({success: true,data: data});
 }
 
 
