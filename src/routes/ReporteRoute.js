@@ -9,5 +9,5 @@ router.get('/UpdatePontuacao/:id',reporteController.UpdatePontuacao);
 //router.get('/getEstado/:id',reporteController.calculaEstado);
 
 // ALTERAÇÕES --- MARIA EDUARDA
-router.get('/getGrafico', reporteController.getReportes)
+//router.get('/getGrafico', reporteController.getReportes)
 module.exports = router;
