@@ -8,7 +8,7 @@ sequelize.sync()
 
 controllers.register = async (req,res) => {
 
-    console.log(nome, email, password)
+    const {nome, email ,password} = req.body
 
     if (nome && email && password){
         const data = await Associados.create({
@@ -51,9 +51,10 @@ controllers.login = async (req,res) => {
                let token = jwt.sign({email_user: req.body.email}, config.jwtSecret,
                 {expiresIn: '1h' //expira em 1 hora
                 });
+                
     
                 const dadosAtualizados = await Associados.findOne({
-                    attributes:{include :['id','email_user','pontuacao_user', 'qnt_reportes','divisao','nivel'],
+                    attributes:{include :['id',['email_user', 'email'],['pontuacao_user', 'pontuacao']],
                     exclude: ['password_user']
                     },
                     where: { id : utilizador.id } 
