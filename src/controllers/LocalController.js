@@ -47,8 +47,8 @@ controller.create = async (req,res) => {
 }
 
 controller.get = async (req,res) => {
-    const { id } = req.params;
-    const data = await Local.findAll({
+    const { id } = req.query;
+    const data = await Local.findOne({
     where: { id: id },
     })
     .then(function(data){
@@ -63,13 +63,13 @@ controller.get = async (req,res) => {
 
 // Retorna todos locais de uma instituição
 controller.list = async (req, res) => {
-    const {idInstituicao} = req.params;
+    const {id} = req.query;
 
-    if (idInstituicao){
+    if (id){
       var data = await Local.findAll({
         attributes: ['id', ['nome_local', 'nome'], ['descricao_local', 'descricao'], ['estado_local', 'status']],
         group: ['Locais.id'],
-        where: {InstituiçõeId: idInstituicao},
+        where: {InstituiçõeId: id},
       })
       .then(function(data){
       return data;
@@ -79,7 +79,6 @@ controller.list = async (req, res) => {
       });
       res.json({success : true, data : data});
     }else{
-      console.log("SEM ID")
       res.json({success: false, message: 'ID não fornecido'}) 
     }
 }
