@@ -85,9 +85,9 @@ controller.calculaEstado = async (req,res) => {
         
         const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
-        const query2 = `ELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
-        const query3  = `ELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
         const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
@@ -100,8 +100,7 @@ controller.calculaEstado = async (req,res) => {
            estado = 2
         else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
            estado = 3
-        else
-           estado = 1
+        
 
         const data = await Locais.update({
           qtd_reporte_baixo: reporteBaixo,
