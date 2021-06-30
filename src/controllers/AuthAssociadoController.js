@@ -58,7 +58,7 @@ controllers.login = async (req,res) => {
         .then(function(utilizador){
             return utilizador;
         }).catch(error =>{
-        return error;
+            res.status(404).json({success: false, message: 'Não encontrado'})
         })
         
         if (utilizador && utilizador.password_user){

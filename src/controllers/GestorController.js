@@ -30,6 +30,24 @@ controller.get = async (req, res) => {
         }
 }
 
+controller.instituicao = async (req, res) => {
+    const {id} = req.query
+
+    if (id){
+        instituicao = await Gestor.findOne({
+            where: {InstituiçõeId: id}
+        }).then(function(data){
+            return data
+        }).catch(e=>{
+            return e
+        })
+
+        res.status(200).json({success: true, message: 'Success', data: instituicao})
+    }else{
+        res.json({success: false, message: 'Erro'})
+    }
+}
+
 controller.update = async (req, res) => {
     const {id} = req.query
 

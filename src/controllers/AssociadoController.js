@@ -20,35 +20,23 @@ controller.delete = async (req, res) => {
   }
 }
 
- // Lista instituições que utilizador é associado
-/*controller.list = async (req, res) => {
-    const {utilizador } = req.params;
-    const data = await Associados.findAll({
-      where: {utilizadoreId: utilizador},
-      include: [Instituição]
+controller.get = async (req, res) => {
+  const {id} = req.query
+
+  if (id){
+    const data = await Associados.findOne({
+      where: {id: id}
+    }).then(function(data){
+      return data
+    }).catch(e=>{
+      return e
     })
-    .then(function(data){
-    return data;
-    })
-    .catch(error => {
-    return error;
-    });
-    res.json({success : true, data : data});
+    res.status(200).json({success: true, message: 'Sucesso', data: data})
+  }else{
+    res.json({success: false, message: 'Campos em Branco'})
+  }
+
 }
-// Retorna Utilizadores associados a instituição
-controller.getAssociados  = async (req, res) => {
-  const {instituiçõeId} = req.params;
-  const data = await Associados.findAll(
-    { where: { instituiçõeId: instituiçõeId }, include: [Utilizador]},
-  )
-  .then(function(data){
-  return data;
-  })
-  .catch(error => {
-  return error;
-  });
-  res.json({success : true, data : data});
-}*/
 
 /*controller.create = async (req,res) => {
     // data
