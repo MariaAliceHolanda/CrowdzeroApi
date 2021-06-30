@@ -177,7 +177,7 @@ controller.create = async (req,res) => {
     }
 };
 
-//  TERMINAR ESTA FUNÇÃO
+
 controller.getReportes = async (req, res) => {
     // Dados
     const {data} = req.body
