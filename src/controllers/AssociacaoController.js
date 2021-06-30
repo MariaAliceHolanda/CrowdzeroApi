@@ -98,9 +98,15 @@ controllers.list = async (req, res) => {
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
     const data = await sequelize.query(
-        `SELECT "Instituições".id, latitude, longitude, nome_instituicao,estado_instituicao
-	FROM "Instituições" inner join "Instituicao_Associados" on "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
-	inner join "Associados" on "Instituicao_Associados"."AssociadoId" = "Associados"."id" where "AssociadoId" =  ${id};`
+        `SELECT DISTINCT "Instituições".id, MAX("Locais"."ultimo_reporte") AS ultimo_reporte,
+        latitude, longitude, nome_instituicao, estado_instituicao
+        FROM
+        "Instituições" 
+        INNER JOIN "Instituicao_Associados" ON "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
+        INNER JOIN "Associados" ON "Instituicao_Associados"."AssociadoId" = "Associados"."id"
+        INNER JOIN "Locais" ON "Locais"."InstituiçõeId"="Instituições".id
+        WHERE "AssociadoId" =  ${id}
+        GROUP BY "Instituições".id, latitude, longitude, nome_instituicao, estado_instituicao`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){
     return data;
