@@ -46,6 +46,10 @@ app.use('/associado',associadoRouters)
 // Rotas: registar e login
 app.use('/auth', authRoute);
 
+//Executa tarefas agendadas a cada uma hora
+
+cron.schedule('* * * * * *', () => console.log('Funcao cron rodando'))
+
 app.listen(app.get('port'),()=>{
 console.log("Start server on port "+app.get('port'))
 })
