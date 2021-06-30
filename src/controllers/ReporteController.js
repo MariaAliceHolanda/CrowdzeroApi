@@ -94,18 +94,23 @@ controller.create = async (req,res) => {
         const instituicao =  await sequelize.query(`SELECT "InstituiçõeId" FROM public."Locais" where id = ${localId};`,{ type: QueryTypes.SELECT });
         const instituicaoID = instituicao[0].InstituiçõeId
 
-        const baixoIns = Locais.count({ where: {
+        const baixoIns = await Locais.count({ where: {
             InstituiçõeId: instituicaoID,
             estado_local: 1
         }} );
-        const medioIns = Locais.count({ where: {
+        const medioIns = await Locais.count({ where: {
             InstituiçõeId: instituicaoID,
             estado_local: 2
         }} )
-        const altoIns = Locais.count({ where: {
+        const altoIns = await Locais.count({ where: {
             InstituiçõeId: instituicaoID,
             estado_local: 3
         }} )
+
+        console.log('InstituicaoId: '+ instituicaoID);
+        console.log('Estado Ins baixo: ',baixoIns);
+        console.log('Estado Ins medio: ',medioIns);
+        console.log('Estado Ins alto: ',altoIns);
 
         var estadoIns = 0;
         if(baixoIns > medioIns && baixoIns >= altoIns){
