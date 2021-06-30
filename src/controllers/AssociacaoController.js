@@ -11,7 +11,7 @@ controllers.validate = async (req, res) => {
 
     if (token_access){
         const instituicao  = await Instituicao.findOne({
-            attributes: ['nome_instituicao', 'qnt_espacos', 'qnt_associados', 'contacto_instituicao'],
+            attributes: ['nome_instituicao', 'qnt_espacos', 'qnt_associados', 'contacto_instituicao', 'latitude', 'longitude'],
             where: {token_acesso: token_access}
         }).then(function(data){
             return data
