@@ -72,11 +72,21 @@ controller.update = async (req, res) => {
 }
 
 controller.list = async (req, res) => {
-    const data = await Gestor.findAll().then(function(data){
+    const query = `
+    SELECT nome, email, "Instituições"."nome_instituicao" AS instituicao, "Gestores"."createdAt" AS data_associacao,
+    "Instituições"."contacto_instituicao" AS contacto_instituicao
+    FROM
+    "Gestores"
+    INNER JOIN "Instituições"
+    ON "Instituições".id="Gestores"."InstituiçõeId"
+    `
+    const data = await sequelize.query(query,{ type: QueryTypes.SELECT })
+    .then(function(data){
         return data
     }).catch(e => {
         return e
     })
+    
     res.json({success: true, data: data})
 }
 
