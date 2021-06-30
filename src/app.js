@@ -48,7 +48,7 @@ app.use('/auth', authRoute);
 
 //Executa tarefas agendadas a cada uma hora
 
-cron.schedule('0 0/5 * 1/1 * ? *', () => 
+cron.schedule('* * * * *', () => 
 
 async (req,res) => {
   console.log('Funcao cron rodando')
