@@ -149,43 +149,4 @@ controller.locaisMaisReportados = async (req, res) =>{
 }
 
 
-/*controller.list = async (req, res) => {
-  const {id} = req.params.id
-  if (id){
-    var idGestor = req.body.id
-    var gestor = await Gestor.findOne({
-      where: {id: idGestor}
-    })
-    .catch(error =>{
-        return error;
-    })
-    res.json({success: true, message:'gestor encontrado', data:gestor});
-  }else{
-    res.json({success: false, message:'gestor não encontrado'});
-  }
-}*/
-
-
-/*controller.getQuantidadeReportes = async (req,res) => {
-
-  const { id } = req.params;
-  try {
-    const data = await Local.findOne({
-      where: { id: id },
-    })
-
-    const qntReportes = {
-      id: data.id,
-      local: data.nomelocal,
-      alta: data.ReporteAlto,
-      média: data.ReporteMedio,
-      baixa: data.ReporteBaixo
-
-    }
-    
-    return res.status(200).json(qntReportes)
-  } catch (error) {
-    return res.status(500).json(error)
-  }
-}*/
 module.exports = controller
