@@ -61,7 +61,7 @@ controller.checkAlerta = async (req,res) => {
     return data;
     })
     .catch(error =>{
-        res.status(500).json({success: false, message: 'Alerta Resolvido'});
+        res.status(500).json({success: false, message: 'erro'});
     })
     // return res
     res.status(200).json({success: true,data: data});
