@@ -20,6 +20,26 @@ controller.delete = async (req, res) => {
   }
 }
 
+
+controller.Conquistas = async (req, res) => {
+  const {id} = req.body
+
+  // Update conquista
+    const conquista = await Associados.update({
+   conquistas:  Sequelize.literal('conquistas + 1'),
+    },
+    {
+    where: { id: id}
+  })
+    .then( function(conquista){
+    return conquista;
+    })
+    .catch(error => {
+    return error;
+    })
+    res.json({ success: true, data: conquista });
+}
+
  // Lista instituições que utilizador é associado
 /*controller.list = async (req, res) => {
     const {utilizador } = req.params;
