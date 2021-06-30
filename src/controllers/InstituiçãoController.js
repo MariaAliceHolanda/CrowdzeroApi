@@ -69,6 +69,10 @@ controller.statusInstituicao = async (req,res) => {
         estado_local: 3
     }} )
 
+    console.log(baixo);
+    console.medio(medio);
+    console.log(alto);
+
     const estado = 0;
 
     if(baixo > medio && baixo > alto)
