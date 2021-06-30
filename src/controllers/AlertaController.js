@@ -32,16 +32,36 @@ data: data
 
 controller.list = async (req,res) => {
     // data
-    const { id } = req.query;
+    const { id } = req.params;
     // create
     const data = await Alerta.findAll(
-        { where: { GestoreId: id }, include: [Local]}
+        { where: { GestoreId: id, resolvido: false}, include: [Local]}
     )
     .then(function(data){
     return data;
     })
     .catch(error =>{
-        res.status(404).json({success: false, message: 'Alertas não encontrados'});
+        res.status(500).json({success: false, message: 'Alertas não encontrados'});
+    })
+    // return res
+    res.status(200).json({success: true,data: data});
+}
+
+controller.checkAlerta = async (req,res) => {
+    // data
+    const { id } = req.params;
+    // create
+    const data = await Alerta.update({
+        resolvido: true
+       },
+       {
+       where: { id: id}
+     })
+    .then(function(data){
+    return data;
+    })
+    .catch(error =>{
+        res.status(500).json({success: false, message: 'Alerta Resolvido'});
     })
     // return res
     res.status(200).json({success: true,data: data});
