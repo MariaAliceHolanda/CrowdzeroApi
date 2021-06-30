@@ -87,13 +87,24 @@ controller.delete = async (req, res) => {
   const {id} = req.body
 
   if (id){
-    const del = await Local.destroy({
+    const local = await Local.findOne({
       where: {id: id}
     })
-    .catch(e =>{
-      res.json({success: false, message: 'Erro ao deletar este local.'})
-    })
-    res.json({success: true, message: 'Local deletado com sucesso.'})
+
+    if (local){
+      const instituicao = await Instituições.findOne({
+        where: {id: local.InstituiçõeId}
+      })
+
+      await local.destroy()
+      .catch(e =>{
+        res.json({success: false, message: 'Erro ao deletar este local.'})
+      })
+
+      instituicao.decrement(['qnt_espacos'], {by: 1})
+      res.json({success: true, message: 'Local deletado com sucesso.'})
+    }
+
   }else{
     res.json({success: false, message: 'Erro ao deletar este local.'})
   }

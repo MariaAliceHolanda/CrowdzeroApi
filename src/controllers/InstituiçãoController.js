@@ -142,7 +142,7 @@ controller.getDadosOverview =  async (req,res) => {
            {
                id: 1,
                descricao: "Associados",
-               quantidade: '13',
+               quantidade: data.qnt_associados,
                cor: "green"
            },
            {
