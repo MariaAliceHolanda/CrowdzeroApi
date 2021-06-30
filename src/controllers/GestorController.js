@@ -1,6 +1,7 @@
 var Gestor = require('../model/gestores');
 var sequelize = require('../model/database');
 const controller = {}
+const bcrypt = require('bcrypt');
 sequelize.sync()
 
 controller.get = async (req, res) => {
@@ -64,7 +65,7 @@ controller.update = async (req, res) => {
         }).catch(e => {
             return e
         })
-        res.json({success:true, data:data, message:"Updated successful"});
+        res.json({success:true, message:"Updated successful"});
     }else{
         res.json({success:false, message:"Updated unsuccessful"});
     }
@@ -77,6 +78,42 @@ controller.list = async (req, res) => {
         return e
     })
     res.json({success: true, data: data})
+}
+
+function encrypt(pass){
+    return bcrypt.hash(pass, 10)
+    .then(hash => {
+    pass = hash;
+    })
+    .catch(err => {
+        return err
+    });
+}
+
+controller.alterarPass = async (req, res) => {
+    const {id} = req.query
+
+    const {pass, nova} = req.body
+
+    if (id){
+        var novapass = await encrypt(nova)
+
+        console.log(novapass)
+
+        var gestor = await Gestor.update({
+            password: novapass,
+        },
+        {
+            where: {id: id}
+        }
+        ).then(function(data){
+            return data
+        }).catch(e => {
+            return e
+        })
+
+        res.json({data: gestor})
+    }
 }
 
 module.exports = controller
