@@ -21,6 +21,22 @@ controller.delete = async (req, res) => {
   }
 }
 
+function getDivisao(utilizador){
+  if (utilizador < 100){
+     return 0
+  }else if (utilizador  > 100 && utilizador < 300){
+     return 1
+  }else if (utilizador > 400 && utilizador < 600){
+      return 2
+  }else if (utilizador > 700){
+      return 3
+  }
+  return 0
+}
+
+function getNivel(utilizador){
+  return Math.ceil(utilizador / 20);
+}
 
 controller.Conquistas = async (req, res) => {
 
@@ -29,10 +45,27 @@ controller.Conquistas = async (req, res) => {
   // Update conquista
     try {
 
-      Associados.increment('conquistas', { by: pontuacao, where: { id: associado }});
+      Associados.increment('pontuacao_user', { by: pontuacao, where: { id: associado }});
+      
+      const data = await Associados.findOne({
+        where: {id: associado}
+      }).then(function(data){
+        return data
+      }).catch(e=>{
+        return e
+      })
+
+      const nivel = getNivel(data.pontuacao_user);
+      const divisao = getDivisao(data.pontuacao_user);
       
     } catch (error) {
       res.status(500).json({success: false}); 
+    }
+
+    const conquista = {
+      nivel: nivel,
+      divisao: divisao,
+      pontuacao: data.pontuacao_user
     }
     res.status(200).json({success: true,data: conquista});
 }
