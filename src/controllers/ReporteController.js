@@ -69,19 +69,26 @@ controller.create = async (req,res) => {
             } 
           });*/
 
-        var estado = 3
-        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
-           estado = 1
-        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
-           estado = 2
-        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
-           estado = 3
+        var baixo = reporteBaixo[0].count;
+        var medio = reporteMedio[0].count;
+        var alto = reporteAlto[0].count;
+        console.log(baixo);
+        console.log(medio);
+        console.log(alto);
+
+        var estado = 0;
+        if(baixo >= medio && baixo> alto){
+            estado = 1;
+        }
+        else if(medio >=  baixo && medio > alto){
+            estado = 2;
+        }
+        else if(alto > medio && alto > baixo){
+            estado = 3;
+        }
         
-        console.log(reporteMedio[0].count)
+        console.log(estado)
         const dado = await Locais.update({
-          //qtd_reporte_baixo: reporteBaixo,
-          //qtd_reporte_medio: reporteMedio,
-          //qtd_reporte_alto: reporteAlto,
           estado_local: estado,
           ultimo_reporte: data.createdAt
          },
@@ -100,14 +107,14 @@ controller.create = async (req,res) => {
         const gestor = `SELECT "Gestores"."id" from "Locais" inner join "Instituições" on "Locais"."InstituiçõeId" = "Instituições"."id"
         inner join "Gestores" on "Instituições"."id" = "Gestores"."InstituiçõeId" where "Locais".id = ${localId}`
         const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
-        console.log(gestorID);
+        
         if(estado == 3){
-
+           var gestorid = gestorID[0].id;
             const alerta = await Alerta.create({
                 tipo_alerta: 1,
                 resolvido: false,
                 locaiId: localId,
-                GestoreId: gestorID.id
+                GestoreId: gestorid
             })
             .then( function(alerta){
             return alerta;
