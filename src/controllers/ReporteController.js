@@ -4,6 +4,7 @@ var sequelize = require('../model/database');
 const Associados = require('../model/associados');
 const Locais = require('../model/locais');
 const Alerta = require('../model/alertas');
+const Instituicao = require('../model/instituições');
 const { QueryTypes } = require('sequelize');
 //const { Sequelize } = require('sequelize/types');
 //const { now } = require('sequelize/types/lib/utils');
@@ -91,9 +92,47 @@ controller.create = async (req,res) => {
 
         // Atualiza Estado Instituição do local reportado
         const instituicao =  await sequelize.query(`SELECT "InstituiçõeId" FROM public."Locais" where id = ${localId};`,{ type: QueryTypes.SELECT });
-       
         const instituicaoID = instituicao[0].InstituiçõeId
-        console.log(instituicaoID)
+
+        const baixoIns = Locais.count({ where: {
+            InstituiçõeId: instituicaoID,
+            estado_local: 1
+        }} );
+        const medioIns = Locais.count({ where: {
+            InstituiçõeId: instituicaoID,
+            estado_local: 2
+        }} )
+        const altoIns = Locais.count({ where: {
+            InstituiçõeId: instituicaoID,
+            estado_local: 3
+        }} )
+
+        var estadoIns = 0;
+        if(baixoIns > medioIns && baixoIns >= altoIns){
+            estadoIns = 1;
+        }
+        else if(medioIns >=  baixoIns && medioIns > altoIns){
+            estadoIns = 2;
+        }
+        else if(altoIns > medioIns && altoIns >= baixoIns){
+            estadoIns = 3;
+        }
+        
+        // Atualiza estado Locais
+        const dadoIns = await Instituicao.update({
+          estado_instituicao: estadoIns
+         },
+            {
+            where: { id: instituicaoID}
+         })
+        .then( function(dadoIns){
+        return dadoIns;
+        })
+        .catch(error => {
+        return error;
+        })
+    
+        
 
         // Criação de Alertas
         
