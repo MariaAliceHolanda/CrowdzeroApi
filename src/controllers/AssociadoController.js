@@ -1,6 +1,7 @@
 var Associados = require('../model/associados')
 var Instituição = require('../model/instituições')
 var sequelize = require('../model/database');
+var Sequelize = require('sequelize');
 const controller = {}
 sequelize.sync()
 
