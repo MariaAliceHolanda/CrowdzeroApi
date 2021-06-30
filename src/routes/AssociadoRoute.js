@@ -8,7 +8,5 @@ const associadoController = require('../controllers/AssociadoController')
 
 router.post('/delete', middleware.checkToken, associadoController.delete)
 router.get('/get', middleware.checkToken, associadoController.get)
-//router.get('/getAssociados/:id',associadoController.getAssociados)
-//router.get('/list/:id',associadoController.list)
 router.post('/conquista',associadoController.Conquistas)
 module.exports = router;
