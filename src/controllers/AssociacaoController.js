@@ -110,9 +110,9 @@ controllers.MinhasAssociacoes = async (req, res) => {
 
 controllers.RankingUsers = async (req, res) => {
     const data = await sequelize.query(
-        `SELECT id, nome_user, pontuacao_user, qnt_reportes, divisao, nivel
+        `SELECT id, nome_user, pontuacao_user, qnt_reportes,conquistas
         FROM public."Associados"
-        order by pontuacao_user DESC;`
+        order by pontuacao_user DESC`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){
     return data;
