@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const middleware = require('../middleware');
 
 //importar os controladores
 const authGestorController = require('../controllers/AuthGestorController')
-const authAdminController = require('../controllers/AuthAdminController')
 const authAssociadoController = require('../controllers/AuthAssociadoController')
 
-//router.post('/registoAdmin',authAdminController.register);
-//router.post('/loginAdmin',authAdminController.login);
+
 
 router.post('/registoGestor',authGestorController.register);
 router.post('/loginGestor',authGestorController.login);
