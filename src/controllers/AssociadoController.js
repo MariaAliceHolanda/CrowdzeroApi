@@ -22,8 +22,9 @@ controller.delete = async (req, res) => {
 
 
 controller.Conquistas = async (req, res) => {
-  const {id} = req.body
 
+  // data
+  const { id } = req.params;
   // Update conquista
     const conquista = await Associados.update({
      conquistas:  Sequelize.literal('conquistas + 1'),
@@ -35,9 +36,9 @@ controller.Conquistas = async (req, res) => {
     return conquista;
     })
     .catch(error => {
-      res.json({success: false, message: 'Erro.'})
+      res.status(500).json({success: false, message: 'Alertas não encontrados'});
     })
-    res.json({ success: true, data: conquista });
+    res.status(200).json({success: true,data: conquista});
 }
 
 controller.get = async (req, res) => {
