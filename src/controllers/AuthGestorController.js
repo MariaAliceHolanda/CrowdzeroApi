@@ -82,41 +82,4 @@ controllers.login = async (req,res) => {
         res.json({success: false, message: 'Campos em branco'})
     }
 }
-
-/*controllers.login = async (req,res) => {
-    const {email, password} = req.body    
-    if (email && password) {
-        var email = req.body.email;
-        var password = req.body.password;
-    
-    var gestor = await Gestor.findOne({where: { email: email}})
-    .then(function(data){
-    return data;
-    }).catch(error =>{
-    console.log("Erro: "+error);
-    return error;
-    })
-    if (password === null || typeof password === "undefined") {
-    res.json({
-    success: false,
-    message: 'Campos em Branco'
-    });
-   }
-   else {
-    if (req.body.email && req.body.password && gestor) {
-    const isMatch = bcrypt.compareSync(password, gestor.password);
-    if (req.body.email === gestor.email && isMatch) {
-        let token = jwt.sign({email: req.body.email}, config.jwtSecret,
-        {expiresIn: '1h' //expira em 1 hora
-        });
-        res.json({success: true, message:' Autenticação realizada com sucesso!', token: token, user: gestor});
-    } else {
-    res.json({success: false, message: 'Dados de autenticação inválidos.'});
-    }
-    } else {
-    res.json({success: false, message: 'Erro no processo de autenticação. Tente de novo mais tarde.'});
-    }
-}
-}
-}*/ 
 module.exports = controllers;

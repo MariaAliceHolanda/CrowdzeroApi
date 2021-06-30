@@ -177,69 +177,56 @@ controller.create = async (req,res) => {
     }
 };
 
-
-
-
-
 //  TERMINAR ESTA FUNÇÃO
 controller.getReportes = async (req, res) => {
     // Dados
-    const {filtro, id} = req.query
+    const {data} = req.body
+    const {filter, id} = req.query
 
     if (id){
-        var query = `SELECT id, nome_local AS local, qtde_reporte_alto as alta,
+        var query = `
+        SELECT id, nome_local AS local, qtde_reporte_alto as alta,
         qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
         FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}
         ORDER BY QuantidadeReportes DESC
         LIMIT 7`
-
-        console.log(req.query)
-
-        if (filtro){
-            var filter = ``
-            if(filtro ==1){
-                filter = `<= now() - INTERVAL '7 DAYS`
-            }else if(filtro==2){
-                filter = `<= now() - INTERVAL '30 DAYS`
-            }else if(filtro==3){
-                filter = `<= now() - INTERVAL '30 DAYS`
-                console.log(filtro)
+        
+        if (filter){
+            var filtro = ``
+            if(filter ==1){
+                filtro = `> CURRENT_DATE - interval '7 days'`
+            }else if(filter==2){
+                filtro = `> CURRENT_DATE - interval '30 days'`
             }
 
-
             query = `
-            SELECT DISTINCT "Locais".id, "Locais"."nome_local" AS "local", "Locais"."qtde_reporte_alto" AS alto,
-            "Locais"."qtd_reporte_medio" AS média, "Locais"."qtd_reporte_baixo" AS baixa, 
-            MAX("Reportes"."createdAt") as "data_ultimo_reporte"
-            FROM "Reportes"
-            INNER JOIN
-            "Locais"
-            ON "Locais".id="Reportes"."LocaiId"
-            WHERE "data_ultimo_reporte" = '2021-06-28'
-            GROUP BY "Locais"."nome_local", "Locais".id
+            SELECT id, nome_local AS local, qtde_reporte_alto as alta,
+            qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
+            FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id} AND "Locais"."ultimo_reporte" ${filtro}
+            ORDER BY QuantidadeReportes DESC
+            LIMIT 7
+            `            
+
+        if (filter == 3 && data){
+            query = `
+            SELECT id, nome_local AS local, qtde_reporte_alto as alta,
+            DATE("Locais"."ultimo_reporte") as DIA,
+            qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
+            FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id} AND DATE("Locais"."ultimo_reporte") = '${data.data}'
+            ORDER BY QuantidadeReportes DESC
             LIMIT 7
             `
         }
-        
-        var data = await sequelize.query(query, {type: QueryTypes.SELECT})
+        }
+        var dados = await sequelize.query(query, {type: QueryTypes.SELECT})
         .then(function(data){
             return data
         }).catch(e =>{
             return e
         })
-        res.json({success: true, message: 'Dados obtidos com sucesso.', data: data})
+        res.json({success: true, message: 'Dados obtidos com sucesso.', data: dados})
     }else{
         res.json({success: false, message: 'ID não fornecido.'})
     }
 }
 module.exports = controller
-
-/**     SELECT id, nome_local AS local, qtde_reporte_alto as alta,
-            qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtde_reporte_alto AS QuantidadeReportes
-            FROM "Locais" WHERE "Locais"."InstituiçõeId"=1 AND "Locais"."updatedAt" ${filter}'
-            ORDER BY QuantidadeReportes DESC
-            LIMIT 7
-        
-        
-       
-        */

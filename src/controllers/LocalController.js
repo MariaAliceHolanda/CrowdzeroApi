@@ -66,11 +66,20 @@ controller.list = async (req, res) => {
     const {id} = req.query;
 
     if (id){
-      var data = await Local.findAll({
-        attributes: ['id', ['nome_local', 'nome'], ['descricao_local', 'descricao'], ['estado_local', 'status']],
-        group: ['Locais.id'],
-        where: {InstituiçõeId: id},
-      })
+      const query = `
+      SELECT id, nome_local as nome, descricao_local 
+      AS descricao, (qtde_reporte_alto + qtd_reporte_baixo + qtd_reporte_medio) AS soma,
+      CASE 
+        WHEN estado_local = 0 THEN 'Sem Reportes'
+        WHEN estado_local = 1 THEN 'Baixa'
+        WHEN estado_local = 2 THEN 'Média'
+        WHEN estado_local = 3 THEN 'Alta'
+        ELSE 'Sem Estado' END
+        AS status
+        FROM "Locais"
+        WHERE "Locais"."InstituiçõeId"=${id}
+      `
+      var data = await sequelize.query(query, {type: QueryTypes.SELECT})
       .then(function(data){
       return data;
       })
@@ -111,14 +120,32 @@ controller.delete = async (req, res) => {
 
 }
 
-controller.maisReportado = async (req, res) => {
+controller.locaisMaisReportados = async (req, res) =>{
   const {id} = req.query
 
   if (id){
-    var local = await Local.findOne({
-      where: {InstituiçõeId: id}
+    const query = `
+    select nome_local as id, nome_local as label, ("Locais".qtd_reporte_baixo +
+    "Locais".qtde_reporte_alto + "Locais".qtd_reporte_medio) AS value
+    from "Locais"
+    WHERE "Locais"."InstituiçõeId"=${id}
+    ORDER BY value DESC
+    LIMIT 3
+    `
+    const data = await sequelize.query(query,{ type: QueryTypes.SELECT })
+    .then(data=>{
+      return data
+    }).catch(e=>{
+      return e
     })
+
+    if (data){
+      res.json({success: true, data: data})
+    }else{
+      res.json({success: false})
+    }
   }
+
 }
 
 

@@ -40,10 +40,10 @@ controller.list = async (req,res) => {
         var query = `
         SELECT "Alertas".id, 
         CASE 
-         WHEN estado_local = 0 THEN 'Sem Reportes'
-         WHEN estado_local = 1 THEN 'Baixa Ocupação'
-         WHEN estado_local = 2 THEN 'Média Ocupação'
-         WHEN estado_local = 3 THEN 'Alta Ocupação'
+         WHEN estado_local = 0 THEN 'DESOCUPADO'
+         WHEN estado_local = 1 THEN 'BAIXA'
+         WHEN estado_local = 2 THEN 'MÉDIA'
+         WHEN estado_local = 3 THEN 'ALTA'
          ELSE 'Sem Status' END
         AS status,
         EXTRACT(HOUR FROM "Alertas"."createdAt") AS horas,
@@ -58,6 +58,7 @@ controller.list = async (req,res) => {
         FROM "Alertas"
         INNER JOIN "Locais"
         ON "Locais".id="Alertas"."LocaiId"
+		WHERE "Alertas"."resolvido" IS FALSE
         LIMIT 5
         `
     }
@@ -74,7 +75,7 @@ controller.list = async (req,res) => {
 
 controller.checkAlerta = async (req,res) => {
     // data
-    const { id } = req.params;
+    const { id } = req.body;
     // create
     const data = await Alerta.update({
         resolvido: true
@@ -86,10 +87,10 @@ controller.checkAlerta = async (req,res) => {
     return data;
     })
     .catch(error =>{
-        res.status(500).json({success: false, message: 'Alerta Resolvido'});
+        res.json({success: false, message: 'Alerta Resolvido'});
     })
     // return res
-    res.status(200).json({success: true,data: data});
+    res.json({success: true,data: data});
 }
 
 

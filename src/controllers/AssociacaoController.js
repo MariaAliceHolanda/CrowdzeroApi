@@ -87,6 +87,25 @@ controllers.list = async (req, res) => {
     }
 }
 
+controllers.remover = async (req, res) => {
+    const {id} = req.query
+
+    if (id){
+        var associado = await Associacao.findOne({
+            where: {AssociadoId: id}
+        })
+
+        if (associado){
+            console.log(associado)
+            const query = `DELETE FROM "Instituicao_Associados" WHERE "AssociadoId"=${id}`
+
+            await sequelize.query(query, {type: QueryTypes.DELETE})
+        }else{
+            res.json({success: false, message: 'Unsuccessfull'})
+        }
+    }
+}
+
 /**        var associados = await Instituicao.findOne({
             include: {
                 model: Associado, 

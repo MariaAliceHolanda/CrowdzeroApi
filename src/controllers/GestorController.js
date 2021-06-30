@@ -145,24 +145,31 @@ controller.delete = async (req, res) => {
         })
         }
 
-        var local = await Locais.destroy({ // DELETE
-            where: {InstituiçõeId: gestor.InstituiçõeId}
-        })
+        if (gestor){
+            var inst = await Instituições.findOne({
+                where: {id: gestor.InstituiçõeId}
+            })
 
-        var associado_instituicao = await Associação.destroy({
-            where: {InstituiçõeId: gestor.InstituiçõeId}
-        })
+            queryLocal = `DELETE FROM "Locais" WHERE "Locais"."InstituiçõeId" = ${gestor.InstituiçõeId}`
 
-        await gestor.destroy()
-        
-        res.json({data: local, associacoes: associado_instituicao})
+            await sequelize.query(queryLocal, { type: QueryTypes.DELETE } )
+
+            
+
+            queryAsso = `DELETE FROM "Instituicao_Associados" WHERE "Instituicao_Associados"."InstituiçõeId" = ${gestor.InstituiçõeId}`
+
+            await sequelize.query(queryAsso, { type: QueryTypes.DELETE } )
+
+            queryInstituicao = `DELETE FROM "Instituições" WHERE id=${gestor.InstituiçõeId}`
+
+            await sequelize.query(queryInstituicao, { type: QueryTypes.DELETE } )
+
+            
+            queryGestor = `DELETE FROM "Gestores" WHERE id=${gestor.id}`
+
+            
+            await sequelize.query(queryGestor, { type: QueryTypes.DELETE } )
+        }
     }
 
 module.exports = controller
-
-/*VAR = O GESTOR
-
-INSTITUICAO = SELECT * FROM Gestor WHERE id= VARIAVEL
-DELETE FROM "Locais" WHERE "InstituiçõeId"= INSTITUICAO
-DELETE FROM "Associado_Instituicao" WHERE InstituiçõeId=INSTITUICAO
-DELETE FROM INSTITUICAO WHEERE ID = INSTITUICAO */

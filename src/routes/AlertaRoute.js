@@ -5,5 +5,5 @@ const middleware = require('../middleware')
 //importar os controladores
 const alertaController = require('../controllers/AlertaController')
 router.get('/list', middleware.checkToken, alertaController.list);
-router.get('/checkAlerta/:id',alertaController.checkAlerta);
+router.post('/checkAlerta',alertaController.checkAlerta);
 module.exports = router;
