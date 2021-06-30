@@ -51,23 +51,6 @@ controller.create = async (req,res) => {
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
         const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
 
-       /* reporteMedio = await Reporte.count({
-            where: {
-              LocaiId: localId,
-              nivel_reporte: 2,
-              
-              $and : [
-                sequelize.where(sequelize.fn(
-                    'timestampdiff', 
-                    sequelize.literal("minute"),
-                    sequelize.col('createdAt'),
-                    sequelize.literal('CURRENT_TIMESTAMP')
-                    ), ) ,
-                
-            ]
-            
-            } 
-          });*/
 
         var baixo = reporteBaixo[0].count;
         var medio = reporteMedio[0].count;
@@ -88,6 +71,7 @@ controller.create = async (req,res) => {
         }
         
         console.log(estado)
+        // Atualiza estado Locais
         const dado = await Locais.update({
           estado_local: estado,
           qtd_reporte_baixo: baixo,
@@ -104,6 +88,9 @@ controller.create = async (req,res) => {
         .catch(error => {
         return error;
         })
+
+        // Atualiza Estado Instituição do local reportado
+        const instituicao =  await sequelize.query(`SELECT "InstituiçõeId" FROM public."Locais" where id = ${localId};`,{ type: QueryTypes.SELECT });
 
         // Criação de Alertas
         
@@ -127,22 +114,6 @@ controller.create = async (req,res) => {
             })
 
         }
-
-
-        /*let qtde_incrementar
-        if (nivelReporte == 0){
-            qtde_incrementar = 'qtd_reporte_baixo'
-        }else if (nivelReporte == 1){
-            qtde_incrementar = 'qtd_reporte_medio'
-        }else if (nivelReporte == 2){
-            qtde_incrementar = 'qtde_reporte_alto'
-        }
-
-        var local = await Locais.findOne({
-                where: {id: localId}
-        })
-
-        await local.increment(qtde_incrementar, {by: 1})*/
 
         return res.status(200).json(data)
         
