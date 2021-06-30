@@ -109,13 +109,13 @@ controller.create = async (req,res) => {
 
 
         var estadoIns = 0;
-        if(baixoIns > medioIns && baixoIns >= altoIns){
+        if(baixoIns > medioIns && baixoIns > altoIns){
             estadoIns = 1;
         }
         else if(medioIns >=  baixoIns && medioIns > altoIns){
             estadoIns = 2;
         }
-        else if(altoIns >= medioIns && altoIns >= baixoIns){
+        else if(altoIns >= medioIns && altoIns > baixoIns){
             estadoIns = 3;
         }
         
