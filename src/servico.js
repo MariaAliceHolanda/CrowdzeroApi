@@ -3,7 +3,7 @@ function verificaAtualizacaoReportes(){
     console.log('funcao cron rodando')
     
     // seta o estado a 0 dos locais que não tem reporte a mais de uma hora
-    // essa tarefa é executada a cada hora no sistema
+    // essa tarefa é executada a cada meia hora no sistema
     const data =  sequelize.query(`UPDATE public."Locais"
 	SET estado_local=0
 	WHERE DATE_PART('hour', now()::time - "ultimo_reporte"::time) * 60 +
