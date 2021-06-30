@@ -1,6 +1,8 @@
 var Instituição = require('../model/instituições');
 var sequelize = require('../model/database');
 const Instituições = require('../model/instituições');
+const Locais = require('../model/locais');
+
 Local = require('../model/locais')
 
 const controller = {}
@@ -48,6 +50,47 @@ controller.get = async (req,res) => {
     return error;
     })
     res.json({ success: true, data: data });
+}
+
+controller.statusInstituicao = async (req,res) => {
+    const { id } = req.params;
+
+    const baixo = Locais.count({ where: {
+        InstituiçõeId: id,
+        estado_local: 1
+    }} );
+    const medio = Locais.count({ where: {
+        InstituiçõeId: id,
+        estado_local: 2
+    }} )
+    const alto = Locais.count({ where: {
+        InstituiçõeId: id,
+        estado_local: 3
+    }} )
+
+    const estado = 0;
+
+    if(baixo > medio && baixo > alto)
+      estado = 1;
+    else if(medio >= baixo && medio > alto)
+      estado = 2;
+    else
+      estado = 3;
+
+    const status = await Instituições.update({
+       estado_instituicao: estado,
+    },
+    {
+    where: { id: id}
+    })
+    .then( function(status){
+    return status;
+    })
+    .catch(error => {
+    return error;
+    })
+
+    res.json({ success: true, data: status });
 }
 
 controller.getDadosOverview =  async (req,res) => {
