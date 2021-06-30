@@ -90,6 +90,9 @@ controller.create = async (req,res) => {
         console.log(estado)
         const dado = await Locais.update({
           estado_local: estado,
+          qtd_reporte_baixo: baixo,
+          qtd_reporte_medio:medio,
+          qtde_reporte_alto: alto,
           ultimo_reporte: data.createdAt
          },
             {
@@ -150,38 +153,7 @@ controller.create = async (req,res) => {
 };
 
 
-controller.UpdatePontuacao = async (req,res) => {
-    // parameter get id
-    const { id } = req.params;
-    // Update pontuação/ reportes feitos
-    const data = await Associados.update({
-        pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
-        qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
-       },
-       {
-       where: { id: id}
-    })
-    .then( function(data){
-    return data;
-    })
-    .catch(error => {
-    return error;
-    })
-      
-    const dados = await Associados.findOne({
-        attributes:{include :['pontuacao_user', 'qnt_reportes'],
-        exclude: ['id','nome_user','email_user','password_user','divisao','createdAt','updatedAt']
-     },
-        where: { id : id } 
-    })
-    .then( function(dados){
-    return dados;
-    })
-    .catch(error => {
-    return error;
-    })
-    res.json({success:true, data:dados, message:"Updated successful"});
-}
+
 
 
 //  TERMINAR ESTA FUNÇÃO
