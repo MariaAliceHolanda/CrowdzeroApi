@@ -122,13 +122,13 @@ function getDivisao(utilizador){
 controllers.RankingUsers = async (req, res) => {
     const
     const data = await sequelize.query(
-        `SELECT id, nome_user, pontuacao_user, qnt_reportes,conquistas, 
+        `SELECT nome_user, pontuacao_user, 
         CASE
-             WHEN pontuacao_user < 100  THEN 0
-             WHEN pontuacao_user > 100 AND pontuacao_user < 300  THEN 1
-             WHEN pontuacao_user > 400 AND pontuacao_user < 600 THEN 2
-             WHEN pontuacao_user > 700 THEN 3
-             ELSE 0 END
+             WHEN pontuacao_user < 100  THEN '0'
+             WHEN pontuacao_user > 100 AND pontuacao_user < 300  THEN '1'
+             WHEN pontuacao_user > 400 AND pontuacao_user < 600 THEN '2'
+             WHEN pontuacao_user > 700 THEN '3'
+             ELSE '0' END
              AS divisão
         FROM "Associados"
         order by pontuacao_user DESC`
