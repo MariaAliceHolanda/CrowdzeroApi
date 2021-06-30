@@ -115,7 +115,7 @@ controller.create = async (req,res) => {
         else if(medioIns >=  baixoIns && medioIns > altoIns){
             estadoIns = 2;
         }
-        else if(altoIns > medioIns && altoIns >= baixoIns){
+        else if(altoIns >= medioIns && altoIns >= baixoIns){
             estadoIns = 3;
         }
         
@@ -150,8 +150,8 @@ controller.create = async (req,res) => {
         const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
         console.log('Tempo: '+ tempoAlerta)
 
-        tempo = tempoAlerta[0].tempo;
-        if(estado == 3 && tempo <= 60){
+        //tempo = tempoAlerta[0].tempo;
+        /*if(estado == 3 && tempo <= 60){
             
            
             const alerta = await Alerta.create({
@@ -167,7 +167,7 @@ controller.create = async (req,res) => {
             return error;
             })
 
-        }
+        }*/
 
         return res.status(200).json(data)
         
