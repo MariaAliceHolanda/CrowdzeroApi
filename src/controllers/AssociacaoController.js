@@ -6,6 +6,7 @@ const controllers = {}
 sequelize.sync()
 const { QueryTypes } = require('sequelize');
 
+// Validar acesso a instituição
 controllers.validate = async (req, res) => {
     const {token_access} = req.body
 
@@ -28,6 +29,7 @@ controllers.validate = async (req, res) => {
     }
 }
 
+// Cria associação entre usuário e instituição
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
 
@@ -61,6 +63,7 @@ controllers.create = async (req, res) => {
 }
 }
 
+//Lista Instituições
 controllers.list = async (req, res) => {
     // ID da instituição
     const {id} = req.query
@@ -87,6 +90,7 @@ controllers.list = async (req, res) => {
     }
 }
 
+//Remove Associação
 controllers.remover = async (req, res) => {
     const {id} = req.query
 
@@ -106,14 +110,9 @@ controllers.remover = async (req, res) => {
     }
 }
 
-/**        var associados = await Instituicao.findOne({
-            include: {
-                model: Associado, 
-                attributes: ['nome_user', 'createdAt', 'qnt_reportes']},
-            where: {id: id},
-            attributes: ['id', 'nome_instituicao']
-        }) */
 
+
+// Devolve Associações do usuário
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
     const data = await sequelize.query(
@@ -136,6 +135,7 @@ controllers.MinhasAssociacoes = async (req, res) => {
     res.json({ success: true, data: data });
 }
 
+// Ranking de users por maiores pontuações
 controllers.RankingUsers = async (req, res) => {
     const data = await sequelize.query(
         `SELECT nome_user, pontuacao_user, 
