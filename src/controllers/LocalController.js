@@ -128,38 +128,6 @@ controller.maisReportado = async (req, res) => {
 }*/
 
 
-/*controller.setStatusLocal = async (req,res) => {
-    const { id } = req.body;
-    const data = await Local.findAll({
-    where: { id: id },
-    })
-    .then(function(data){
-      return data;
-    })
-    .catch(error =>{
-    return error;
-    })
-
-    const baixo = data.ReporteBaixo;
-    const medio = data.ReporteMedio;
-    const alto = data.ReporteAlto;
-    const status = 0;
-    if (baixo >= alto && baixo >= medio)
-     status = 1
-    else if(medio >= baixo && medio >= alto)
-      status = 2
-    else
-      status = 3
-
-      await Local.update({ EstadoLocal: status }, {
-        where: {
-          id : id
-        }
-      });
-       
-    res.json({ success: true, data: status });
-}*/
-
 /*controller.getQuantidadeReportes = async (req,res) => {
 
   const { id } = req.params;

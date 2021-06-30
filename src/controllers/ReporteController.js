@@ -3,6 +3,7 @@ var Sequelize = require('sequelize');
 var sequelize = require('../model/database');
 const Associados = require('../model/associados');
 const Locais = require('../model/locais');
+const Alerta = require('../model/alertas');
 const { QueryTypes } = require('sequelize');
 //const { Sequelize } = require('sequelize/types');
 //const { now } = require('sequelize/types/lib/utils');
@@ -22,41 +23,108 @@ controller.create = async (req,res) => {
             AssociadoId: associadoId,
         })
 
+
+        // Update pontuação/ reportes feitos
+        const associadoPT = await Associados.update({
+            pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
+            qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
+        },
+        {
+        where: { id: associadoId}
+        })
+        .then( function(associadoPT){
+        return associadoPT;
+        })
+        .catch(error => {
+        return error;
+        })
+
         // Atualiza Estado do Local
-        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
+        //const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        //DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
         const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
         const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
-        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
+        const reporteBaixo = await sequelize.query(`SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
         const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
 
-        var estado = 0
-        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
-           estado = 1
-        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
-           estado = 2
-        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
-           estado = 3
-        
+       /* reporteMedio = await Reporte.count({
+            where: {
+              LocaiId: localId,
+              nivel_reporte: 2,
+              
+              $and : [
+                sequelize.where(sequelize.fn(
+                    'timestampdiff', 
+                    sequelize.literal("minute"),
+                    sequelize.col('createdAt'),
+                    sequelize.literal('CURRENT_TIMESTAMP')
+                    ), ) ,
+                
+            ]
+            
+            } 
+          });*/
 
+        var baixo = reporteBaixo[0].count;
+        var medio = reporteMedio[0].count;
+        var alto = reporteAlto[0].count;
+        console.log(baixo);
+        console.log(medio);
+        console.log(alto);
+
+        var estado = 0;
+        if(baixo >= medio && baixo> alto){
+            estado = 1;
+        }
+        else if(medio >=  baixo && medio > alto){
+            estado = 2;
+        }
+        else if(alto > medio && alto > baixo){
+            estado = 3;
+        }
+        
+        console.log(estado)
         const dado = await Locais.update({
-          //qtd_reporte_baixo: reporteBaixo,
-          //qtd_reporte_medio: reporteMedio,
-          //qtd_reporte_alto: reporteAlto,
-          estado_local: estado
-        },
-        {
-        where: { id: localId}
-        })
+          estado_local: estado,
+          ultimo_reporte: data.createdAt
+         },
+            {
+            where: { id: localId}
+         })
         .then( function(dado){
         return dado;
         })
         .catch(error => {
         return error;
         })
+
+        // Criação de Alertas
+        
+        const gestor = `SELECT "Gestores"."id" from "Locais" inner join "Instituições" on "Locais"."InstituiçõeId" = "Instituições"."id"
+        inner join "Gestores" on "Instituições"."id" = "Gestores"."InstituiçõeId" where "Locais".id = ${localId}`
+        const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
+        
+        if(estado == 3){
+           var gestorid = gestorID[0].id;
+            const alerta = await Alerta.create({
+                tipo_alerta: 1,
+                resolvido: false,
+                locaiId: localId,
+                GestoreId: gestorid
+            })
+            .then( function(alerta){
+            return alerta;
+            })
+            .catch(error => {
+            return error;
+            })
+
+        }
+
 
         /*let qtde_incrementar
         if (nivelReporte == 0){
@@ -114,60 +182,6 @@ controller.UpdatePontuacao = async (req,res) => {
     })
     res.json({success:true, data:dados, message:"Updated successful"});
 }
-
-controller.calculaEstado = async (req,res) => {
-    const { id } = req.params;
-    try {
-        
-        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
-        const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
-        const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${id} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
-        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
-        const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
-        const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
-
-        var estado = 0
-        if(reporteBaixo >= reporteMedio && reporteBaixo > reporteAlto)
-           estado = 1
-        else if(reporteMedio >= reporteBaixo && reporteMedio > reporteAlto)
-           estado = 2
-        else if(reporteAlto >= reporteMedio && reporteAlto > reporteBaixo)
-           estado = 3
-        
-
-        const data = await Locais.update({
-          //qtd_reporte_baixo: reporteBaixo,
-          //qtd_reporte_medio: reporteMedio,
-          //qtd_reporte_alto: reporteAlto,
-          estado_local: estado
-        },
-        {
-        where: { id: id}
-        })
-        .then( function(data){
-        return data;
-        })
-        .catch(error => {
-        return error;
-        })
-
-        /*const dados = {
-            baixo: reporteBaixo,
-            medio:reporteMedio,
-            alto: reporteAlto,
-            estadoLocal: estado
-        }*/
-
-        return res.status(200).json(estado)
-        
-    } catch (error) {
-        console.log("Erro: "+error)
-        return res.status(500).json(error)
-    }
-};
 
 
 //  TERMINAR ESTA FUNÇÃO
