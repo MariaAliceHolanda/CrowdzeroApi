@@ -10,7 +10,8 @@ controllers.validate = async (req, res) => {
     const {token_access} = req.body
 
     if (token_access){
-        instituicao  = await Instituicao.findOne({
+        const instituicao  = await Instituicao.findOne({
+            attributes: ['nome_instituicao', 'qnt_espacos', 'qnt_associados', 'contacto_instituicao'],
             where: {token_acesso: token_access}
         }).then(function(data){
             return data
