@@ -67,7 +67,7 @@ controller.create = async (req,res) => {
         else if(medio >=  baixo && medio > alto){
             estado = 2;
         }
-        else if(alto > medio && alto >= baixo){
+        else if(alto >= medio && alto >= baixo){
             estado = 3;
         }
         
