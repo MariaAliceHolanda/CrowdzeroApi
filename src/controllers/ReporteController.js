@@ -77,7 +77,7 @@ controller.create = async (req,res) => {
         console.log(alto);
 
         var estado = 0;
-        if(baixo >= medio && baixo> alto){
+        if(baixo >= medio && baixo>= alto){
             estado = 1;
         }
         else if(medio >=  baixo && medio > alto){
