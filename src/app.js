@@ -48,13 +48,17 @@ app.use('/auth', authRoute);
 
 //Executa tarefas agendadas a cada uma hora
 
-///cron.schedule('* * * * * *', () => console.log('Funcao cron rodando')
-//UPDATE public."Locais"
-	//SET estado_local = 0
-	//WHERE DATE_PART('hour', now()::time - "ultimo_reporte"::time) * 60 +
-        //DATE_PART('minute', now()::time - "ultimo_reporte"::time) <= 60 ;
-//)
+cron.schedule('0 0/5 * 1/1 * ? *', () => 
 
+async (req,res) => {
+  console.log('Funcao cron rodando')
+  sequelize.query(`UPDATE public."Locais"
+  SET estado_local = 0
+  WHERE DATE_PART('hour', now()::time - "ultimo_reporte"::time) * 60 +
+        DATE_PART('minute', now()::time - "ultimo_reporte"::time) <= 60 ;`,{ type: QueryTypes.SELECT })
+
+}
+)
 app.listen(app.get('port'),()=>{
 console.log("Start server on port "+app.get('port'))
 })
