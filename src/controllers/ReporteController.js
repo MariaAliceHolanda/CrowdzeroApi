@@ -56,9 +56,9 @@ controller.create = async (req,res) => {
         var baixo = reporteBaixo[0].count;
         var medio = reporteMedio[0].count;
         var alto = reporteAlto[0].count;
-        console.log(baixo);
-        console.log(medio);
-        console.log(alto);
+        console.log('Reportes baixos: ' + baixo);
+        console.log('Reportes medios: ' + medio);
+        console.log('Reportes altos: ' + alto);
 
         var estado = 0;
         if(baixo > medio && baixo>= alto){
