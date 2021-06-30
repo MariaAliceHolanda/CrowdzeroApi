@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 
 
 // Importação de Rotas
-const adminRouters = require('./routes/AdminRoute')
 const gestorRouters = require('./routes/GestorRoute')
 const instituiçãoRouters = require('./routes/InstituiçãoRoute')
 const localRouters = require('./routes/LocalRoute')
@@ -33,8 +32,8 @@ const reporteRouters = require('./routes/ReporteRoute')
 const associadoRouters = require('./routes/AssociadoRoute')
 const authRoute = require('./routes/AutenticaçãoRoute')
 const associacaoRoute = require ('./routes/AssociacaoRoute')
+
 //Rotas
-app.use('/admin',adminRouters)
 app.use('/gestor', gestorRouters)
 app.use('/instituicao',instituiçãoRouters)
 app.use('/local',localRouters)
