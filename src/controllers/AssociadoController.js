@@ -35,7 +35,7 @@ controller.Conquistas = async (req, res) => {
     return conquista;
     })
     .catch(error => {
-    return error;
+      res.json({success: false, message: 'Erro.'})
     })
     res.json({ success: true, data: conquista });
 }
