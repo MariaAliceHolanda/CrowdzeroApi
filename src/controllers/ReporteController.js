@@ -153,13 +153,13 @@ controller.create = async (req,res) => {
 
         //tempo = tempoAlerta[0].tempo;
         //console.log(tempo)
-        //if(estado == 3 ){
+        if(estado == 3 ){
             
            
             const alerta = await Alerta.create({
                 tipo_alerta: 1,
                 resolvido: 0,
-                locaiId: localId,
+                LocaiId: localId,
                 GestoreId: gestorid
             })
             .then( function(alerta){
@@ -169,7 +169,7 @@ controller.create = async (req,res) => {
                 return res.json(error)
             })
 
-        //}
+        }
 
         return res.status(200).json(data)
         
