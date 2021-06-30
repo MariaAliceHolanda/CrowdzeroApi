@@ -95,54 +95,78 @@ controller.statusInstituicao = async (req,res) => {
 }
 
 controller.getDadosOverview =  async (req,res) => {
-    const { id } = req.params;
+    const { id } = req.query;
     const data = await Instituição.findOne({
     where: { id: id },
     })
 
-    const { count, rows } = await Local.findAndCountAll({
+    var baixa = 0
+    var alta = 0
+    var media = 0
+
+     await Local.findAndCountAll({
         where: {
           InstituiçõeId: id,
-          EstadoLocal: 1
+          estado_local: 1
         },
-      });
+      }).then(qtdBaixa =>{
+          baixa = qtdBaixa.count
+      })
+
+      await Local.findAndCountAll({
+        where: {
+          InstituiçõeId: id,
+          estado_local: 3
+        },
+      }).then(alta=>{
+          alta = alta.count
+      })
+
+      await Local.findAndCountAll({
+        where: {
+          InstituiçõeId: id,
+          estado_local: 2
+        },
+      }).then(media =>{
+          media = media.count
+      })
+
+      console.log(media)
     try {
         
-        const dados = {
-           "Associados":{
+        const dados = [
+           {
                id: 1,
                descricao: "Associados",
-               quantidade: data.nAssociados,
+               quantidade: '13',
                cor: "green"
-
            },
-           "AltaOcupação":{
+           {
             id: 2,
-            descricao: "AltaOcupação",
-            quantidade: data.nAssociados,
+            descricao: "Alta Ocupação",
+            quantidade: alta,
             cor: "red"
            },
-           "MediaOcupação":{
+           {
             id: 3,
-            descricao: "MediaOcupação",
-            quantidade: data.nAssociados,
+            descricao: "Média Ocupação",
+            quantidade: media,
             cor: "yellow"
            },
-           "BaixaOcupação":{
+           {
             id: 4,
-            descricao: "BaixaOcupação",
-            quantidade: count,
-            cor: "blue"
+            descricao: "Baixa Ocupação",
+            quantidade: baixa,
+            cor: "light-green"
            },
-           "EspaçosCriados":{
+           {
             id: 5,
-            descricao: "EspaçosCriados",
-            quantidade: data.QntEspaços,
+            descricao: "Espaços Criados",
+            quantidade: data.qnt_espacos,
             cor: "purple"
            }
-
-        }
-        return res.status(200).json(dados)
+        ]
+        return res.status(200).json({success: true, data: dados})
     } catch (error) {
         return res.status(500).json(error)
     }
