@@ -1,7 +1,7 @@
 
 //verifica o token de autenticação recebido em cada solicitação (req) e decidi se o pedido chega ou não à rota.
 
-const jwt = require('jsonwebtoken'); //módulo NPM
+const jwt = require('jsonwebtoken'); 
 const config = require('./config.js'); //ficheiro de configuração
 let checkToken = (req, res, next) => {
 let token = req.headers['x-access-token'] || req.headers['authorization']; 
