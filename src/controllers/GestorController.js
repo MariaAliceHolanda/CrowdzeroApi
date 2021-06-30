@@ -3,6 +3,10 @@ var sequelize = require('../model/database');
 const controller = {}
 const bcrypt = require('bcrypt');
 sequelize.sync()
+const { QueryTypes } = require('sequelize');
+const Instituições = require('../model/instituições');
+const Locais = require('../model/locais');
+const Associações = require('../model/associacao')
 
 controller.get = async (req, res) => {
     const {id} = req.query
@@ -73,7 +77,7 @@ controller.update = async (req, res) => {
 
 controller.list = async (req, res) => {
     const query = `
-    SELECT nome, email, "Instituições"."nome_instituicao" AS instituicao, "Gestores"."createdAt" AS data_associacao,
+    SELECT "Gestores".id, nome, email, "Instituições"."nome_instituicao" AS instituicao, "Gestores"."createdAt" AS data_associacao,
     "Instituições"."contacto_instituicao" AS contacto_instituicao
     FROM
     "Gestores"
@@ -132,4 +136,33 @@ controller.alterarPass = async (req, res) => {
     }
 }
 
+controller.delete = async (req, res) => {
+    const {id} = req.body
+
+    if (id){
+        var gestor = await Gestor.findOne({
+            where: {id: id}
+        })
+        }
+
+        var local = await Locais.destroy({ // DELETE
+            where: {InstituiçõeId: gestor.InstituiçõeId}
+        })
+
+        var associado_instituicao = await Associação.destroy({
+            where: {InstituiçõeId: gestor.InstituiçõeId}
+        })
+
+        await gestor.destroy()
+        
+        res.json({data: local, associacoes: associado_instituicao})
+    }
+
 module.exports = controller
+
+/*VAR = O GESTOR
+
+INSTITUICAO = SELECT * FROM Gestor WHERE id= VARIAVEL
+DELETE FROM "Locais" WHERE "InstituiçõeId"= INSTITUICAO
+DELETE FROM "Associado_Instituicao" WHERE InstituiçõeId=INSTITUICAO
+DELETE FROM INSTITUICAO WHEERE ID = INSTITUICAO */
