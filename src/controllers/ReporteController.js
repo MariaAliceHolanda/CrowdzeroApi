@@ -107,10 +107,6 @@ controller.create = async (req,res) => {
             estado_local: 3
         }} )
 
-        console.log('InstituicaoId: '+ instituicaoID);
-        console.log('Estado Ins baixo: ',baixoIns);
-        console.log('Estado Ins medio: ',medioIns);
-        console.log('Estado Ins alto: ',altoIns);
 
         var estadoIns = 0;
         if(baixoIns > medioIns && baixoIns >= altoIns){
