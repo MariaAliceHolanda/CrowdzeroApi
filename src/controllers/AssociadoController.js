@@ -26,7 +26,7 @@ controller.Conquistas = async (req, res) => {
 
   // Update conquista
     const conquista = await Associados.update({
-   conquistas:  Sequelize.literal('conquistas + 1'),
+     conquistas:  Sequelize.literal('conquistas + 1'),
     },
     {
     where: { id: id}
