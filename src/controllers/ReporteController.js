@@ -71,7 +71,7 @@ controller.create = async (req,res) => {
             estado = 3;
         }
         
-        console.log(estado)
+        console.log('Estado Local:' + estado)
         // Atualiza estado Locais
         const dado = await Locais.update({
           estado_local: estado,
@@ -140,9 +140,11 @@ controller.create = async (req,res) => {
         const gestor = `SELECT "Gestores"."id" from "Locais" inner join "Instituições" on "Locais"."InstituiçõeId" = "Instituições"."id"
         inner join "Gestores" on "Instituições"."id" = "Gestores"."InstituiçõeId" where "Locais".id = ${localId}`
         const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
-        
+        var gestorid = gestorID[0].id;
+        console.log('Gestor id' + gestorid)
         if(estado == 3){
-           var gestorid = gestorID[0].id;
+            
+           
             const alerta = await Alerta.create({
                 tipo_alerta: 1,
                 resolvido: false,
