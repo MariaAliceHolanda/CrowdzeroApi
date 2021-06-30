@@ -47,17 +47,16 @@ app.use('/associado',associadoRouters)
 app.use('/auth', authRoute);
 
 //Executa tarefas agendadas a cada uma hora
-
 cron.schedule('* * * * * *', () => 
-
-async (req,res) => {
-  console.log('Funcao cron rodando')
+console.log('Funcao cron rodando')
+//async (req,res) => {
+)
   /*sequelize.query(`UPDATE public."Locais"
   SET estado_local = 0
   WHERE DATE_PART('hour', now()::time - "ultimo_reporte"::time) * 60 +
-*/
+
 }
 )
 app.listen(app.get('port'),()=>{
 console.log("Start server on port "+app.get('port'))
-})
+})*/
