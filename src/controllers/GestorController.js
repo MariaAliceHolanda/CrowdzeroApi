@@ -139,6 +139,8 @@ controller.alterarPass = async (req, res) => {
 controller.delete = async (req, res) => {
     const {id} = req.body
 
+    console.log(id)
+
     if (id){
         var gestor = await Gestor.findOne({
             where: {id: id}
@@ -154,7 +156,6 @@ controller.delete = async (req, res) => {
 
             await sequelize.query(queryLocal, { type: QueryTypes.DELETE } )
 
-            
 
             queryAsso = `DELETE FROM "Instituicao_Associados" WHERE "Instituicao_Associados"."InstituiçõeId" = ${gestor.InstituiçõeId}`
 
