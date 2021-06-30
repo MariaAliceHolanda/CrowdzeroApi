@@ -5,5 +5,6 @@ const router = express.Router();
 const instituiçãoController = require('../controllers/InstituiçãoController')
 router.post('/create',instituiçãoController.create);
 router.get('/get',instituiçãoController.get);
-router.get('/getDadosOverview/:id',instituiçãoController.getDadosOverview)
+router.get('/getDadosOverview/:id',instituiçãoController.getDadosOverview);
+router.get('/statusInstituicao/:id',instituiçãoController.statusInstituicao);
 module.exports = router;
