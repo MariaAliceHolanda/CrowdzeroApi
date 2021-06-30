@@ -38,9 +38,10 @@ message:"Registado",
 data: data
 });
 }
+
 controller.get = async (req,res) => {
     const { id } = req.query;
-    const data = await Instituição.findAll({
+    const data = await Instituição.findOne({
     where: { id: id },
     })
     .then(function(data){

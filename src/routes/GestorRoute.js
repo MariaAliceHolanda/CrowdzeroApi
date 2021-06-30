@@ -8,5 +8,6 @@ router.get('/get', middleware.checkToken, gestorController.get); //Todos os gets
 router.get('/list', gestorController.list)
 router.post('/update', gestorController.update)
 router.get('/instituicao', gestorController.instituicao)
+router.post('/alterarPassword', gestorController.alterarPass)
 
 module.exports = router;
