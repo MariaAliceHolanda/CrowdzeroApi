@@ -11,4 +11,4 @@ function verificaAtualizacaoReportes(){
 
 }
 
-module.exports = cron.schedule('*/5 * * * * ', verificaAtualizacaoReportes)
+module.exports = cron.schedule('*/30 * * * * ', verificaAtualizacaoReportes)
