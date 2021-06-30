@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const middleware = require('./middleware');
+const tarefa = require('./servico');
 var bodyParser = require('body-parser');
-const cron = require('node-cron');
+
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -46,11 +47,8 @@ app.use('/associado',associadoRouters)
 // Rotas: registar e login
 app.use('/auth', authRoute);
 
-//Executa tarefas agendadas a cada uma hora
-cron.schedule('0 0 * * * *', () => 
-console.log('Funcao cron rodando')
 
-)
+
 app.listen(app.get('port'),()=>{
 console.log("Start server on port "+app.get('port'))
 })
