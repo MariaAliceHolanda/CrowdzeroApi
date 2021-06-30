@@ -60,8 +60,6 @@ controllers.list = async (req, res) => {
     // ID da instituição
     const {id} = req.query
 
-    console.log(id)
-
     if (id){
         const query = `
         SELECT "Associados"."id", "Associados"."nome_user"
