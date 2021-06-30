@@ -148,17 +148,17 @@ controller.create = async (req,res) => {
         order by "Alertas"."createdAt" DESC
         LIMIT 1 ;`
         
-        const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
-        console.log('Tempo: '+ tempoAlerta)
+        //const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
+        //console.log('Tempo: '+ tempoAlerta)
 
-        tempo = tempoAlerta[0].tempo;
-        console.log(tempo)
-        /*if(estado == 3 && tempo <= 60){
+        //tempo = tempoAlerta[0].tempo;
+        //console.log(tempo)
+        //if(estado == 3 ){
             
            
             const alerta = await Alerta.create({
                 tipo_alerta: 1,
-                resolvido: false,
+                resolvido: 0,
                 locaiId: localId,
                 GestoreId: gestorid
             })
@@ -166,10 +166,10 @@ controller.create = async (req,res) => {
             return alerta;
             })
             .catch(error => {
-            return error;
+                return res.json(error)
             })
 
-        }*/
+        //}
 
         return res.status(200).json(data)
         
