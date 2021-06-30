@@ -131,7 +131,7 @@ controllers.MinhasAssociacoes = async (req, res) => {
     return data;
     })
     .catch(error =>{
-    return error;
+        return res.json(error)
     })
     res.json({ success: true, data: data });
 }

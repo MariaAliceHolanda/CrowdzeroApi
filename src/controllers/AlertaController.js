@@ -1,35 +1,11 @@
 //const { now } = require('sequelize/types/lib/utils');
 var Alerta = require('../model/alertas');
 var sequelize = require('../model/database');
+const Locais = require('../model/locais');
 var Local = require('../model/locais')
 const { QueryTypes } = require('sequelize');
 const controller = {}
 sequelize.sync()
-
-controller.create = async (req,res) => {
-    // data
-    const {IDLOCAL, IDGESTOR, TIPOALERTA, HORAALERTA }= req.body;
-    // create
-    const data = await Alerta.create({
-        LocaiId: IDLOCAL,
-        gestoreId: IDGESTOR,
-        TipoAlerta: TIPOALERTA,
-        HORAALERTA: now()
-    })
-    .then(function(data){
-    return data;
-    })
-    .catch(error =>{
-    console.log("Erro: "+error)
-    return error;
-    })
-    // return res
-    res.status(200).json({
-        success: true,
-        message:"Alerta Registado",
-data: data
-});
-}
 
 controller.list = async (req,res) => {
     // data
@@ -87,8 +63,20 @@ controller.checkAlerta = async (req,res) => {
     return data;
     })
     .catch(error =>{
-        res.json({success: false, message: 'Alerta Resolvido'});
+        res.status(500).json({success: false, message: 'erro'});
     })
+
+    const local = await sequelize.query(`SELECT "LocaiId" FROM public."Alertas" where id = ${id};`,{ type: QueryTypes.SELECT });
+    const localID =local[0].LocaiId;
+
+    await Locais.update({
+        estado_local: 4,
+    },
+    {
+        where: { id: localID}
+    })
+
+
     // return res
     res.json({success: true,data: data});
 }

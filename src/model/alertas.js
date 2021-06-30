@@ -6,6 +6,7 @@ var Alertas = sequelize.define('Alertas', {
 id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
 },
 tipo_alerta: {
         type: Sequelize.INTEGER,
