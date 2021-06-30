@@ -17,7 +17,11 @@ controllers.validate = async (req, res) => {
         }).catch(err => {
             res.json({success: false, message: 'Token inválido. Tente novamente.'})
         })
-        res.json({success: true, message:'Token válido. Associação a ser completa', data: instituicao});
+        if (instituicao){
+            res.json({success: true, message:'Token válido. Associação a ser completa', data: instituicao});
+        }else{
+            res.json({success: false, message:'Token não é válido'});
+        }
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
     }
