@@ -98,7 +98,7 @@ controllers.list = async (req, res) => {
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
     const data = await sequelize.query(
-        `SELECT  "Instituições".id, MAX("Locais"."ultimo_reporte") AS ultimo_reporte,
+        `SELECT DISTINCT "Instituições".id, MAX("Locais"."ultimo_reporte") AS ultimo_reporte,
         latitude, longitude, nome_instituicao, estado_instituicao
         FROM
         "Instituições" 
