@@ -106,10 +106,31 @@ controllers.MinhasAssociacoes = async (req, res) => {
     res.json({ success: true, data: data });
 }
 
+function getDivisao(utilizador){
+    if (utilizador.pontuacao_user < 100){
+       return 0
+    }else if (utilizador.pontuacao_user  > 100 && utilizador.pontuacao_user < 300){
+       return 1
+    }else if (utilizador.pontuacao_user > 400 && utilizador.pontuacao_user < 600){
+        return 2
+    }else if (utilizador.pontuacao_user > 700){
+        return 3
+    }
+    return 0
+}
+
 controllers.RankingUsers = async (req, res) => {
+    const
     const data = await sequelize.query(
-        `SELECT id, nome_user, pontuacao_user, qnt_reportes,conquistas
-        FROM public."Associados"
+        `SELECT nome_user, pontuacao_user, 
+        CASE
+             WHEN pontuacao_user < 100  THEN '0'
+             WHEN pontuacao_user > 100 AND pontuacao_user < 300  THEN '1'
+             WHEN pontuacao_user > 400 AND pontuacao_user < 600 THEN '2'
+             WHEN pontuacao_user > 700 THEN '3'
+             ELSE '0' END
+             AS divisão
+        FROM "Associados"
         order by pontuacao_user DESC`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){

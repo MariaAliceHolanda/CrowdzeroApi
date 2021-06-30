@@ -80,14 +80,8 @@ controller.list = async (req, res) => {
     res.json({success: true, data: data})
 }
 
-function encrypt(pass){
-    return bcrypt.hash(pass, 10)
-    .then(hash => {
-    pass = hash;
-    })
-    .catch(err => {
-        return err
-    });
+encrypt = async (pass)  => {
+    return await bcrypt.hash(pass, 10)
 }
 
 controller.alterarPass = async (req, res) => {
@@ -98,11 +92,7 @@ controller.alterarPass = async (req, res) => {
     if (id){
         var novapass = await encrypt(nova)
 
-        console.log(novapass)
-
-        var gestor = await Gestor.update({
-            password: novapass,
-        },
+        var gestor = await Gestor.findOne(
         {
             where: {id: id}
         }
@@ -111,6 +101,22 @@ controller.alterarPass = async (req, res) => {
         }).catch(e => {
             return e
         })
+
+
+        console.log(novapass)
+        if (gestor){
+            const isMatch = bcrypt.compareSync(pass, gestor.password)
+
+            if (isMatch){
+                gestor.password = novapass
+                gestor.save()
+                res.json({success:true, message:"Updated successfull"});
+            }else{
+                res.json({success:false, message:"As passwords não correspondem"});
+            }
+        }else{
+            res.json({success:false, message:"Updated unsuccessful"});
+        }
 
         res.json({data: gestor})
     }

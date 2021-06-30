@@ -66,6 +66,7 @@ controllers.login = async (req,res) => {
 
         if (gestor){
             const isMatch = bcrypt.compareSync(password, gestor.password)
+            console.log(password, gestor.password)
             if (email === gestor.email && isMatch){
                 let token = jwt.sign({email: email}, config.jwtSecret,
                     {expiresIn: '1h' //expira em 1 hora

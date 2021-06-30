@@ -45,17 +45,6 @@ Associados.beforeCreate((utilizadores, options) => {
                 console.log(err)
         });
 });
-
-Associados.beforeUpdate((utilizadores, options) => {
-        return bcrypt.hash(utilizadores.password_user, 10)
-        .then(hash => {
-        utilizadores.password_user = hash;
-        })
-        .catch(err => {
-                console.log(err)
-        });
-});
-
 Associados.belongsToMany(Instituições, {through: Associações});
 Instituições.belongsToMany(Associados, {through: Associações})
 
