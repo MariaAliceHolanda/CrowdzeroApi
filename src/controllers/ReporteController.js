@@ -91,6 +91,7 @@ controller.create = async (req,res) => {
 
         // Atualiza Estado Instituição do local reportado
         const instituicao =  await sequelize.query(`SELECT "InstituiçõeId" FROM public."Locais" where id = ${localId};`,{ type: QueryTypes.SELECT });
+        console.log(instituicao)
 
         // Criação de Alertas
         
