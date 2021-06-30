@@ -9,4 +9,5 @@ const associadoController = require('../controllers/AssociadoController')
 router.post('/delete', middleware.checkToken, associadoController.delete)
 //router.get('/getAssociados/:id',associadoController.getAssociados)
 //router.get('/list/:id',associadoController.list)
+router.get('/conquista/:id',associadoController.Conquistas)
 module.exports = router;
