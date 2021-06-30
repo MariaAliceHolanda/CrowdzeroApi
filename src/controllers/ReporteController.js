@@ -141,10 +141,10 @@ controller.create = async (req,res) => {
         inner join "Gestores" on "Instituições"."id" = "Gestores"."InstituiçõeId" where "Locais".id = ${localId}`
         const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
         var gestorid = gestorID[0].id;
-        console.log('Gestor id' + gestorid)
+        console.log('Gestor id ' + gestorid)
         
         const tempoQuery = `SELECT "Alertas"."createdAt", DATE_PART('hour', now()::time - "createdAt"::time) * 60 + DATE_PART('minute', now()::time - "createdAt"::time) FROM "Alertas" 
-        where "Alertas"."LocaiId" = 2
+        where "Alertas"."LocaiId" = ${localId}
         order by "Alertas"."createdAt" DESC
         LIMIT 1 ;`
         const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
