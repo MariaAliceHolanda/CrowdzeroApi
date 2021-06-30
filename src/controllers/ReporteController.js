@@ -142,7 +142,16 @@ controller.create = async (req,res) => {
         const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
         var gestorid = gestorID[0].id;
         console.log('Gestor id' + gestorid)
-        if(estado == 3){
+        
+        const tempoQuery = `SELECT "Alertas"."createdAt", DATE_PART('hour', now()::time - "createdAt"::time) * 60 + DATE_PART('minute', now()::time - "createdAt"::time) FROM "Alertas" 
+        where "Alertas"."LocaiId" = 2
+        order by "Alertas"."createdAt" DESC
+        LIMIT 1 ;`
+        const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
+        console.log('Tempo: '+ tempoAlerta)
+
+        tempo = tempoAlerta[0].tempo;
+        if(estado == 3 && tempo <= 60){
             
            
             const alerta = await Alerta.create({
