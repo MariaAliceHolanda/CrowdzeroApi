@@ -111,19 +111,18 @@ controllers.remover = async (req, res) => {
 }
 
 
-
 // Devolve Associações do usuário
 controllers.MinhasAssociacoes = async (req, res) => {
     const { id } = req.params;
     const data = await sequelize.query(
-        `SELECT DISTINCT "Instituições".id, MAX("Locais"."ultimo_reporte") AS ultimo_reporte,
+        `SELECT "Instituições".id, MAX("Locais"."ultimo_reporte") AS ultimo_reporte,
         latitude, longitude, nome_instituicao, estado_instituicao
         FROM
         "Instituições" 
         INNER JOIN "Instituicao_Associados" ON "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
         INNER JOIN "Associados" ON "Instituicao_Associados"."AssociadoId" = "Associados"."id"
-        INNER JOIN "Locais" ON "Locais"."InstituiçõeId"="Instituições".id
-        WHERE "AssociadoId" =  ${id}
+        LEFT OUTER JOIN "Locais" ON "Locais"."InstituiçõeId"="Instituições".id
+        WHERE "AssociadoId" = 44
         GROUP BY "Instituições".id, latitude, longitude, nome_instituicao, estado_instituicao`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){
