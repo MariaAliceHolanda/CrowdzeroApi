@@ -68,14 +68,7 @@ controller.list = async (req, res) => {
     if (id){
       const query = `
       SELECT id, nome_local as nome, descricao_local 
-      AS descricao, (qtde_reporte_alto + qtd_reporte_baixo + qtd_reporte_medio) AS soma,
-      CASE 
-        WHEN estado_local = 0 THEN 'Sem Reportes'
-        WHEN estado_local = 1 THEN 'Baixa'
-        WHEN estado_local = 2 THEN 'Média'
-        WHEN estado_local = 3 THEN 'Alta'
-        ELSE 'Sem Estado' END
-        AS status
+      AS descricao, qtde_reporte_alto, qtd_reporte_baixo, qtd_reporte_medio, estado_local as status
         FROM "Locais"
         WHERE "Locais"."InstituiçõeId"=${id}
       `
