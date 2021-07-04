@@ -68,7 +68,7 @@ controller.list = async (req, res) => {
     if (id){
       const query = `
       SELECT id, nome_local as nome, descricao_local 
-      AS descricao, (qtde_reporte_alto + qtd_reporte_baixo + qtd_reporte_medio) AS soma, status
+      AS descricao, (qtde_reporte_alto + qtd_reporte_baixo + qtd_reporte_medio) AS soma, estado_local as status
         FROM "Locais"
         WHERE "Locais"."InstituiçõeId"=${id}
       `
