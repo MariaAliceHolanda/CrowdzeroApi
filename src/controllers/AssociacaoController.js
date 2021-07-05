@@ -32,7 +32,7 @@ controllers.validate = async (req, res) => {
 // Cria associação entre usuário e instituição
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
-    console.log('typeof: ' + typeof id)
+
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
             attributes: ['id', ['nome_instituicao', 'instituição'], ['qnt_espacos', 'espacos']],
@@ -44,7 +44,6 @@ controllers.create = async (req, res) => {
         })
 
     if (instituicao){
-       
         var data = await Associacao.create({
             AssociadoId: id,
             InstituiçõeId: instituicao.id 
@@ -73,7 +72,7 @@ controllers.list = async (req, res) => {
         const query = `
         SELECT "Associados"."id", "Associados"."nome_user"
         AS "nome", "Associados"."createdAt"
-        AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT MAX("createdAt")
+        AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT EXTRACT(DAY FROM MAX("createdAt"))
         FROM "Reportes" WHERE "Associados"."id" = "Reportes"."AssociadoId") AS ultimo
         FROM "Instituicao_Associados" AS "Instituicao_Associados" 
         INNER JOIN "Associados" ON "id"="AssociadoId"
@@ -123,7 +122,7 @@ controllers.MinhasAssociacoes = async (req, res) => {
         INNER JOIN "Instituicao_Associados" ON "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
         INNER JOIN "Associados" ON "Instituicao_Associados"."AssociadoId" = "Associados"."id"
         LEFT OUTER JOIN "Locais" ON "Locais"."InstituiçõeId"="Instituições".id
-        WHERE "AssociadoId" = ${id}
+        WHERE "AssociadoId" = 44
         GROUP BY "Instituições".id, latitude, longitude, nome_instituicao, estado_instituicao`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){
