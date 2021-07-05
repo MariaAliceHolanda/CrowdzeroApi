@@ -122,7 +122,7 @@ controller.locaisMaisReportados = async (req, res) =>{
     "Locais".qtde_reporte_alto + "Locais".qtd_reporte_medio) AS value
     from "Locais"
     WHERE "Locais"."InstituiçõeId"=${id}
-    ORDER BY qtde_reporte_alto DESC
+    ORDER BY value DESC
     LIMIT 3
     `
     const data = await sequelize.query(query,{ type: QueryTypes.SELECT })
