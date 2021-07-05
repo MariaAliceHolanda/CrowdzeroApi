@@ -58,6 +58,10 @@ controller.create = async (req,res) => {
         var baixo = reporteBaixo[0].count;
         var medio = reporteMedio[0].count;
         var alto = reporteAlto[0].count;
+
+        console.log('baixo: ' + baixo )
+        console.log('medio: ' + medio )
+        console.log('alto: ' + alto )
         
 
         var estado = 0;
