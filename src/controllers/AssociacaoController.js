@@ -32,7 +32,7 @@ controllers.validate = async (req, res) => {
 // Cria associação entre usuário e instituição
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
-    console.log('typeof: ' + typeof id)
+    
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
             attributes: ['id', ['nome_instituicao', 'instituição'], ['qnt_espacos', 'espacos']],
@@ -44,7 +44,18 @@ controllers.create = async (req, res) => {
         })
 
     if (instituicao){
-       
+
+        
+        var existe = await Associacao.findOne({
+            where: { AssociadoId: id, InstituiçõeId: instituicao.id }
+        }).then(function(existe){
+            return existe
+        }).catch(err =>{
+            res.json({success: false, message: 'Ocorreu um erro.'})
+        })
+    
+    if(existe === null){  
+    
         var data = await Associacao.create({
             AssociadoId: id,
             InstituiçõeId: instituicao.id 
@@ -54,10 +65,16 @@ controllers.create = async (req, res) => {
             res.json({success: false, message: 'Ocorreu um erro ao associar. Verifique os dados'})
         })
         var increment = await instituicao.increment('qnt_associados',{by: 1})
-        res.status(200).json({
+        res.json({
             success: true,
             messagem: 'Associação realizada'
         })
+    }else{
+        res.json({
+            success: false,
+            messagem: 'Usuário já associado.'
+        })
+    }
     }else{
         res.json({success: false, message:'Campos em branco, verifique novamente.'});
     }
