@@ -27,7 +27,7 @@ controller.create = async (req,res) => {
 
         // Update pontuação/ reportes feitos
         const associadoPT = await Associados.update({
-            pontuacao_user:  Sequelize.literal('pontuacao_user + 10'),
+            pontuacao_user:  Sequelize.literal('pontuacao_user + 20'),
             qnt_reportes:  Sequelize.literal('qnt_reportes + 1')
         },
         {
