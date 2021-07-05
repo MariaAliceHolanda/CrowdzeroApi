@@ -39,6 +39,17 @@ data: data
 });
 }
 
+controller.list = async (req, res) => {
+ const data = await Instituição.findAll()
+  .then(function(data){
+    return data
+  }).catch(err => {
+    return err
+  })
+
+  res.json({success: true, data: data})
+}
+
 controller.get = async (req,res) => {
     const { id } = req.query;
     const data = await Instituição.findOne({
