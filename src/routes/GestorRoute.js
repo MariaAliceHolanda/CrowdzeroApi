@@ -9,6 +9,6 @@ router.get('/list', gestorController.list)
 router.post('/update', gestorController.update)
 router.get('/instituicao', gestorController.instituicao)
 router.post('/alterarPassword', gestorController.alterarPass)
-router.delete('/delete', gestorController.delete)
+router.post('/delete', gestorController.delete)
 
 module.exports = router;
