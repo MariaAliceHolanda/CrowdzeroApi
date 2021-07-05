@@ -48,7 +48,7 @@ controller.create = async (req,res) => {
         DATE_PART('minute', now()::time - "createdAt"::time) > 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
         const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) > 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) >= 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
         const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
