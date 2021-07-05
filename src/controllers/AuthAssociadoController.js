@@ -34,11 +34,11 @@ controllers.register = async (req,res) => {
 function getDivisao(utilizador){
     if (utilizador.pontuacao_user < 100){
        return 0
-    }else if (utilizador.pontuacao_user  > 100 && utilizador.pontuacao_user < 300){
+    }else if (utilizador.pontuacao_user  >= 100 && utilizador.pontuacao_user < 300){
        return 1
-    }else if (utilizador.pontuacao_user > 400 && utilizador.pontuacao_user < 600){
+    }else if (utilizador.pontuacao_user >= 300 && utilizador.pontuacao_user < 600){
         return 2
-    }else if (utilizador.pontuacao_user > 700){
+    }else if (utilizador.pontuacao_user >= 600){
         return 3
     }
     return 0
