@@ -42,32 +42,31 @@ controller.Conquistas = async (req, res) => {
         return e
       })
 
-      console.log(data.pontuacao_user);
+      
       pontuacaoConvertida = parseInt(pontuacao,10)
       const pontos = pontuacaoConvertida + data.pontuacao_user;
-      console.log(pontos);
+      
      
       await Associados.update({
         pontuacao_user: pontos
       }, {where: {id: associado}})
 
       
-      const divisao = Math.ceil(pontos / 20);
+      const nivel = Math.ceil(pontos / 20);
 
-      console.log(divisao)
-      
-      var nivel = 0;
+    
+      var divisao = 0;
       if (pontos < 100){
-        nivel = 0;
+        divisao = 0;
       }else if (pontos >= 100 && pontos < 300){
-          nivel =  1;
+          divisao =  1;
       }else if (pontos >= 300 && pontos < 600){
-          nivel =  2;
+          divisao =  2;
       }else if (pontos >= 600){
-          nivel = 3;
+          divisao = 3;
       }
      
-      console.log(nivel)
+      
       const conquista = {
       nivel: nivel,
       divisao: divisao,
