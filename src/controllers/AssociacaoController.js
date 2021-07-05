@@ -32,7 +32,11 @@ controllers.validate = async (req, res) => {
 // Cria associação entre usuário e instituição
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 4746da30a355d03acfac8e663427ababdc5b74bb
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
             attributes: ['id', ['nome_instituicao', 'instituição'], ['qnt_espacos', 'espacos']],
@@ -44,6 +48,7 @@ controllers.create = async (req, res) => {
         })
 
     if (instituicao){
+<<<<<<< HEAD
 
         
         var existe = await Associacao.findOne({
@@ -56,6 +61,8 @@ controllers.create = async (req, res) => {
     
     if(existe === null){  
     
+=======
+>>>>>>> 4746da30a355d03acfac8e663427ababdc5b74bb
         var data = await Associacao.create({
             AssociadoId: id,
             InstituiçõeId: instituicao.id 
@@ -89,8 +96,8 @@ controllers.list = async (req, res) => {
     if (id){
         const query = `
         SELECT "Associados"."id", "Associados"."nome_user"
-        AS "nome", "Associados"."createdAt"
-        AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT MAX("createdAt")
+        AS "nome", DATE("Associados"."createdAt")
+        AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT DATE(MAX("createdAt"))
         FROM "Reportes" WHERE "Associados"."id" = "Reportes"."AssociadoId") AS ultimo
         FROM "Instituicao_Associados" AS "Instituicao_Associados" 
         INNER JOIN "Associados" ON "id"="AssociadoId"
