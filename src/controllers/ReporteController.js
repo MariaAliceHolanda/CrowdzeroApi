@@ -41,14 +41,16 @@ controller.create = async (req,res) => {
         })
 
         // Atualiza Estado do Local
-        //const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        //DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
+        const query = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) > 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`
         const query2 = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) > 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 2;`
         const query3  = `SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
+        DATE_PART('minute', now()::time - "createdAt"::time) > 0 AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
         DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 3;`
-        const reporteBaixo = await sequelize.query(`SELECT count(*) FROM "Reportes" where "Reportes"."LocaiId" = ${localId} AND DATE_PART('hour', now()::time - "createdAt"::time) * 60 +
-        DATE_PART('minute', now()::time - "createdAt"::time) <= 60 AND nivel_reporte = 1;`,{ type: QueryTypes.SELECT });
+        const reporteBaixo = await sequelize.query(query,{ type: QueryTypes.SELECT });
         const reporteMedio = await sequelize.query(query2,{ type: QueryTypes.SELECT });
         const reporteAlto = await sequelize.query(query3,{ type: QueryTypes.SELECT });
 
@@ -56,9 +58,7 @@ controller.create = async (req,res) => {
         var baixo = reporteBaixo[0].count;
         var medio = reporteMedio[0].count;
         var alto = reporteAlto[0].count;
-        console.log('Reportes baixos: ' + baixo);
-        console.log('Reportes medios: ' + medio);
-        console.log('Reportes altos: ' + alto);
+        
 
         var estado = 0;
         if(baixo > medio && baixo>= alto){
@@ -71,7 +71,7 @@ controller.create = async (req,res) => {
             estado = 3;
         }
         
-        console.log('Estado Local:' + estado)
+       
         // Atualiza estado Locais
         const dado = await Locais.update({
           estado_local: estado,
@@ -141,19 +141,27 @@ controller.create = async (req,res) => {
         inner join "Gestores" on "Instituições"."id" = "Gestores"."InstituiçõeId" where "Locais".id = ${localId}`
         const gestorID = await sequelize.query(gestor,{ type: QueryTypes.SELECT });
         var gestorid = gestorID[0].id;
-        console.log('Gestor id ' + gestorid)
-         
-         const tempoQuery = `SELECT "Alertas"."createdAt", DATE_PART('hour', now()::time - "createdAt"::time) * 60 + DATE_PART('minute', now()::time - "createdAt"::time) as tempo FROM "Alertas" 
+        
+        const constalerta = await sequelize.query(`
+        SELECT "Alertas"."createdAt" FROM "Alertas" 
         where "Alertas"."LocaiId" = ${localId}
         order by "Alertas"."createdAt" DESC
-        LIMIT 1 ;`
+        LIMIT 1 ;`,{ type: QueryTypes.SELECT });
         
-        const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
-       
-        console.log(tempo)
-        if(estado == 3 && tempo > 60){
+        var tempo = 0;
+
+        if(constalerta.length > 0){
+            const tempoQuery = `SELECT "Alertas"."createdAt", DATE_PART('hour', now()::time - "createdAt"::time) * 60 + DATE_PART('minute', now()::time - "createdAt"::time) as tempo FROM "Alertas" 
+            where "Alertas"."LocaiId" = ${localId}
+            order by "Alertas"."createdAt" DESC
+            LIMIT 1 ;`
+            const tempoAlerta = await sequelize.query(tempoQuery,{ type: QueryTypes.SELECT });
+            tempo = tempoAlerta[0].tempo;
+        }
+        
+        if(estado === 3 && (constalerta.length === 0 || tempo > 60)){
             
-           
+          
             const alerta = await Alerta.create({
                 tipo_alerta: 1,
                 resolvido: 0,
@@ -168,7 +176,7 @@ controller.create = async (req,res) => {
             })
 
         }
-
+      
         return res.status(200).json(data)
         
     } catch (error) {
