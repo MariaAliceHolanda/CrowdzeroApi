@@ -122,7 +122,7 @@ controllers.MinhasAssociacoes = async (req, res) => {
         INNER JOIN "Instituicao_Associados" ON "Instituições"."id" = "Instituicao_Associados"."InstituiçõeId"
         INNER JOIN "Associados" ON "Instituicao_Associados"."AssociadoId" = "Associados"."id"
         LEFT OUTER JOIN "Locais" ON "Locais"."InstituiçõeId"="Instituições".id
-        WHERE "AssociadoId" = 44
+        WHERE "AssociadoId" = ${id}
         GROUP BY "Instituições".id, latitude, longitude, nome_instituicao, estado_instituicao`
     ,{ type: QueryTypes.SELECT })
     .then(function(data){
