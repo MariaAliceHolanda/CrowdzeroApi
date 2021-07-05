@@ -32,7 +32,7 @@ controllers.validate = async (req, res) => {
 // Cria associação entre usuário e instituição
 controllers.create = async (req, res) => {
     const {token_access, id} = req.body
-
+    console.log('typeof: ' + typeof id)
     if (token_access && id){
         var instituicao = await Instituicao.findOne({
             attributes: ['id', ['nome_instituicao', 'instituição'], ['qnt_espacos', 'espacos']],
@@ -44,6 +44,7 @@ controllers.create = async (req, res) => {
         })
 
     if (instituicao){
+       
         var data = await Associacao.create({
             AssociadoId: id,
             InstituiçõeId: instituicao.id 
