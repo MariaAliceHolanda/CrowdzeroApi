@@ -34,7 +34,7 @@ controller.list = async (req,res) => {
         FROM "Alertas"
         INNER JOIN "Locais"
         ON "Locais".id="Alertas"."LocaiId"
-		WHERE "Alertas"."resolvido" IS FALSE
+		WHERE "Alertas"."resolvido" IS FALSE AND "Locais"."InstituiçõeId"=${id}
         LIMIT 5
         `
     }
