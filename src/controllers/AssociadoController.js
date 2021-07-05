@@ -41,7 +41,10 @@ controller.Conquistas = async (req, res) => {
       }).catch(e=>{
         return e
       })
+
+      console.log(data.pontuacao_user);
       const pontos = pontuacao + data.pontuacao_user;
+      console.log(pontos);
      
       await Associados.update({
         pontuacao_user: pontos
@@ -49,6 +52,8 @@ controller.Conquistas = async (req, res) => {
 
       
       const divisao = Math.ceil(pontos / 20);
+
+      console.log(divisao)
       
       var nivel = 0;
       if (pontos < 100){
@@ -61,6 +66,7 @@ controller.Conquistas = async (req, res) => {
           nivel = 3;
       }
      
+      console.log(nivel)
       const conquista = {
       nivel: nivel,
       divisao: divisao,
