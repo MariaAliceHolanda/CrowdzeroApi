@@ -198,7 +198,7 @@ controller.getReportes = async (req, res) => {
     if (id){
         var query = `
         SELECT id, nome_local AS local, qtde_reporte_alto as alta,
-        qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, qtd_reporte_baixo + qtde_reporte_alto + qtd_reporte_medio AS QuantidadeReportes
+        qtde_reporte_alto AS média, qtd_reporte_baixo AS baixa, (qtd_reporte_baixo + qtde_reporte_alto + qtd_reporte_medio) AS QuantidadeReportes
         FROM "Locais" WHERE "Locais"."InstituiçõeId"=${id}
         ORDER BY QuantidadeReportes DESC
         LIMIT 7`
