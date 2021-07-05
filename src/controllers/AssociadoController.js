@@ -43,7 +43,8 @@ controller.Conquistas = async (req, res) => {
       })
 
       console.log(data.pontuacao_user);
-      const pontos = pontuacao + data.pontuacao_user;
+      pontuacaoConvertida = parseInt(pontuacao,int)
+      const pontos = pontuacaoConvertida + data.pontuacao_user;
       console.log(pontos);
      
       await Associados.update({
