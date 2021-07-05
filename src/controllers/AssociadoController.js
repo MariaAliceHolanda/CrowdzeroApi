@@ -42,13 +42,14 @@ controller.Conquistas = async (req, res) => {
         return e
       })
 
-      
+      console.log(pontuacao)
       pontuacaoConvertida = parseInt(pontuacao,10)
       const pontos = pontuacaoConvertida + data.pontuacao_user;
-      
+      console.log(pontos)
      
       await Associados.update({
-        pontuacao_user: pontos
+        pontuacao_user: pontos,
+        conquistas:  Sequelize.literal('conquistas + 1')
       }, {where: {id: associado}})
 
       
