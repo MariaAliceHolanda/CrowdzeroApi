@@ -71,7 +71,7 @@ controllers.list = async (req, res) => {
     if (id){
         const query = `
         SELECT "Associados"."id", "Associados"."nome_user"
-        AS "nome", "Associados"."createdAt"
+        AS "nome", DATE("Associados"."createdAt")
         AS "data", "Associados"."qnt_reportes" AS "reportes", (SELECT DATE(MAX("createdAt"))
         FROM "Reportes" WHERE "Associados"."id" = "Reportes"."AssociadoId") AS ultimo
         FROM "Instituicao_Associados" AS "Instituicao_Associados" 
